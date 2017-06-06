@@ -17,14 +17,15 @@ namespace ManaCena.Models
         public Cathegory()
         {
             this.ProductAds = new HashSet<ProductAd>();
+            this.Products = new HashSet<Product>();
         }
     
         public int Id { get; set; }
         public string Name { get; set; }
         public int CathegoryTypeId { get; set; }
     
-        public virtual CathegoryType CathegoryType { get; set; }
         public virtual ICollection<ProductAd> ProductAds { get; set; }
-        public virtual CathegoryType CathegoryType1 { get; set; }
+        public virtual CathegoryType CathegoryType { get; set; }
+        public virtual ICollection<Product> Products { get; set; }
     }
 }
