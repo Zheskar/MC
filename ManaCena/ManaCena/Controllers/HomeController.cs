@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ManaCena.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -10,7 +11,12 @@ namespace ManaCena.Controllers
     {
         public ActionResult Index()
         {
-            return View();
+            TestModel model = new TestModel();
+            using (ManaCenaEntities context = new ManaCenaEntities())
+            {
+                model.p = context.Products.FirstOrDefault();
+            }
+            return View(model);
         }
 
         public ActionResult About()

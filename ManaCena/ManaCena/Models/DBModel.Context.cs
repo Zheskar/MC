@@ -25,10 +25,11 @@ namespace ManaCena.Models
             throw new UnintentionalCodeFirstException();
         }
     
-        public DbSet<Product> Products { get; set; }
         public DbSet<Cathegory> Cathegories { get; set; }
         public DbSet<CathegoryType> CathegoryTypes { get; set; }
         public DbSet<Location> Locations { get; set; }
         public DbSet<Seller> Sellers { get; set; }
+        public DbSet<ProductAd> ProductAds { get; set; }
+        public DbSet<Product> Products { get; set; }
     }
 }

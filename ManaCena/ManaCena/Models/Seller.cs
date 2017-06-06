@@ -23,6 +23,6 @@ namespace ManaCena.Models
         public byte[] Name { get; set; }
     
         public virtual ICollection<Location> Locations { get; set; }
-        public virtual Product Product { get; set; }
+        public virtual ProductAd ProductAd { get; set; }
     }
 }

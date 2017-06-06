@@ -9,7 +9,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="varchar(max)" Nullable="false" />
           <Property Name="CathegoryTypeId" Type="int" Nullable="false" />
         </EntityType>
@@ -17,7 +17,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <EntityType Name="Location">
@@ -32,6 +32,18 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" />
+          <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="Wheight" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="Unit" Type="int" />
+          <Property Name="Size" Type="nvarchar(max)" />
+          <Property Name="CathegoryId" Type="int" />
+        </EntityType>
+        <EntityType Name="ProductAd">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="SellerId" Type="int" Nullable="false" />
           <Property Name="CathegoryId" Type="int" />
           <Property Name="Name" Type="nvarchar(max)" />
@@ -40,6 +52,7 @@
           <Property Name="DiscountPercentage" Type="decimal" Precision="18" Scale="2" />
           <Property Name="StartDate" Type="datetime" />
           <Property Name="EndDate" Type="datetime" />
+          <Property Name="ProductId" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Seller">
           <Key>
@@ -50,13 +63,13 @@
         </EntityType>
         <Association Name="FK_Cathegory_CathegoryType">
           <End Role="CathegoryType" Type="Self.CathegoryType" Multiplicity="1" />
-          <End Role="Cathegory" Type="Self.Cathegory" Multiplicity="0..1" />
+          <End Role="Cathegory" Type="Self.Cathegory" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="CathegoryType">
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="Cathegory">
-              <PropertyRef Name="Id" />
+              <PropertyRef Name="CathegoryTypeId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -72,26 +85,26 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Product_Cathegory">
+        <Association Name="FK_Product_Item">
           <End Role="Cathegory" Type="Self.Cathegory" Multiplicity="0..1" />
-          <End Role="Product" Type="Self.Product" Multiplicity="*" />
+          <End Role="ProductAd" Type="Self.ProductAd" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Cathegory">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="Product">
+            <Dependent Role="ProductAd">
               <PropertyRef Name="CathegoryId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Product_Seller">
           <End Role="Seller" Type="Self.Seller" Multiplicity="1" />
-          <End Role="Product" Type="Self.Product" Multiplicity="0..1" />
+          <End Role="ProductAd" Type="Self.ProductAd" Multiplicity="0..1" />
           <ReferentialConstraint>
             <Principal Role="Seller">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="Product">
+            <Dependent Role="ProductAd">
               <PropertyRef Name="Id" />
             </Dependent>
           </ReferentialConstraint>
@@ -101,6 +114,7 @@
           <EntitySet Name="CathegoryType" EntityType="Self.CathegoryType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Location" EntityType="Self.Location" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Product" EntityType="Self.Product" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProductAd" EntityType="Self.ProductAd" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Seller" EntityType="Self.Seller" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_Cathegory_CathegoryType" Association="Self.FK_Cathegory_CathegoryType">
             <End Role="CathegoryType" EntitySet="CathegoryType" />
@@ -110,37 +124,20 @@
             <End Role="Seller" EntitySet="Seller" />
             <End Role="Location" EntitySet="Location" />
           </AssociationSet>
-          <AssociationSet Name="FK_Product_Cathegory" Association="Self.FK_Product_Cathegory">
+          <AssociationSet Name="FK_Product_Item" Association="Self.FK_Product_Item">
             <End Role="Cathegory" EntitySet="Cathegory" />
-            <End Role="Product" EntitySet="Product" />
+            <End Role="ProductAd" EntitySet="ProductAd" />
           </AssociationSet>
           <AssociationSet Name="FK_Product_Seller" Association="Self.FK_Product_Seller">
             <End Role="Seller" EntitySet="Seller" />
-            <End Role="Product" EntitySet="Product" />
+            <End Role="ProductAd" EntitySet="ProductAd" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="ManaCenaModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityType Name="Product">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="SellerId" Type="Int32" Nullable="false" />
-          <Property Name="CathegoryId" Type="Int32" />
-          <Property Name="OriginalPrice" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="DiscountPrice" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="DiscountPercentage" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="StartDate" Type="DateTime" Precision="3" />
-          <Property Name="EndDate" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="Seller" Relationship="ManaCenaModel.FK_Product_Seller" FromRole="Product" ToRole="Seller" />
-          <NavigationProperty Name="Cathegory" Relationship="ManaCenaModel.FK_Product_Cathegory" FromRole="Product" ToRole="Cathegory" />
-        </EntityType>
         <EntityContainer Name="ManaCenaEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="Products" EntityType="Self.Product" />
           <EntitySet Name="Cathegories" EntityType="ManaCenaModel.Cathegory" />
           <EntitySet Name="CathegoryTypes" EntityType="ManaCenaModel.CathegoryType" />
           <EntitySet Name="Locations" EntityType="ManaCenaModel.Location" />
@@ -153,13 +150,23 @@
             <End Role="Seller" EntitySet="Sellers" />
             <End Role="Location" EntitySet="Locations" />
           </AssociationSet>
-          <AssociationSet Name="FK_Product_Seller" Association="ManaCenaModel.FK_Product_Seller">
-            <End Role="Seller" EntitySet="Sellers" />
-            <End Role="Product" EntitySet="Products" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Product_Cathegory" Association="ManaCenaModel.FK_Product_Cathegory">
+          <EntitySet Name="ProductAds" EntityType="ManaCenaModel.ProductAd" />
+          <AssociationSet Name="FK_Product_Cathegory1" Association="ManaCenaModel.FK_Product_Cathegory1">
             <End Role="Cathegory" EntitySet="Cathegories" />
+            <End Role="ProductAd" EntitySet="ProductAds" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Product_Seller1" Association="ManaCenaModel.FK_Product_Seller1">
+            <End Role="Seller" EntitySet="Sellers" />
+            <End Role="ProductAd" EntitySet="ProductAds" />
+          </AssociationSet>
+          <EntitySet Name="Products" EntityType="ManaCenaModel.Product" />
+          <AssociationSet Name="FK_Product_Item1" Association="ManaCenaModel.FK_Product_Item1">
             <End Role="Product" EntitySet="Products" />
+            <End Role="ProductAd" EntitySet="ProductAds" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Cathegory_CathegoryType1" Association="ManaCenaModel.FK_Cathegory_CathegoryType1">
+            <End Role="CathegoryType" EntitySet="CathegoryTypes" />
+            <End Role="Cathegory" EntitySet="Cathegories" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="Cathegory">
@@ -170,7 +177,8 @@
           <Property Name="Name" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="CathegoryTypeId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="CathegoryType" Relationship="ManaCenaModel.FK_Cathegory_CathegoryType" FromRole="Cathegory" ToRole="CathegoryType" />
-          <NavigationProperty Name="Products" Relationship="ManaCenaModel.FK_Product_Cathegory" FromRole="Cathegory" ToRole="Product" />
+          <NavigationProperty Name="ProductAds" Relationship="ManaCenaModel.FK_Product_Cathegory1" FromRole="Cathegory" ToRole="ProductAd" />
+          <NavigationProperty Name="CathegoryType1" Relationship="ManaCenaModel.FK_Cathegory_CathegoryType1" FromRole="Cathegory" ToRole="CathegoryType" />
         </EntityType>
         <EntityType Name="CathegoryType">
           <Key>
@@ -179,6 +187,7 @@
           <Property Name="Id" Type="Int32" Nullable="false" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Cathegory" Relationship="ManaCenaModel.FK_Cathegory_CathegoryType" FromRole="CathegoryType" ToRole="Cathegory" />
+          <NavigationProperty Name="Cathegories" Relationship="ManaCenaModel.FK_Cathegory_CathegoryType1" FromRole="CathegoryType" ToRole="Cathegory" />
         </EntityType>
         <EntityType Name="Location">
           <Key>
@@ -195,7 +204,7 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="Binary" Nullable="false" MaxLength="Max" FixedLength="false" />
           <NavigationProperty Name="Locations" Relationship="ManaCenaModel.FK_Location_Seller" FromRole="Seller" ToRole="Location" />
-          <NavigationProperty Name="Product" Relationship="ManaCenaModel.FK_Product_Seller" FromRole="Seller" ToRole="Product" />
+          <NavigationProperty Name="ProductAd" Relationship="ManaCenaModel.FK_Product_Seller1" FromRole="Seller" ToRole="ProductAd" />
         </EntityType>
         <Association Name="FK_Cathegory_CathegoryType">
           <End Type="ManaCenaModel.CathegoryType" Role="CathegoryType" Multiplicity="1" />
@@ -221,27 +230,82 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Product_Seller">
-          <End Type="ManaCenaModel.Seller" Role="Seller" Multiplicity="1" />
-          <End Type="ManaCenaModel.Product" Role="Product" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="Seller">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Product">
-              <PropertyRef Name="Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Product_Cathegory">
+        <EntityType Name="ProductAd">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SellerId" Type="Int32" Nullable="false" />
+          <Property Name="CathegoryId" Type="Int32" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="OriginalPrice" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="DiscountPrice" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="DiscountPercentage" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="StartDate" Type="DateTime" Precision="3" />
+          <Property Name="EndDate" Type="DateTime" Precision="3" />
+          <Property Name="ProductId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Cathegory" Relationship="ManaCenaModel.FK_Product_Cathegory1" FromRole="ProductAd" ToRole="Cathegory" />
+          <NavigationProperty Name="Seller" Relationship="ManaCenaModel.FK_Product_Seller1" FromRole="ProductAd" ToRole="Seller" />
+          <NavigationProperty Name="Product" Relationship="ManaCenaModel.FK_Product_Item1" FromRole="ProductAd" ToRole="Product" />
+        </EntityType>
+        <Association Name="FK_Product_Cathegory1">
           <End Type="ManaCenaModel.Cathegory" Role="Cathegory" Multiplicity="0..1" />
-          <End Type="ManaCenaModel.Product" Role="Product" Multiplicity="*" />
+          <End Type="ManaCenaModel.ProductAd" Role="ProductAd" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Cathegory">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="Product">
+            <Dependent Role="ProductAd">
               <PropertyRef Name="CathegoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Product_Seller1">
+          <End Type="ManaCenaModel.Seller" Role="Seller" Multiplicity="1" />
+          <End Type="ManaCenaModel.ProductAd" Role="ProductAd" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Seller">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ProductAd">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Product">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Wheight" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="Unit" Type="Int32" />
+          <Property Name="Size" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="ProductAds" Relationship="ManaCenaModel.FK_Product_Item1" FromRole="Product" ToRole="ProductAd" />
+          <Property Name="CathegoryId" Type="Int32" />
+        </EntityType>
+        <Association Name="FK_Product_Item1">
+          <End Type="ManaCenaModel.Product" Role="Product" Multiplicity="1" />
+          <End Type="ManaCenaModel.ProductAd" Role="ProductAd" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ProductAd">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Cathegory_CathegoryType1">
+          <End Type="ManaCenaModel.CathegoryType" Role="CathegoryType" Multiplicity="1" />
+          <End Type="ManaCenaModel.Cathegory" Role="Cathegory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CathegoryType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Cathegory">
+              <PropertyRef Name="CathegoryTypeId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -251,21 +315,6 @@
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="ManaCenaModelStoreContainer" CdmEntityContainer="ManaCenaEntities">
-          <EntitySetMapping Name="Products">
-            <EntityTypeMapping TypeName="ManaCenaModel.Product">
-              <MappingFragment StoreEntitySet="Product">
-                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
-                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
-                <ScalarProperty Name="DiscountPercentage" ColumnName="DiscountPercentage" />
-                <ScalarProperty Name="DiscountPrice" ColumnName="DiscountPrice" />
-                <ScalarProperty Name="OriginalPrice" ColumnName="OriginalPrice" />
-                <ScalarProperty Name="CathegoryId" ColumnName="CathegoryId" />
-                <ScalarProperty Name="SellerId" ColumnName="SellerId" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Cathegories">
             <EntityTypeMapping TypeName="ManaCenaModel.Cathegory">
               <MappingFragment StoreEntitySet="Cathegory">
@@ -294,6 +343,35 @@
           <EntitySetMapping Name="Sellers">
             <EntityTypeMapping TypeName="ManaCenaModel.Seller">
               <MappingFragment StoreEntitySet="Seller">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProductAds">
+            <EntityTypeMapping TypeName="ManaCenaModel.ProductAd">
+              <MappingFragment StoreEntitySet="ProductAd">
+                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+                <ScalarProperty Name="DiscountPercentage" ColumnName="DiscountPercentage" />
+                <ScalarProperty Name="DiscountPrice" ColumnName="DiscountPrice" />
+                <ScalarProperty Name="OriginalPrice" ColumnName="OriginalPrice" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="CathegoryId" ColumnName="CathegoryId" />
+                <ScalarProperty Name="SellerId" ColumnName="SellerId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Products">
+            <EntityTypeMapping TypeName="ManaCenaModel.Product">
+              <MappingFragment StoreEntitySet="Product">
+                <ScalarProperty Name="CathegoryId" ColumnName="CathegoryId" />
+                <ScalarProperty Name="Size" ColumnName="Size" />
+                <ScalarProperty Name="Unit" ColumnName="Unit" />
+                <ScalarProperty Name="Wheight" ColumnName="Wheight" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>

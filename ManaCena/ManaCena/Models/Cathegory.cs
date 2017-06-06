@@ -16,7 +16,7 @@ namespace ManaCena.Models
     {
         public Cathegory()
         {
-            this.Products = new HashSet<Product>();
+            this.ProductAds = new HashSet<ProductAd>();
         }
     
         public int Id { get; set; }
@@ -24,6 +24,7 @@ namespace ManaCena.Models
         public int CathegoryTypeId { get; set; }
     
         public virtual CathegoryType CathegoryType { get; set; }
-        public virtual ICollection<Product> Products { get; set; }
+        public virtual ICollection<ProductAd> ProductAds { get; set; }
+        public virtual CathegoryType CathegoryType1 { get; set; }
     }
 }
