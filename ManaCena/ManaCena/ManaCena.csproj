@@ -230,6 +230,7 @@
     <Compile Include="Models\ProductAd.cs">
       <DependentUpon>DBModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ProductEditModel.cs" />
     <Compile Include="Models\Seller.cs">
       <DependentUpon>DBModel.tt</DependentUpon>
     </Compile>
@@ -311,6 +312,7 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\Home\EditProduct.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

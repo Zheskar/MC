@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Data.Entity;
 
 namespace ManaCena.Controllers
 {
@@ -31,6 +32,25 @@ namespace ManaCena.Controllers
             ViewBag.Message = "Your contact page.";
 
             return View();
+        }
+
+        public ActionResult EditProduct()
+        {
+            List<Product> model = new List<Product>();
+
+            using (ManaCenaEntities context = new ManaCenaEntities())
+            {
+                model = context.Products.Include(o=>o.Cathegory).ToList();
+                //model = context.Products.Include(o => o.Cathegory).ToList();
+                var a = model[0].Cathegory.Name;
+            }
+
+            //foreach (System.Reflection.PropertyInfo prop in typeof(MyType).GetProperties())
+            //{
+            //    Console.WriteLine(prop.Name);
+            //}
+
+            return View(model);
         }
     }
 }

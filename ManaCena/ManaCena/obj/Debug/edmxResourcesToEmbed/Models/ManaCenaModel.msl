@@ -53,6 +53,7 @@
     <EntitySetMapping Name="Products">
       <EntityTypeMapping TypeName="ManaCenaModel.Product">
         <MappingFragment StoreEntitySet="Product">
+          <ScalarProperty Name="CathegoryId" ColumnName="CathegoryId" />
           <ScalarProperty Name="Size" ColumnName="Size" />
           <ScalarProperty Name="Unit" ColumnName="Unit" />
           <ScalarProperty Name="Wheight" ColumnName="Wheight" />

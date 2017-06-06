@@ -4,7 +4,7 @@
     <Key>
       <PropertyRef Name="Id" />
     </Key>
-    <Property Name="Id" Type="int" Nullable="false" />
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Name" Type="varchar(max)" Nullable="false" />
     <Property Name="CathegoryTypeId" Type="int" Nullable="false" />
   </EntityType>
@@ -12,7 +12,7 @@
     <Key>
       <PropertyRef Name="Id" />
     </Key>
-    <Property Name="Id" Type="int" Nullable="false" />
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
   </EntityType>
   <EntityType Name="Location">
@@ -26,7 +26,8 @@
     <Key>
       <PropertyRef Name="Id" />
     </Key>
-    <Property Name="Id" Type="int" Nullable="false" />
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CathegoryId" Type="int" />
     <Property Name="Name" Type="nvarchar(max)" />
     <Property Name="Description" Type="nvarchar(max)" />
     <Property Name="Wheight" Type="decimal" Precision="18" Scale="4" />
@@ -57,13 +58,13 @@
   </EntityType>
   <Association Name="FK_Cathegory_CathegoryType">
     <End Role="CathegoryType" Type="Self.CathegoryType" Multiplicity="1" />
-    <End Role="Cathegory" Type="Self.Cathegory" Multiplicity="0..1" />
+    <End Role="Cathegory" Type="Self.Cathegory" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="CathegoryType">
         <PropertyRef Name="Id" />
       </Principal>
       <Dependent Role="Cathegory">
-        <PropertyRef Name="Id" />
+        <PropertyRef Name="CathegoryTypeId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -81,6 +82,18 @@
   </Association>
   <Association Name="FK_Product_Cathegory">
     <End Role="Cathegory" Type="Self.Cathegory" Multiplicity="0..1" />
+    <End Role="Product" Type="Self.Product" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Cathegory">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Product">
+        <PropertyRef Name="CathegoryId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Product_Item">
+    <End Role="Cathegory" Type="Self.Cathegory" Multiplicity="0..1" />
     <End Role="ProductAd" Type="Self.ProductAd" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Cathegory">
@@ -88,18 +101,6 @@
       </Principal>
       <Dependent Role="ProductAd">
         <PropertyRef Name="CathegoryId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_Product_Item">
-    <End Role="Product" Type="Self.Product" Multiplicity="1" />
-    <End Role="ProductAd" Type="Self.ProductAd" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Product">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="ProductAd">
-        <PropertyRef Name="ProductId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -132,10 +133,10 @@
     </AssociationSet>
     <AssociationSet Name="FK_Product_Cathegory" Association="Self.FK_Product_Cathegory">
       <End Role="Cathegory" EntitySet="Cathegory" />
-      <End Role="ProductAd" EntitySet="ProductAd" />
+      <End Role="Product" EntitySet="Product" />
     </AssociationSet>
     <AssociationSet Name="FK_Product_Item" Association="Self.FK_Product_Item">
-      <End Role="Product" EntitySet="Product" />
+      <End Role="Cathegory" EntitySet="Cathegory" />
       <End Role="ProductAd" EntitySet="ProductAd" />
     </AssociationSet>
     <AssociationSet Name="FK_Product_Seller" Association="Self.FK_Product_Seller">

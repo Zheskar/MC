@@ -1,0 +1,27 @@
+﻿@using ManaCena.Models
+@using System.Reflection
+@model List<Product>
+@{
+    ViewBag.Title = "EditProduct";
+}
+
+<h2>EditProduct</h2>
+
+<table border="1">
+    @foreach (var p in Model)
+    {
+        <tr>
+            <td>@p.Id</td>
+            <td>@p.Name</td>
+            <td>@p.Description</td>
+            <td>@p.Wheight</td>
+            <td>@p.Unit</td>
+            <td>@p.Size</td>
+            <td>@p.CathegoryId</td>
+            <td>@p.Cathegory.Name</td>
+            <td>@p.Cathegory.CathegoryType.Name</td>
+        </tr>
+    }
+</table>
+
+
