@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26430.6
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ManaCena", "ManaCena\ManaCena.csproj", "{3D236FC8-89E0-4937-9BA9-2E3378844B26}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ManaCena.Tests", "ManaCena.Tests\ManaCena.Tests.csproj", "{B6C95482-C53C-439D-AD1C-F587BC2E1431}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3D236FC8-89E0-4937-9BA9-2E3378844B26}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3D236FC8-89E0-4937-9BA9-2E3378844B26}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3D236FC8-89E0-4937-9BA9-2E3378844B26}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3D236FC8-89E0-4937-9BA9-2E3378844B26}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B6C95482-C53C-439D-AD1C-F587BC2E1431}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B6C95482-C53C-439D-AD1C-F587BC2E1431}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B6C95482-C53C-439D-AD1C-F587BC2E1431}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B6C95482-C53C-439D-AD1C-F587BC2E1431}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
