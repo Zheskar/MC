@@ -26,8 +26,10 @@ namespace ManaCena.Models
         public Nullable<int> Unit { get; set; }
         public string Size { get; set; }
         public Nullable<int> CathegoryId { get; set; }
+        public Nullable<int> ImageId { get; set; }
     
         public virtual ICollection<ProductAd> ProductAds { get; set; }
         public virtual Cathegory Cathegory { get; set; }
+        public virtual ProductImage ProductImage { get; set; }
     }
 }

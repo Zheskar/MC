@@ -31,6 +31,11 @@
       <End Role="Cathegory" EntitySet="Cathegories" />
       <End Role="Product" EntitySet="Products" />
     </AssociationSet>
+    <EntitySet Name="ProductImages" EntityType="ManaCenaModel.ProductImage" />
+    <AssociationSet Name="FK_Product_ProductImage" Association="ManaCenaModel.FK_Product_ProductImage">
+      <End Role="ProductImage" EntitySet="ProductImages" />
+      <End Role="Product" EntitySet="Products" />
+    </AssociationSet>
   </EntityContainer>
   <EntityType Name="Cathegory">
     <Key>
@@ -135,6 +140,8 @@
     <NavigationProperty Name="ProductAds" Relationship="ManaCenaModel.FK_Product_Item1" FromRole="Product" ToRole="ProductAd" />
     <Property Name="CathegoryId" Type="Int32" />
     <NavigationProperty Name="Cathegory" Relationship="ManaCenaModel.FK_Product_Cathegory" FromRole="Product" ToRole="Cathegory" />
+    <Property Name="ImageId" Type="Int32" />
+    <NavigationProperty Name="ProductImage" Relationship="ManaCenaModel.FK_Product_ProductImage" FromRole="Product" ToRole="ProductImage" />
   </EntityType>
   <Association Name="FK_Product_Item1">
     <End Type="ManaCenaModel.Product" Role="Product" Multiplicity="1" />
@@ -169,6 +176,26 @@
       </Principal>
       <Dependent Role="Product">
         <PropertyRef Name="CathegoryId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="ProductImage">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" />
+    <Property Name="Image" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Products" Relationship="ManaCenaModel.FK_Product_ProductImage" FromRole="ProductImage" ToRole="Product" />
+  </EntityType>
+  <Association Name="FK_Product_ProductImage">
+    <End Type="ManaCenaModel.ProductImage" Role="ProductImage" Multiplicity="0..1" />
+    <End Type="ManaCenaModel.Product" Role="Product" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ProductImage">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Product">
+        <PropertyRef Name="ImageId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

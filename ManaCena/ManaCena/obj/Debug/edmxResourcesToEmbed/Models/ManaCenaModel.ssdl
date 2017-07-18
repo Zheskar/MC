@@ -33,6 +33,7 @@
     <Property Name="Wheight" Type="decimal" Precision="18" Scale="4" />
     <Property Name="Unit" Type="int" />
     <Property Name="Size" Type="nvarchar(max)" />
+    <Property Name="ImageId" Type="int" />
   </EntityType>
   <EntityType Name="ProductAd">
     <Key>
@@ -48,6 +49,13 @@
     <Property Name="StartDate" Type="datetime" />
     <Property Name="EndDate" Type="datetime" />
     <Property Name="ProductId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ProductImage">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" Nullable="false" />
+    <Property Name="Image" Type="varchar(max)" />
   </EntityType>
   <EntityType Name="Seller">
     <Key>
@@ -104,6 +112,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_Product_ProductImage">
+    <End Role="ProductImage" Type="Self.ProductImage" Multiplicity="0..1" />
+    <End Role="Product" Type="Self.Product" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ProductImage">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Product">
+        <PropertyRef Name="ImageId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_Product_Seller">
     <End Role="Seller" Type="Self.Seller" Multiplicity="1" />
     <End Role="ProductAd" Type="Self.ProductAd" Multiplicity="0..1" />
@@ -122,6 +142,7 @@
     <EntitySet Name="Location" EntityType="Self.Location" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Product" EntityType="Self.Product" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="ProductAd" EntityType="Self.ProductAd" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ProductImage" EntityType="Self.ProductImage" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Seller" EntityType="Self.Seller" Schema="dbo" store:Type="Tables" />
     <AssociationSet Name="FK_Cathegory_CathegoryType" Association="Self.FK_Cathegory_CathegoryType">
       <End Role="CathegoryType" EntitySet="CathegoryType" />
@@ -138,6 +159,10 @@
     <AssociationSet Name="FK_Product_Item" Association="Self.FK_Product_Item">
       <End Role="Cathegory" EntitySet="Cathegory" />
       <End Role="ProductAd" EntitySet="ProductAd" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Product_ProductImage" Association="Self.FK_Product_ProductImage">
+      <End Role="ProductImage" EntitySet="ProductImage" />
+      <End Role="Product" EntitySet="Product" />
     </AssociationSet>
     <AssociationSet Name="FK_Product_Seller" Association="Self.FK_Product_Seller">
       <End Role="Seller" EntitySet="Seller" />

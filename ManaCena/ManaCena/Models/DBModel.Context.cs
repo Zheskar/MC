@@ -31,5 +31,6 @@ namespace ManaCena.Models
         public DbSet<Seller> Sellers { get; set; }
         public DbSet<ProductAd> ProductAds { get; set; }
         public DbSet<Product> Products { get; set; }
+        public DbSet<ProductImage> ProductImages { get; set; }
     }
 }

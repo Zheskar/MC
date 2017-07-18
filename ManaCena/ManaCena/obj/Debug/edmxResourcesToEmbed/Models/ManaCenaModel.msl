@@ -53,12 +53,21 @@
     <EntitySetMapping Name="Products">
       <EntityTypeMapping TypeName="ManaCenaModel.Product">
         <MappingFragment StoreEntitySet="Product">
+          <ScalarProperty Name="ImageId" ColumnName="ImageId" />
           <ScalarProperty Name="CathegoryId" ColumnName="CathegoryId" />
           <ScalarProperty Name="Size" ColumnName="Size" />
           <ScalarProperty Name="Unit" ColumnName="Unit" />
           <ScalarProperty Name="Wheight" ColumnName="Wheight" />
           <ScalarProperty Name="Description" ColumnName="Description" />
           <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ProductImages">
+      <EntityTypeMapping TypeName="ManaCenaModel.ProductImage">
+        <MappingFragment StoreEntitySet="ProductImage">
+          <ScalarProperty Name="Image" ColumnName="Image" />
           <ScalarProperty Name="Id" ColumnName="Id" />
         </MappingFragment>
       </EntityTypeMapping>

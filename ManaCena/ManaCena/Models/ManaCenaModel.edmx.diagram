@@ -17,6 +17,8 @@
         <AssociationConnector Association="ManaCenaModel.FK_Product_Item1" />
         <AssociationConnector Association="ManaCenaModel.FK_Cathegory_CathegoryType" />
         <AssociationConnector Association="ManaCenaModel.FK_Product_Cathegory" />
+        <EntityTypeShape EntityType="ManaCenaModel.ProductImage" Width="1.5" PointX="0.75" PointY="3.875" />
+        <AssociationConnector Association="ManaCenaModel.FK_Product_ProductImage" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

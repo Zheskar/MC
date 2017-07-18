@@ -40,7 +40,10 @@ namespace ManaCena.Controllers
 
             using (ManaCenaEntities context = new ManaCenaEntities())
             {
-                model = context.Products.Include(o=>o.Cathegory).ToList();
+                model = context.Products.Include(o => o.Cathegory.CathegoryType).Include(o=>o.ProductImage).ToList();
+                ViewBag.CathegoryEnum = context.Cathegories.ToList();
+
+                
                 //model = context.Products.Include(o => o.Cathegory).ToList();
                 var a = model[0].Cathegory.Name;
             }
@@ -49,7 +52,6 @@ namespace ManaCena.Controllers
             //{
             //    Console.WriteLine(prop.Name);
             //}
-
             return View(model);
         }
     }
