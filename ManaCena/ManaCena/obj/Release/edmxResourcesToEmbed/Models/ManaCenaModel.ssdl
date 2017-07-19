@@ -1,0 +1,172 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="ManaCenaModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Cathegory">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="varchar(max)" Nullable="false" />
+    <Property Name="CathegoryTypeId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="CathegoryType">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Location">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="SellerId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Product">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CathegoryId" Type="int" />
+    <Property Name="Name" Type="nvarchar(max)" />
+    <Property Name="Description" Type="nvarchar(max)" />
+    <Property Name="Wheight" Type="decimal" Precision="18" Scale="4" />
+    <Property Name="Unit" Type="int" />
+    <Property Name="Size" Type="nvarchar(max)" />
+    <Property Name="ImageId" Type="int" />
+  </EntityType>
+  <EntityType Name="ProductAd">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="SellerId" Type="int" Nullable="false" />
+    <Property Name="CathegoryId" Type="int" />
+    <Property Name="Name" Type="nvarchar(max)" />
+    <Property Name="OriginalPrice" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="DiscountPrice" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="DiscountPercentage" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="StartDate" Type="datetime" />
+    <Property Name="EndDate" Type="datetime" />
+    <Property Name="ProductId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ProductImage">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Image" Type="varchar(max)" />
+  </EntityType>
+  <EntityType Name="Seller">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="varbinary(max)" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_Cathegory_CathegoryType">
+    <End Role="CathegoryType" Type="Self.CathegoryType" Multiplicity="1" />
+    <End Role="Cathegory" Type="Self.Cathegory" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CathegoryType">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Cathegory">
+        <PropertyRef Name="CathegoryTypeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Location_Seller">
+    <End Role="Seller" Type="Self.Seller" Multiplicity="1" />
+    <End Role="Location" Type="Self.Location" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Seller">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Location">
+        <PropertyRef Name="SellerId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Product_Cathegory">
+    <End Role="Cathegory" Type="Self.Cathegory" Multiplicity="0..1" />
+    <End Role="Product" Type="Self.Product" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Cathegory">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Product">
+        <PropertyRef Name="CathegoryId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Product_Item">
+    <End Role="Cathegory" Type="Self.Cathegory" Multiplicity="0..1" />
+    <End Role="ProductAd" Type="Self.ProductAd" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Cathegory">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ProductAd">
+        <PropertyRef Name="CathegoryId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Product_ProductImage">
+    <End Role="ProductImage" Type="Self.ProductImage" Multiplicity="0..1" />
+    <End Role="Product" Type="Self.Product" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ProductImage">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Product">
+        <PropertyRef Name="ImageId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Product_Seller">
+    <End Role="Seller" Type="Self.Seller" Multiplicity="1" />
+    <End Role="ProductAd" Type="Self.ProductAd" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="Seller">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ProductAd">
+        <PropertyRef Name="Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="ManaCenaModelStoreContainer">
+    <EntitySet Name="Cathegory" EntityType="Self.Cathegory" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="CathegoryType" EntityType="Self.CathegoryType" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Location" EntityType="Self.Location" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Product" EntityType="Self.Product" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ProductAd" EntityType="Self.ProductAd" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ProductImage" EntityType="Self.ProductImage" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Seller" EntityType="Self.Seller" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_Cathegory_CathegoryType" Association="Self.FK_Cathegory_CathegoryType">
+      <End Role="CathegoryType" EntitySet="CathegoryType" />
+      <End Role="Cathegory" EntitySet="Cathegory" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Location_Seller" Association="Self.FK_Location_Seller">
+      <End Role="Seller" EntitySet="Seller" />
+      <End Role="Location" EntitySet="Location" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Product_Cathegory" Association="Self.FK_Product_Cathegory">
+      <End Role="Cathegory" EntitySet="Cathegory" />
+      <End Role="Product" EntitySet="Product" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Product_Item" Association="Self.FK_Product_Item">
+      <End Role="Cathegory" EntitySet="Cathegory" />
+      <End Role="ProductAd" EntitySet="ProductAd" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Product_ProductImage" Association="Self.FK_Product_ProductImage">
+      <End Role="ProductImage" EntitySet="ProductImage" />
+      <End Role="Product" EntitySet="Product" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Product_Seller" Association="Self.FK_Product_Seller">
+      <End Role="Seller" EntitySet="Seller" />
+      <End Role="ProductAd" EntitySet="ProductAd" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

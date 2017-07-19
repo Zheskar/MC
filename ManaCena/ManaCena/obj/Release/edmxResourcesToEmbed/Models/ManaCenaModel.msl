@@ -1,0 +1,76 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="ManaCenaModelStoreContainer" CdmEntityContainer="ManaCenaEntities">
+    <EntitySetMapping Name="Cathegories">
+      <EntityTypeMapping TypeName="ManaCenaModel.Cathegory">
+        <MappingFragment StoreEntitySet="Cathegory">
+          <ScalarProperty Name="CathegoryTypeId" ColumnName="CathegoryTypeId" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CathegoryTypes">
+      <EntityTypeMapping TypeName="ManaCenaModel.CathegoryType">
+        <MappingFragment StoreEntitySet="CathegoryType">
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Locations">
+      <EntityTypeMapping TypeName="ManaCenaModel.Location">
+        <MappingFragment StoreEntitySet="Location">
+          <ScalarProperty Name="SellerId" ColumnName="SellerId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Sellers">
+      <EntityTypeMapping TypeName="ManaCenaModel.Seller">
+        <MappingFragment StoreEntitySet="Seller">
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ProductAds">
+      <EntityTypeMapping TypeName="ManaCenaModel.ProductAd">
+        <MappingFragment StoreEntitySet="ProductAd">
+          <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+          <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+          <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+          <ScalarProperty Name="DiscountPercentage" ColumnName="DiscountPercentage" />
+          <ScalarProperty Name="DiscountPrice" ColumnName="DiscountPrice" />
+          <ScalarProperty Name="OriginalPrice" ColumnName="OriginalPrice" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="CathegoryId" ColumnName="CathegoryId" />
+          <ScalarProperty Name="SellerId" ColumnName="SellerId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Products">
+      <EntityTypeMapping TypeName="ManaCenaModel.Product">
+        <MappingFragment StoreEntitySet="Product">
+          <ScalarProperty Name="ImageId" ColumnName="ImageId" />
+          <ScalarProperty Name="CathegoryId" ColumnName="CathegoryId" />
+          <ScalarProperty Name="Size" ColumnName="Size" />
+          <ScalarProperty Name="Unit" ColumnName="Unit" />
+          <ScalarProperty Name="Wheight" ColumnName="Wheight" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ProductImages">
+      <EntityTypeMapping TypeName="ManaCenaModel.ProductImage">
+        <MappingFragment StoreEntitySet="ProductImage">
+          <ScalarProperty Name="Image" ColumnName="Image" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>
