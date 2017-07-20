@@ -6,7 +6,7 @@
 }
 <h2>EditProduct</h2>
 
-<table border="1">
+<table border="1" id="table-edit-product">
     <tr>
         @*<td><label>Id</label></td>*@
         <td><label>Image</label></td>
@@ -20,7 +20,8 @@
     @foreach (var p in Model)
     {
         var rnd = Guid.NewGuid();
-        <tr>
+        <tr id="@rnd-tr">
+            <td><button class="btn-clone" data-tr-id="@rnd-tr" data-rnd="@rnd">Clone</button></td>
             <td style="display:none;"><input value="@p.Id" id="@rnd-@nameof(Product.Id)" /></td>
             <td>
                 <img src="@p.ProductImage.Image" alt="" id="@rnd-@nameof(Product.ProductImage)">
@@ -54,7 +55,7 @@
                                              $('#@rnd-@nameof(Product.ProductImage)').attr('src')
                                             )">
                     Save Changes
-                </button>
+                </button>                
             </td>
             <td></td>
         </tr>
@@ -113,4 +114,49 @@
         }
     </script>*@
 
+
+    @* clone - create new record for *@
+    <script>
+        // Clone 2 steps
+        $(".btn-clone").click(function () {
+
+            var tr = $("#" + $(this).attr("data-tr-id")).clone();            
+            //e.preventDefault();
+            $('#table-edit-product').append(tr.clone());
+
+            // TODO: 18 elementov, nam nuzhno 9 - pereimenovat' ID
+            var rnd = $(this).attr("data-rnd");
+            $('[id^="' + rnd + '"]').each(function (index) {
+                console.log(index + ": " + $(this).text());
+            });
+
+            //var $tr = $(this).closest('.tr_clone');
+            //var $clone = $tr.clone();
+            //$clone.find(':text').val('');
+            //$tr.after($clone);
+
+        });
+
+        
+
+            
+            
+
+        //var emptyFriend = $("#aaa").clone();
+
+
+        //$("#addfriend").live('click', function (e) {
+        //    e.preventDefault();
+        //    $('#friendlist').append(emptyFriend.clone());
+
+        //});
+    </script>
+
 }
+
+
+
+
+  
+<button id="btn-clone"></button>
+<div id="aaa">aaaa</div>

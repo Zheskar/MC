@@ -37,10 +37,9 @@ namespace ManaCena.Controllers
         public ActionResult EditProduct()
         {
             List<Product> model = new List<Product>();
-
             using (ManaCenaEntities context = new ManaCenaEntities())
             {
-                model = context.Products.Include(o => o.Cathegory.CathegoryType).Include(o=>o.ProductImage).ToList();
+                model = context.Products.Include(o => o.Cathegory.CathegoryType).Include(o => o.ProductImage).ToList();
                 ViewBag.CathegoryEnum = context.Cathegories.ToList();
                 ViewBag.CathegoryTypeEnum = context.CathegoryTypes.ToList();
 
