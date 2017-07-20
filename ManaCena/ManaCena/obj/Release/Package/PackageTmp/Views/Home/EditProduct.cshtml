@@ -6,51 +6,16 @@
 }
 <h2>EditProduct</h2>
 
-@*<input value="huj" id="asdf" />
-
-    <button onclick="aaa()">Click me</button>
-
-    <script type="text/javascript">
-        function readURL(input) {
-            if (input.files && input.files[0]) {
-                var reader = new FileReader();
-
-                reader.onload = function (e) {
-                    $('#blah').attr('src', e.target.result);
-                }
-
-                reader.readAsDataURL(input.files[0]);
-            }
-        }
-
-        function aaa() {
-            alert($('#asdf').val());
-
-        }
-
-        //$('#imgInp').val();
-        //$('#imgInp').change(function () {
-
-        //    readURL(this);
-        //});
-    </script>
-
-    <form id="form1" runat="server">
-        <input type='file' id="imgInp" />
-        <img id="blah" src="#" alt="your image" />
-    </form>*@
-
 <table border="1">
     <tr>
         @*<td><label>Id</label></td>*@
+        <td><label>Image</label></td>
         <td><label>Name</label></td>
         <td><label>Description</label></td>
         <td><label>Wheight</label></td>
         <td><label>Unit</label></td>
         <td><label>Size</label></td>
-        <td><label>CathegoryId</label></td>
-        <td><label>Description</label></td>
-        <td><label>CathegoryType</label></td>
+        <td><label>Cathegory</label></td>
     </tr>
     @foreach (var p in Model)
     {
@@ -69,15 +34,15 @@
             @*<td><input value="@p.CathegoryId" id="@rnd-@nameof(Product.CathegoryId)" /></td>*@
             @*<td><input value="@p.Cathegory.Name" id="@rnd-@nameof(Product.Cathegory)-@nameof(Cathegory.Name)" /></td>*@
             <td>
+                @*<select id="@rnd-@nameof(Product.CathegoryId)" onchange="switchCathegoryTypeName('@rnd-@nameof(Product.Cathegory)-@nameof(Cathegory.Name)', this)">*@
                 <select id="@rnd-@nameof(Product.CathegoryId)">
                     @foreach (var ce in (List<Cathegory>)ViewBag.CathegoryEnum)
                     {
-                        <option @if (ce.Id == p.CathegoryId) { <text> selected="selected" </text>    } value="@ce.Id">@ce.Name</option>
+                        <option @if (ce.Id == p.CathegoryId) { <text> selected="selected" </text> } value="@ce.Id">@string.Format("{0} - ({1})", ce.Name, ce.CathegoryType.Name)</option>
                     }
                 </select>
             </td>
-            <td><input value="@p.Description" id="@rnd-@nameof(Product.Cathegory)-@nameof(Cathegory.Name)" /></td>
-            <td><input value="@p.Cathegory.CathegoryType.Name" id="@rnd-@nameof(Cathegory)-@nameof(CathegoryType)-@nameof(CathegoryType.Name)" /></td>
+            @*<td><input value="@p.Cathegory.CathegoryType.Name" id="@rnd-@nameof(Cathegory)-@nameof(CathegoryType)-@nameof(CathegoryType.Name)" /></td>*@
             <td>
                 <button onclick="editProduct($('#@rnd-@nameof(Product.Id)').val(),
                                              $('#@rnd-@nameof(Product.Name)').val(),
@@ -88,7 +53,7 @@
                                              $('#@rnd-@nameof(Product.CathegoryId)').val(),
                                              $('#@rnd-@nameof(Product.ProductImage)').attr('src')
                                             )">
-                    Edit
+                    Save Changes
                 </button>
             </td>
             <td></td>
@@ -98,29 +63,27 @@
 @section scripts {
     <script type="text/javascript">
         function editProduct(id, name, description, wheight, unit, size, cathegoryId, img) {
-            alert(img);
             $.ajax({
                 type: "POST",
                 url: "/Product/EditItem",
                 data: {
-                    Id: id, Name: name, Description: description, Wheigh: wheight, Unit: unit, Size: size, CathegoryId: cathegoryId, ProductImage: { Image: img }
+                    Id: id, Name: name, Description: description, Wheight: wheight, Unit: unit, Size: size, CathegoryId: cathegoryId, ProductImage: { Image: img }
                 },
                 success: function (result) {
-                    alert(result);
                     // Do something interesting here.
                 }
             });
         }
     </script>
 
-    @* Image *@ 
+    @* Image *@
     <script type="text/javascript">
-        
+
         // on image change
         $(".product-image-edit").change(function () {
             readURL(this, $(this).attr("data-image-id"));
         });
-        
+
         function readURL(input, id) {
             if (input.files && input.files[0]) {
                 var reader = new FileReader();
@@ -132,5 +95,22 @@
         };
 
     </script>
+
+    @* Cathegory display *@
+    @*<script type="text/javascript">
+        function switchCathegoryTypeName(domId, id) {
+            
+            var res = $.grep(myArray, function (e) { return e.Id == id.value; });
+            alert(res[0].Name);
+            $("#" + domId).val(res[0].Name);
+        };        
+        
+        var myArray = [];
+        @foreach (var ctr in (List<CathegoryType>)ViewBag.CathegoryTypeEnum)
+        {
+            @:myArray.push({ Id: @ctr.Id, Name: '@ctr.Name' });
+
+        }
+    </script>*@
 
 }

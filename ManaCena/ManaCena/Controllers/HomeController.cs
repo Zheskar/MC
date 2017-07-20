@@ -42,8 +42,9 @@ namespace ManaCena.Controllers
             {
                 model = context.Products.Include(o => o.Cathegory.CathegoryType).Include(o=>o.ProductImage).ToList();
                 ViewBag.CathegoryEnum = context.Cathegories.ToList();
+                ViewBag.CathegoryTypeEnum = context.CathegoryTypes.ToList();
 
-                
+
                 //model = context.Products.Include(o => o.Cathegory).ToList();
                 var a = model[0].Cathegory.Name;
             }

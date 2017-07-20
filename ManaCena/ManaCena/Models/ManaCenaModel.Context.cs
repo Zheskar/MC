@@ -28,9 +28,9 @@ namespace ManaCena.Models
         public virtual DbSet<Cathegory> Cathegories { get; set; }
         public virtual DbSet<CathegoryType> CathegoryTypes { get; set; }
         public virtual DbSet<Location> Locations { get; set; }
-        public virtual DbSet<Seller> Sellers { get; set; }
-        public virtual DbSet<ProductAd> ProductAds { get; set; }
         public virtual DbSet<Product> Products { get; set; }
+        public virtual DbSet<ProductAd> ProductAds { get; set; }
         public virtual DbSet<ProductImage> ProductImages { get; set; }
+        public virtual DbSet<Seller> Sellers { get; set; }
     }
 }

@@ -18,6 +18,7 @@ namespace ManaCena.Models
         public Seller()
         {
             this.Locations = new HashSet<Location>();
+            this.ProductAds = new HashSet<ProductAd>();
         }
     
         public int Id { get; set; }
@@ -25,6 +26,7 @@ namespace ManaCena.Models
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Location> Locations { get; set; }
-        public virtual ProductAd ProductAd { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ProductAd> ProductAds { get; set; }
     }
 }

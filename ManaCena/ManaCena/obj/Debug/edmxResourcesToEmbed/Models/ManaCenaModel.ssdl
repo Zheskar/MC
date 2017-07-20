@@ -40,15 +40,14 @@
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ProductId" Type="int" Nullable="false" />
     <Property Name="SellerId" Type="int" Nullable="false" />
-    <Property Name="CathegoryId" Type="int" />
     <Property Name="Name" Type="nvarchar(max)" />
     <Property Name="OriginalPrice" Type="decimal" Precision="18" Scale="2" />
     <Property Name="DiscountPrice" Type="decimal" Precision="18" Scale="2" />
     <Property Name="DiscountPercentage" Type="decimal" Precision="18" Scale="2" />
     <Property Name="StartDate" Type="datetime" />
     <Property Name="EndDate" Type="datetime" />
-    <Property Name="ProductId" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="ProductImage">
     <Key>
@@ -100,18 +99,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_Product_Item">
-    <End Role="Cathegory" Type="Self.Cathegory" Multiplicity="0..1" />
-    <End Role="ProductAd" Type="Self.ProductAd" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Cathegory">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="ProductAd">
-        <PropertyRef Name="CathegoryId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FK_Product_ProductImage">
     <End Role="ProductImage" Type="Self.ProductImage" Multiplicity="0..1" />
     <End Role="Product" Type="Self.Product" Multiplicity="*" />
@@ -126,13 +113,25 @@
   </Association>
   <Association Name="FK_Product_Seller">
     <End Role="Seller" Type="Self.Seller" Multiplicity="1" />
-    <End Role="ProductAd" Type="Self.ProductAd" Multiplicity="0..1" />
+    <End Role="ProductAd" Type="Self.ProductAd" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Seller">
         <PropertyRef Name="Id" />
       </Principal>
       <Dependent Role="ProductAd">
+        <PropertyRef Name="ProductId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProductAd_Product">
+    <End Role="Product" Type="Self.Product" Multiplicity="1" />
+    <End Role="ProductAd" Type="Self.ProductAd" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Product">
         <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ProductAd">
+        <PropertyRef Name="ProductId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -156,16 +155,16 @@
       <End Role="Cathegory" EntitySet="Cathegory" />
       <End Role="Product" EntitySet="Product" />
     </AssociationSet>
-    <AssociationSet Name="FK_Product_Item" Association="Self.FK_Product_Item">
-      <End Role="Cathegory" EntitySet="Cathegory" />
-      <End Role="ProductAd" EntitySet="ProductAd" />
-    </AssociationSet>
     <AssociationSet Name="FK_Product_ProductImage" Association="Self.FK_Product_ProductImage">
       <End Role="ProductImage" EntitySet="ProductImage" />
       <End Role="Product" EntitySet="Product" />
     </AssociationSet>
     <AssociationSet Name="FK_Product_Seller" Association="Self.FK_Product_Seller">
       <End Role="Seller" EntitySet="Seller" />
+      <End Role="ProductAd" EntitySet="ProductAd" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProductAd_Product" Association="Self.FK_ProductAd_Product">
+      <End Role="Product" EntitySet="Product" />
       <End Role="ProductAd" EntitySet="ProductAd" />
     </AssociationSet>
   </EntityContainer>

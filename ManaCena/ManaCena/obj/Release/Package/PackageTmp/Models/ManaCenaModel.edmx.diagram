@@ -5,20 +5,22 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="4585f2fed3d54063892f6d6194df8063" Name="Diagram1">
-        <EntityTypeShape EntityType="ManaCenaModel.Cathegory" Width="1.5" PointX="10" PointY="1.875" />
-        <EntityTypeShape EntityType="ManaCenaModel.CathegoryType" Width="1.5" PointX="12.375" PointY="2" />
-        <EntityTypeShape EntityType="ManaCenaModel.Location" Width="1.5" PointX="1.5" PointY="0.875" />
-        <EntityTypeShape EntityType="ManaCenaModel.Seller" Width="1.5" PointX="4.125" PointY="1" />
-        <AssociationConnector Association="ManaCenaModel.FK_Location_Seller" />
-        <EntityTypeShape EntityType="ManaCenaModel.ProductAd" Width="1.5" PointX="7.25" PointY="3.75" />
         <AssociationConnector Association="ManaCenaModel.FK_Product_Cathegory1" />
         <AssociationConnector Association="ManaCenaModel.FK_Product_Seller1" />
-        <EntityTypeShape EntityType="ManaCenaModel.Product" Width="1.5" PointX="7.25" PointY="0.5" />
         <AssociationConnector Association="ManaCenaModel.FK_Product_Item1" />
+        <EntityTypeShape EntityType="ManaCenaModel.Cathegory" Width="1.5" PointX="3" PointY="1.5" />
+        <EntityTypeShape EntityType="ManaCenaModel.CathegoryType" Width="1.5" PointX="0.75" PointY="1.75" />
+        <EntityTypeShape EntityType="ManaCenaModel.Location" Width="1.5" PointX="7.5" PointY="5.75" />
+        <EntityTypeShape EntityType="ManaCenaModel.Product" Width="1.5" PointX="5.25" PointY="1" />
+        <EntityTypeShape EntityType="ManaCenaModel.ProductAd" Width="1.5" PointX="7.5" PointY="1" />
+        <EntityTypeShape EntityType="ManaCenaModel.ProductImage" Width="1.5" PointX="3" PointY="5.75" />
+        <EntityTypeShape EntityType="ManaCenaModel.Seller" Width="1.5" PointX="5.25" PointY="5.625" />
         <AssociationConnector Association="ManaCenaModel.FK_Cathegory_CathegoryType" />
         <AssociationConnector Association="ManaCenaModel.FK_Product_Cathegory" />
-        <EntityTypeShape EntityType="ManaCenaModel.ProductImage" Width="1.5" PointX="0.75" PointY="3.875" />
+        <AssociationConnector Association="ManaCenaModel.FK_Location_Seller" />
         <AssociationConnector Association="ManaCenaModel.FK_Product_ProductImage" />
+        <AssociationConnector Association="ManaCenaModel.FK_ProductAd_Product" />
+        <AssociationConnector Association="ManaCenaModel.FK_Product_Seller" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

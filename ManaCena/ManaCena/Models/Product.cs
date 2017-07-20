@@ -21,17 +21,17 @@ namespace ManaCena.Models
         }
     
         public int Id { get; set; }
+        public Nullable<int> CathegoryId { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public Nullable<decimal> Wheight { get; set; }
         public Nullable<int> Unit { get; set; }
         public string Size { get; set; }
-        public Nullable<int> CathegoryId { get; set; }
         public Nullable<int> ImageId { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ProductAd> ProductAds { get; set; }
         public virtual Cathegory Cathegory { get; set; }
         public virtual ProductImage ProductImage { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ProductAd> ProductAds { get; set; }
     }
 }
