@@ -1,42 +1,19 @@
 ﻿@using ManaCena.Models
 @using System.Reflection
-@model List<Product>
+@model List<CathegoryType>
 
-<h2>Edit Product</h2>
+<h2>Edit Cathegory Type</h2>
 
 <table border="1" id="table-edit-product">
     <tr>
-        @*<td><label>Id</label></td>*@
-        <td><label>Image</label></td>
         <td><label>Name</label></td>
-        <td><label>Description</label></td>
-        <td><label>Wheight</label></td>
-        <td><label>Unit</label></td>
-        <td><label>Size</label></td>
-        <td><label>Cathegory</label></td>
     </tr>
     @foreach (var p in Model)
     {
         var rnd = Guid.NewGuid();
         <tr id="@rnd-tr">
             <td style="display:none;"><input value="@p.Id" id="@rnd-@nameof(Product.Id)" /></td>
-            <td>
-                <img src="@p.ProductImage.Image" alt="" id="@rnd-@nameof(Product.ProductImage)">
-                <input type='file' class="product-image-edit" data-image-id="@rnd-@nameof(Product.ProductImage)" />
-            </td>
             <td><input value="@p.Name" id="@rnd-@nameof(Product.Name)" /></td>
-            <td><input value="@p.Description" id="@rnd-@nameof(Product.Description)" /></td>
-            <td><input value="@p.Wheight" id="@rnd-@nameof(Product.Wheight)" /></td>
-            <td><input value="@p.Unit" id="@rnd-@nameof(Product.Unit)" /></td>
-            <td><input value="@p.Size" id="@rnd-@nameof(Product.Size)" /></td>
-            <td>
-                <select id="@rnd-@nameof(Product.CathegoryId)">
-                    @foreach (var ce in (List<Cathegory>)ViewBag.CathegoryEnum)
-                    {
-                        <option @if (ce.Id == p.CathegoryId) { <text> selected="selected" </text>        } value="@ce.Id">@string.Format("{0} - ({1})", ce.Name, ce.CathegoryType.Name)</option>
-                    }
-                </select>
-            </td>
             <td>
                 <button class="btn-submit-save" data-rnd="@rnd">Save Changes</button>
                 <button class="btn-clone" data-tr-id="@rnd-tr" data-rnd="@rnd">Clone</button>
@@ -55,18 +32,12 @@
             // read all variables
             var id = $('#' + rnd + '-@nameof(Product.Id)').val();
             var name = $('#' + rnd + '-@nameof(Product.Name)').val();
-            var description =$('#'+rnd+'-@nameof(Product.Description)').val();
-            var wheight =$('#'+rnd+'-@nameof(Product.Wheight)').val();
-            var unit =$('#'+rnd+'-@nameof(Product.Unit)').val();
-            var size =$('#'+rnd+'-@nameof(Product.Size)').val();
-            var cathegoryId =$('#'+rnd+'-@nameof(Product.CathegoryId)').val();
-            var img = $('#'+rnd+'-@nameof(Product.ProductImage)').attr('src');
 
             $.ajax({
                 type: "POST",
-                url: "/Product/EditItem",
+                url: "/CathegoryType/EditCathegoryType",
                 data: {
-                    Id: id, Name: name, Description: description, Wheight: wheight, Unit: unit, Size: size, CathegoryId: cathegoryId, ProductImage: { Image: img }
+                    Id: id, Name: name
                 },
                 success: function (result) {
                     // Do something interesting here.
@@ -83,7 +54,7 @@
             alert(id);
             $.ajax({
                 type: "POST",
-                url: "/Product/DeleteItem",
+                url: "/CathegoryType/DeleteCathegoryType",
                 data: {
                     id: id
                 },
@@ -92,26 +63,6 @@
                 }
             });
                 });
-    </script>
-
-    @* Image *@
-    <script type="text/javascript">
-
-        // on image change
-        $(".product-image-edit").change(function () {
-            readURL(this, $(this).attr("data-image-id"));
-        });
-
-        function readURL(input, id) {
-            if (input.files && input.files[0]) {
-                var reader = new FileReader();
-                reader.onload = function (e) {
-                    $('#' + id).attr('src', e.target.result);
-                }
-                reader.readAsDataURL(input.files[0]);
-            }
-        };
-
     </script>
 
     @* clone - create new record for *@

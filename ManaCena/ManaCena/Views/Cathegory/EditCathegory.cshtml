@@ -1,44 +1,31 @@
 ﻿@using ManaCena.Models
 @using System.Reflection
-@model List<Product>
+@model List<Cathegory>
 
-<h2>Edit Product</h2>
+<h2>Edit Cathegory</h2>
 
 <table border="1" id="table-edit-product">
     <tr>
         @*<td><label>Id</label></td>*@
-        <td><label>Image</label></td>
         <td><label>Name</label></td>
-        <td><label>Description</label></td>
-        <td><label>Wheight</label></td>
-        <td><label>Unit</label></td>
-        <td><label>Size</label></td>
-        <td><label>Cathegory</label></td>
+        <td><label>CathegoryTypeId</label></td>
     </tr>
     @foreach (var p in Model)
     {
         var rnd = Guid.NewGuid();
         <tr id="@rnd-tr">
-            <td style="display:none;"><input value="@p.Id" id="@rnd-@nameof(Product.Id)" /></td>
+            <td style="display:none;"><input value="@p.Id" id="@rnd-@nameof(Cathegory.Id)" /></td>
+            <td><input value="@p.Name" id="@rnd-@nameof(Cathegory.Name)" /></td>
             <td>
-                <img src="@p.ProductImage.Image" alt="" id="@rnd-@nameof(Product.ProductImage)">
-                <input type='file' class="product-image-edit" data-image-id="@rnd-@nameof(Product.ProductImage)" />
-            </td>
-            <td><input value="@p.Name" id="@rnd-@nameof(Product.Name)" /></td>
-            <td><input value="@p.Description" id="@rnd-@nameof(Product.Description)" /></td>
-            <td><input value="@p.Wheight" id="@rnd-@nameof(Product.Wheight)" /></td>
-            <td><input value="@p.Unit" id="@rnd-@nameof(Product.Unit)" /></td>
-            <td><input value="@p.Size" id="@rnd-@nameof(Product.Size)" /></td>
-            <td>
-                <select id="@rnd-@nameof(Product.CathegoryId)">
-                    @foreach (var ce in (List<Cathegory>)ViewBag.CathegoryEnum)
-                    {
-                        <option @if (ce.Id == p.CathegoryId) { <text> selected="selected" </text>        } value="@ce.Id">@string.Format("{0} - ({1})", ce.Name, ce.CathegoryType.Name)</option>
+                <select id="@rnd-@nameof(Cathegory.CathegoryTypeId)">
+                    @foreach (var ce in (List<CathegoryType>)ViewBag.CathegoryTypeEnum)
+                {
+                        <option @if (ce.Id == p.CathegoryTypeId) { <text> selected="selected" </text>  } value="@ce.Id">@ce.Name</option>
                     }
                 </select>
             </td>
             <td>
-                <button class="btn-submit-save" data-rnd="@rnd">Save Changes</button>
+                <button class="btn-submit-save" data-rnd="@rnd">Save Changes</button>                
                 <button class="btn-clone" data-tr-id="@rnd-tr" data-rnd="@rnd">Clone</button>
                 <button class="btn-submit-del" data-tr-id="@rnd-tr" data-rnd="@rnd">Delete</button>
             </td>
@@ -53,20 +40,14 @@
         $(".btn-submit-save").click(function () {
             var rnd = $(this).attr("data-rnd");
             // read all variables
-            var id = $('#' + rnd + '-@nameof(Product.Id)').val();
-            var name = $('#' + rnd + '-@nameof(Product.Name)').val();
-            var description =$('#'+rnd+'-@nameof(Product.Description)').val();
-            var wheight =$('#'+rnd+'-@nameof(Product.Wheight)').val();
-            var unit =$('#'+rnd+'-@nameof(Product.Unit)').val();
-            var size =$('#'+rnd+'-@nameof(Product.Size)').val();
-            var cathegoryId =$('#'+rnd+'-@nameof(Product.CathegoryId)').val();
-            var img = $('#'+rnd+'-@nameof(Product.ProductImage)').attr('src');
-
+            var id = $('#' + rnd + '-@nameof(Cathegory.Id)').val();
+            var name = $('#' + rnd + '-@nameof(Cathegory.Name)').val();
+            var cathegoryTypeId =$('#'+rnd+'-@nameof(Cathegory.CathegoryTypeId)').val();
             $.ajax({
                 type: "POST",
-                url: "/Product/EditItem",
+                url: "/Cathegory/EditCathegory",
                 data: {
-                    Id: id, Name: name, Description: description, Wheight: wheight, Unit: unit, Size: size, CathegoryId: cathegoryId, ProductImage: { Image: img }
+                    Id: id, Name: name, CathegoryTypeId: cathegoryTypeId
                 },
                 success: function (result) {
                     // Do something interesting here.
@@ -80,38 +61,38 @@
         $(".btn-submit-del").click(function () {
             var rnd = $(this).attr("data-rnd");
             var id = $('#' + rnd + '-@nameof(Cathegory.Id)').val();
-            alert(id);
             $.ajax({
                 type: "POST",
-                url: "/Product/DeleteItem",
+                url: "/Cathegory/DeleteCathegory",
                 data: {
                     id: id
                 },
                 success: function (result) {
-                    // TODO: Remove DOM object, do not refresh, just remove DOM
+                    alert(result)
+                    // TODO: Remove DOM object, do not refresh, just remove DOM                    
+                },
+                error: function (jqXHR, exception) {
+                    // TODO: add handler every where
+                    var msg = '';
+                    if (jqXHR.status === 0) {
+                        msg = 'Not connect.\n Verify Network.';
+                    } else if (jqXHR.status == 404) {
+                        msg = 'Requested page not found. [404]';
+                    } else if (jqXHR.status == 500) {
+                        msg = 'Internal Server Error [500].';
+                    } else if (exception === 'parsererror') {
+                        msg = 'Requested JSON parse failed.';
+                    } else if (exception === 'timeout') {
+                        msg = 'Time out error.';
+                    } else if (exception === 'abort') {
+                        msg = 'Ajax request aborted.';
+                    } else {
+                        msg = 'Uncaught Error.\n' + jqXHR.responseText;
+                    }
+                    alert(msg);
                 }
             });
                 });
-    </script>
-
-    @* Image *@
-    <script type="text/javascript">
-
-        // on image change
-        $(".product-image-edit").change(function () {
-            readURL(this, $(this).attr("data-image-id"));
-        });
-
-        function readURL(input, id) {
-            if (input.files && input.files[0]) {
-                var reader = new FileReader();
-                reader.onload = function (e) {
-                    $('#' + id).attr('src', e.target.result);
-                }
-                reader.readAsDataURL(input.files[0]);
-            }
-        };
-
     </script>
 
     @* clone - create new record for *@
@@ -135,7 +116,7 @@
                 }
                 //console.log(index + ": " + $(this).attr("id"));
             });
-
+            
             // find amd change clone's data-rnd
             var totalIndex2 = $('[data-rnd^="' + rnd + '"]').length;
             $('[data-rnd^="' + rnd + '"]').each(function (index) {
