@@ -14,9 +14,18 @@ namespace ManaCena.Models
     
     public partial class Location
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Location()
+        {
+            this.ProductLocations = new HashSet<ProductLocation>();
+        }
+    
         public int Id { get; set; }
         public int SellerId { get; set; }
+        public string Name { get; set; }
     
         public virtual Seller Seller { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ProductLocation> ProductLocations { get; set; }
     }
 }

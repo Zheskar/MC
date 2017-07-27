@@ -1,29 +1,20 @@
 ﻿@using ManaCena.Models
 @using System.Reflection
-@model List<Cathegory>
+@model List<Seller>
 
-<h2>Edit Cathegory</h2>
+<h2>Edit Seller</h2>
 
 <table border="1" id="table-edit-product">
     <tr>
         @*<td><label>Id</label></td>*@
         <td><label>Name</label></td>
-        <td><label>CathegoryTypeId</label></td>
     </tr>
     @foreach (var p in Model)
     {
         var rnd = Guid.NewGuid();
         <tr id="@rnd-tr">
-            <td style="display:none;"><input value="@p.Id" id="@rnd-@nameof(Cathegory.Id)" /></td>
-            <td><input value="@p.Name" id="@rnd-@nameof(Cathegory.Name)" /></td>
-            <td>
-                <select id="@rnd-@nameof(Cathegory.CathegoryTypeId)">
-                    @foreach (var ce in (List<CathegoryType>)ViewBag.CathegoryTypeEnum)
-                {
-                        <option @if (ce.Id == p.CathegoryTypeId) { <text> selected="selected" </text>  } value="@ce.Id">@ce.Name</option>
-                    }
-                </select>
-            </td>
+            <td style="display:none;"><input value="@p.Id" id="@rnd-@nameof(Seller.Id)" /></td>
+            <td><input value="@p.Name" id="@rnd-@nameof(Seller.Name)" /></td>            
             <td>
                 <button class="btn-submit-save" data-rnd="@rnd">Save Changes</button>                
                 <button class="btn-clone" data-tr-id="@rnd-tr" data-rnd="@rnd">Clone</button>
@@ -40,14 +31,13 @@
         $(".btn-submit-save").click(function () {
             var rnd = $(this).attr("data-rnd");
             // read all variables
-            var id = $('#' + rnd + '-@nameof(Cathegory.Id)').val();
-            var name = $('#' + rnd + '-@nameof(Cathegory.Name)').val();
-            var cathegoryTypeId =$('#'+rnd+'-@nameof(Cathegory.CathegoryTypeId)').val();
+            var id = $('#' + rnd + '-@nameof(Seller.Id)').val();
+            var name = $('#' + rnd + '-@nameof(Seller.Name)').val();            
             $.ajax({
                 type: "POST",
-                url: "/Cathegory/EditCathegory",
+                url: "/Seller/EditSeller",
                 data: {
-                    Id: id, Name: name, CathegoryTypeId: cathegoryTypeId
+                    Id: id, Name: name
                 },
                 success: function (result) {
                     // Do something interesting here.
@@ -60,10 +50,10 @@
     <script type="text/javascript">
         $(".btn-submit-del").click(function () {
             var rnd = $(this).attr("data-rnd");
-            var id = $('#' + rnd + '-@nameof(Cathegory.Id)').val();
+            var id = $('#' + rnd + '-@nameof(Seller.Id)').val();
             $.ajax({
                 type: "POST",
-                url: "/Cathegory/DeleteCathegory",
+                url: "/Seller/DeleteSeller",
                 data: {
                     id: id
                 },
@@ -88,6 +78,7 @@
                     } else {
                         msg = 'Uncaught Error.\n' + jqXHR.responseText;
                     }
+                    alert(msg);
                 }
             });
                 });

@@ -12,8 +12,14 @@ namespace ManaCena.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class ProductAd
+    public partial class ProductSale
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public ProductSale()
+        {
+            this.ProductLocations = new HashSet<ProductLocation>();
+        }
+    
         public int Id { get; set; }
         public int ProductId { get; set; }
         public int SellerId { get; set; }
@@ -25,6 +31,8 @@ namespace ManaCena.Models
         public Nullable<System.DateTime> EndDate { get; set; }
     
         public virtual Product Product { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ProductLocation> ProductLocations { get; set; }
         public virtual Seller Seller { get; set; }
     }
 }

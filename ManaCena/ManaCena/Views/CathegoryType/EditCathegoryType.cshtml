@@ -51,7 +51,6 @@
         $(".btn-submit-del").click(function () {
             var rnd = $(this).attr("data-rnd");
             var id = $('#' + rnd + '-@nameof(Cathegory.Id)').val();
-            alert(id);
             $.ajax({
                 type: "POST",
                 url: "/CathegoryType/DeleteCathegoryType",

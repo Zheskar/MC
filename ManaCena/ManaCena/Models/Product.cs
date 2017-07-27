@@ -17,7 +17,7 @@ namespace ManaCena.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Product()
         {
-            this.ProductAds = new HashSet<ProductAd>();
+            this.ProductSales = new HashSet<ProductSale>();
         }
     
         public int Id { get; set; }
@@ -32,6 +32,6 @@ namespace ManaCena.Models
         public virtual Cathegory Cathegory { get; set; }
         public virtual ProductImage ProductImage { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ProductAd> ProductAds { get; set; }
+        public virtual ICollection<ProductSale> ProductSales { get; set; }
     }
 }

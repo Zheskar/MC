@@ -34,6 +34,7 @@ namespace ManaCena.Controllers
             return View();
         }
 
+        // TODO: perenseti etu hujnju v ProductController
         public ActionResult EditProduct()
         {
             List<Product> model = new List<Product>();

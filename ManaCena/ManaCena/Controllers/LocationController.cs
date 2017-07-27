@@ -7,26 +7,26 @@ using System.Web.Mvc;
 
 namespace ManaCena.Controllers
 {
-    public class CathegoryController : Controller
+    public class LocationController : Controller
     {
+
         [HttpGet]
-        public ActionResult EditCathegory()
+        public ActionResult EditLocation()
         {
-            List<Cathegory> model = new List<Cathegory>();
+            List<Location> model = new List<Location>();
             using (ManaCenaEntities context = new ManaCenaEntities())
             {
-                model = context.Cathegories.ToList();
-                ViewBag.CathegoryTypeEnum = context.CathegoryTypes.ToList();
+                model = context.Locations.ToList();
             }
             return View(model);
         }
 
         [HttpPost]
-        public bool EditCathegory(Cathegory rec)
+        public bool EditLocation(Location rec)
         {
             using (ManaCenaEntities context = new ManaCenaEntities())
             {
-                context.Cathegories.Add(rec);
+                context.Locations.Add(rec);
                 if (rec.Id > 0)
                 {
                     context.Entry(rec).State = System.Data.Entity.EntityState.Modified;
@@ -41,15 +41,16 @@ namespace ManaCena.Controllers
         }
 
         [HttpPost]
-        public bool DeleteCathegory(int id)
+        public bool DeleteLocation(int id)
         {
             using (ManaCenaEntities context = new ManaCenaEntities())
             {
-                var rec = new Cathegory { Id = id };
+                var rec = new Location { Id = id };
                 context.Entry(rec).State = System.Data.Entity.EntityState.Deleted;
                 context.SaveChanges();
             }
             return true;
         }
+
     }
 }

@@ -22,18 +22,18 @@ namespace ManaCena.Controllers
         }
 
         [HttpPost]
-        public bool EditCathegoryType(CathegoryType catType)
+        public bool EditCathegoryType(CathegoryType rec)
         {
             using (ManaCenaEntities context = new ManaCenaEntities())
             {
-                context.CathegoryTypes.Add(catType);
-                if (catType.Id > 0)
+                context.CathegoryTypes.Add(rec);
+                if (rec.Id > 0)
                 {
-                    context.Entry(catType).State = System.Data.Entity.EntityState.Modified;
+                    context.Entry(rec).State = System.Data.Entity.EntityState.Modified;
                 }
                 else
                 {
-                    context.Entry(catType).State = System.Data.Entity.EntityState.Added;
+                    context.Entry(rec).State = System.Data.Entity.EntityState.Added;
                 }
                 context.SaveChanges();
             }

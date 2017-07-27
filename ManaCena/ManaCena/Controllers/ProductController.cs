@@ -15,17 +15,17 @@ namespace ManaCena.Controllers
             return View();
         }
 
-        public bool EditItem(Product product)
+        public bool EditItem(Product rec)
         {
             using (ManaCenaEntities context = new ManaCenaEntities())
             {                
-                context.Products.Add(product);
-                if (product.Id > 0)
+                context.Products.Add(rec);
+                if (rec.Id > 0)
                 {                    
-                    context.Entry(product).State = System.Data.Entity.EntityState.Modified;
+                    context.Entry(rec).State = System.Data.Entity.EntityState.Modified;
                 }
                 else {
-                    context.Entry(product).State = System.Data.Entity.EntityState.Added;
+                    context.Entry(rec).State = System.Data.Entity.EntityState.Added;
                 }
                 context.SaveChanges();
             }
