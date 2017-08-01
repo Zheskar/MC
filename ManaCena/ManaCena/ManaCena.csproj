@@ -193,6 +193,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\ProductSaleController.cs" />
     <Compile Include="Controllers\SellerController.cs" />
     <Compile Include="Controllers\CathegoryController.cs" />
     <Compile Include="Controllers\LocationController.cs" />
@@ -203,6 +204,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\ImageHelper.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Cathegory.cs">
       <DependentUpon>ManaCenaModel.tt</DependentUpon>
@@ -235,6 +237,9 @@
     </Compile>
     <Compile Include="Models\ProductEditModel.cs" />
     <Compile Include="Models\ProductImage.cs">
+      <DependentUpon>ManaCenaModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ProductImageSmall.cs">
       <DependentUpon>ManaCenaModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ProductLocation.cs">
@@ -327,15 +332,15 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\Home\EditProduct.cshtml" />
+    <Content Include="Views\Product\EditProduct.cshtml" />
     <Content Include="Views\Cathegory\EditCathegory.cshtml" />
     <Content Include="Views\CathegoryType\EditCathegoryType.cshtml" />
     <Content Include="Views\Seller\EditSeller.cshtml" />
     <Content Include="Views\Location\EditLocation.cshtml" />
+    <Content Include="Views\ProductSale\EditProductSale.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Product\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

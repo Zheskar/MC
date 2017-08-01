@@ -1,39 +1,37 @@
 ﻿@using ManaCena.Models
 @using System.Reflection
-@model List<Product>
+@model List<ProductSale>
 
-<h2>Edit Product</h2>
+<h2>Edit Product Sales</h2>
+
+<div class="ui-widget">
+    <label for="tags">Tags: </label>
+    <input id="tags">
+</div>
 
 <table border="1" id="table-edit-product">
     <tr>
         @*<td><label>Id</label></td>*@
-        <td><label>Image</label></td>
-        <td><label>Name</label></td>
-        <td><label>Description</label></td>
-        <td><label>Wheight</label></td>
-        <td><label>Unit</label></td>
-        <td><label>Size</label></td>
-        <td><label>Cathegory</label></td>
+        @* TODO: ADD IMAGE DISPLAY only, on Select Change*@ 
+
+        <td><label>Product Image</label></td>
+        <td><label>Product Name</label></td>
+        <td><label>Seller Name</label></td>
     </tr>
     @foreach (var p in Model)
     {
         var rnd = Guid.NewGuid();
         <tr id="@rnd-tr">
-            <td style="display:none;"><input value="@p.Id" id="@rnd-@nameof(Product.Id)" /></td>
+            <td style="display:none;"><input value="@p.Id" id="@rnd-@nameof(ProductSale.Id)" /></td>
             <td>
-                <img src="@p.ProductImage.Image" alt="" id="@rnd-@nameof(Product.ProductImage)">
-                <input type='file' class="product-image-edit" data-image-id="@rnd-@nameof(Product.ProductImage)" />
+                <img src="@if (p.Product.ProductImageSmall != null) { <text>@p.Product.ProductImageSmall.Image</text> }" id="@rnd-@nameof(Product.ProductImageSmall)">                
             </td>
-            <td><input value="@p.Name" id="@rnd-@nameof(Product.Name)" /></td>
-            <td><input value="@p.Description" id="@rnd-@nameof(Product.Description)" /></td>
-            <td><input value="@p.Wheight" id="@rnd-@nameof(Product.Wheight)" /></td>
-            <td><input value="@p.Unit" id="@rnd-@nameof(Product.Unit)" /></td>
-            <td><input value="@p.Size" id="@rnd-@nameof(Product.Size)" /></td>
+            <td><input value="@p.ProductId" id="@rnd-@nameof(ProductSale.ProductId)" /></td>
             <td>
-                <select id="@rnd-@nameof(Product.CathegoryId)">
-                    @foreach (var ce in (List<Cathegory>)ViewBag.CathegoryEnum)
+                <select id="@rnd-@nameof(ProductSale.SellerId)">
+                    @foreach (var i in (List<Seller>)ViewBag.SellerEnum)
                     {
-                        <option @if (ce.Id == p.CathegoryId) { <text> selected="selected" </text>        } value="@ce.Id">@string.Format("{0} - ({1})", ce.Name, ce.CathegoryType.Name)</option>
+                        <option @if (i.Id == p.SellerId) { <text> selected="selected" </text> } value="@i.Id">@i.Name</option>
                     }
                 </select>
             </td>
@@ -48,25 +46,63 @@
 </table>
 @section scripts {
 
+
+
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="/resources/demos/style.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+<script type="text/javascript">
+        $(function () {
+            var availableTags = [
+                "ActionScript",
+                "AppleScript",
+                "Asp",
+                "BASIC",
+                "C",
+                "C++",
+                "Clojure",
+                "COBOL",
+                "ColdFusion",
+                "Erlang",
+                "Fortran",
+                "Groovy",
+                "Haskell",
+                "Java",
+                "JavaScript",
+                "Lisp",
+                "Perl",
+                "PHP",
+                "Python",
+                "Ruby",
+                "Scala",
+                "Scheme"
+            ];
+            $("#tags").autocomplete({
+                source: availableTags
+            });
+        });
+</script>
+
     @* Save *@
     <script type="text/javascript">
         $(".btn-submit-save").click(function () {
             var rnd = $(this).attr("data-rnd");
             // read all variables
-            var id = $('#' + rnd + '-@nameof(Product.Id)').val();
-            var name = $('#' + rnd + '-@nameof(Product.Name)').val();
-            var description =$('#'+rnd+'-@nameof(Product.Description)').val();
-            var wheight =$('#'+rnd+'-@nameof(Product.Wheight)').val();
-            var unit =$('#'+rnd+'-@nameof(Product.Unit)').val();
-            var size =$('#'+rnd+'-@nameof(Product.Size)').val();
-            var cathegoryId =$('#'+rnd+'-@nameof(Product.CathegoryId)').val();
-            var img = $('#'+rnd+'-@nameof(Product.ProductImage)').attr('src');
+            var id = $('#' + rnd + '-@nameof(ProductSale.Id)').val();
+            var productId = $('#' + rnd + '-@nameof(ProductSale.ProductId)').val();
+            var sellerId = $('#' + rnd + '-@nameof(ProductSale.SellerId)').val();
+            alert(id);
+            alert(productId);
+            alert(sellerId);
+
 
             $.ajax({
                 type: "POST",
-                url: "/Product/EditItem",
+                url: "/ProductSale/EditItem",
                 data: {
-                    Id: id, Name: name, Description: description, Wheight: wheight, Unit: unit, Size: size, CathegoryId: cathegoryId, ProductImage: { Image: img }
+                    Id: id, SellerId: sellerId, ProductId: productId
                 },
                 success: function (result) {
                     // Do something interesting here.
@@ -83,7 +119,7 @@
             alert(id);
             $.ajax({
                 type: "POST",
-                url: "/Product/DeleteItem",
+                url: "/ProductSale/DeleteItem",
                 data: {
                     id: id
                 },

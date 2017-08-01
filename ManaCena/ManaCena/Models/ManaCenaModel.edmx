@@ -39,9 +39,17 @@
           <Property Name="Wheight" Type="decimal" Precision="18" Scale="4" />
           <Property Name="Unit" Type="int" />
           <Property Name="Size" Type="nvarchar(max)" />
-          <Property Name="ImageId" Type="int" />
+          <Property Name="ProductImageId" Type="int" />
+          <Property Name="ProductImageSmallId" Type="int" />
         </EntityType>
         <EntityType Name="ProductImage">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Image" Type="varchar(max)" />
+        </EntityType>
+        <EntityType Name="ProductImageSmall">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
@@ -121,7 +129,19 @@
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="Product">
-              <PropertyRef Name="ImageId" />
+              <PropertyRef Name="ProductImageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Product_ProductImageSmall">
+          <End Role="ProductImageSmall" Type="Self.ProductImageSmall" Multiplicity="0..1" />
+          <End Role="Product" Type="Self.Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProductImageSmall">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Product">
+              <PropertyRef Name="ProductImageSmallId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -157,7 +177,7 @@
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="ProductLocation">
-              <PropertyRef Name="ProductSaleId" />
+              <PropertyRef Name="LocationId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -179,6 +199,7 @@
           <EntitySet Name="Location" EntityType="Self.Location" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Product" EntityType="Self.Product" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ProductImage" EntityType="Self.ProductImage" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProductImageSmall" EntityType="Self.ProductImageSmall" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ProductLocation" EntityType="Self.ProductLocation" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ProductSale" EntityType="Self.ProductSale" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Seller" EntityType="Self.Seller" Schema="dbo" store:Type="Tables" />
@@ -196,6 +217,10 @@
           </AssociationSet>
           <AssociationSet Name="FK_Product_ProductImage" Association="Self.FK_Product_ProductImage">
             <End Role="ProductImage" EntitySet="ProductImage" />
+            <End Role="Product" EntitySet="Product" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Product_ProductImageSmall" Association="Self.FK_Product_ProductImageSmall">
+            <End Role="ProductImageSmall" EntitySet="ProductImageSmall" />
             <End Role="Product" EntitySet="Product" />
           </AssociationSet>
           <AssociationSet Name="FK_Product_Seller" Association="Self.FK_Product_Seller">
@@ -225,6 +250,7 @@
           <EntitySet Name="Locations" EntityType="ManaCenaModel.Location" />
           <EntitySet Name="Products" EntityType="ManaCenaModel.Product" />
           <EntitySet Name="ProductImages" EntityType="ManaCenaModel.ProductImage" />
+          <EntitySet Name="ProductImageSmalls" EntityType="ManaCenaModel.ProductImageSmall" />
           <EntitySet Name="ProductLocations" EntityType="ManaCenaModel.ProductLocation" />
           <EntitySet Name="ProductSales" EntityType="ManaCenaModel.ProductSale" />
           <EntitySet Name="Sellers" EntityType="ManaCenaModel.Seller" />
@@ -246,6 +272,10 @@
           </AssociationSet>
           <AssociationSet Name="FK_Product_ProductImage" Association="ManaCenaModel.FK_Product_ProductImage">
             <End Role="ProductImage" EntitySet="ProductImages" />
+            <End Role="Product" EntitySet="Products" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Product_ProductImageSmall" Association="ManaCenaModel.FK_Product_ProductImageSmall">
+            <End Role="ProductImageSmall" EntitySet="ProductImageSmalls" />
             <End Role="Product" EntitySet="Products" />
           </AssociationSet>
           <AssociationSet Name="FK_ProductAd_Product" Association="ManaCenaModel.FK_ProductAd_Product">
@@ -300,9 +330,11 @@
           <Property Name="Wheight" Type="Decimal" Precision="18" Scale="4" />
           <Property Name="Unit" Type="Int32" />
           <Property Name="Size" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="ImageId" Type="Int32" />
+          <Property Name="ProductImageId" Type="Int32" />
+          <Property Name="ProductImageSmallId" Type="Int32" />
           <NavigationProperty Name="Cathegory" Relationship="ManaCenaModel.FK_Product_Cathegory" FromRole="Product" ToRole="Cathegory" />
           <NavigationProperty Name="ProductImage" Relationship="ManaCenaModel.FK_Product_ProductImage" FromRole="Product" ToRole="ProductImage" />
+          <NavigationProperty Name="ProductImageSmall" Relationship="ManaCenaModel.FK_Product_ProductImageSmall" FromRole="Product" ToRole="ProductImageSmall" />
           <NavigationProperty Name="ProductSales" Relationship="ManaCenaModel.FK_ProductAd_Product" FromRole="Product" ToRole="ProductSale" />
         </EntityType>
         <EntityType Name="ProductImage">
@@ -312,6 +344,14 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Image" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Products" Relationship="ManaCenaModel.FK_Product_ProductImage" FromRole="ProductImage" ToRole="Product" />
+        </EntityType>
+        <EntityType Name="ProductImageSmall">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Image" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Products" Relationship="ManaCenaModel.FK_Product_ProductImageSmall" FromRole="ProductImageSmall" ToRole="Product" />
         </EntityType>
         <EntityType Name="ProductLocation">
           <Key>
@@ -393,7 +433,7 @@
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="ProductLocation">
-              <PropertyRef Name="ProductSaleId" />
+              <PropertyRef Name="LocationId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -405,7 +445,19 @@
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="Product">
-              <PropertyRef Name="ImageId" />
+              <PropertyRef Name="ProductImageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Product_ProductImageSmall">
+          <End Type="ManaCenaModel.ProductImageSmall" Role="ProductImageSmall" Multiplicity="0..1" />
+          <End Type="ManaCenaModel.Product" Role="Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProductImageSmall">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Product">
+              <PropertyRef Name="ProductImageSmallId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -480,7 +532,8 @@
           <EntitySetMapping Name="Products">
             <EntityTypeMapping TypeName="ManaCenaModel.Product">
               <MappingFragment StoreEntitySet="Product">
-                <ScalarProperty Name="ImageId" ColumnName="ImageId" />
+                <ScalarProperty Name="ProductImageSmallId" ColumnName="ProductImageSmallId" />
+                <ScalarProperty Name="ProductImageId" ColumnName="ProductImageId" />
                 <ScalarProperty Name="Size" ColumnName="Size" />
                 <ScalarProperty Name="Unit" ColumnName="Unit" />
                 <ScalarProperty Name="Wheight" ColumnName="Wheight" />
@@ -494,6 +547,14 @@
           <EntitySetMapping Name="ProductImages">
             <EntityTypeMapping TypeName="ManaCenaModel.ProductImage">
               <MappingFragment StoreEntitySet="ProductImage">
+                <ScalarProperty Name="Image" ColumnName="Image" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProductImageSmalls">
+            <EntityTypeMapping TypeName="ManaCenaModel.ProductImageSmall">
+              <MappingFragment StoreEntitySet="ProductImageSmall">
                 <ScalarProperty Name="Image" ColumnName="Image" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>

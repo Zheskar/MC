@@ -1,33 +1,48 @@
-﻿using ManaCena.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using ManaCena.Models;
+using System.Data.Entity;
+using System.IO;
+using System.Drawing;
 
 namespace ManaCena.Controllers
 {
-    public class LocationController : Controller
+    public class ProductSaleController : Controller
     {
+        // GET: Product
+        public ActionResult Index()
+        {
+            return View();
+        }
 
         [HttpGet]
-        public ActionResult EditLocation()
+        public ActionResult EditProductSale()
         {
-            List<Location> model = new List<Location>();
+            List<ProductSale> model = new List<ProductSale>();
             using (ManaCenaEntities context = new ManaCenaEntities())
             {
-                model = context.Locations.ToList();
+                model = context.ProductSales
+                    .Include(o => o.Product)
+                    .Include(o => o.Product.ProductImage)
+                    //.Include(o => o.Product.ProductImage.Image)
+                    .Include(o => o.Product.ProductImageSmall)
+                    //.Include(o => o.Product.ProductImageSmall.Image)
+                    .Include(o => o.Seller).ToList();
                 ViewBag.SellerEnum = context.Sellers.ToList();
             }
+
             return View(model);
         }
 
         [HttpPost]
-        public bool EditLocation(Location rec)
+        public bool EditItem(ProductSale rec)
         {
             using (ManaCenaEntities context = new ManaCenaEntities())
             {
-                context.Locations.Add(rec);
+                context.ProductSales.Add(rec);
                 if (rec.Id > 0)
                 {
                     context.Entry(rec).State = System.Data.Entity.EntityState.Modified;
@@ -42,16 +57,16 @@ namespace ManaCena.Controllers
         }
 
         [HttpPost]
-        public bool DeleteLocation(int id)
+        public bool DeleteItem(int id)
         {
             using (ManaCenaEntities context = new ManaCenaEntities())
             {
-                var rec = new Location { Id = id };
+                var rec = new Product { Id = id };
                 context.Entry(rec).State = System.Data.Entity.EntityState.Deleted;
                 context.SaveChanges();
             }
             return true;
-        }
+        }       
 
     }
 }

@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Data.Entity;
+
 
 namespace ManaCena.Controllers
 {
@@ -15,6 +17,25 @@ namespace ManaCena.Controllers
             return View();
         }
 
+        [HttpGet]
+        public ActionResult EditProduct()
+        {
+            List<Product> model = new List<Product>();
+            using (ManaCenaEntities context = new ManaCenaEntities())
+            {
+                model = context.Products
+                        .Include(o => o.Cathegory.CathegoryType)
+                        .Include(o => o.ProductImage)
+                        .Include(o => o.ProductImageSmall)
+                        .ToList();
+                ViewBag.CathegoryEnum = context.Cathegories.ToList();
+                ViewBag.CathegoryTypeEnum = context.CathegoryTypes.ToList();
+            }
+
+            return View(model);
+        }
+
+        [HttpPost]
         public bool EditItem(Product rec)
         {
             using (ManaCenaEntities context = new ManaCenaEntities())
@@ -27,6 +48,9 @@ namespace ManaCena.Controllers
                 else {
                     context.Entry(rec).State = System.Data.Entity.EntityState.Added;
                 }
+                // TODO: resize Iamge and 
+                
+                rec.ProductImageSmall = new ProductImageSmall { Image = Helpers.ImageHelper.ResizeImage(rec.ProductImage.Image) };
                 context.SaveChanges();
             }
             return true;

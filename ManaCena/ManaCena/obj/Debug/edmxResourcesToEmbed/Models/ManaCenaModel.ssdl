@@ -34,9 +34,17 @@
     <Property Name="Wheight" Type="decimal" Precision="18" Scale="4" />
     <Property Name="Unit" Type="int" />
     <Property Name="Size" Type="nvarchar(max)" />
-    <Property Name="ImageId" Type="int" />
+    <Property Name="ProductImageId" Type="int" />
+    <Property Name="ProductImageSmallId" Type="int" />
   </EntityType>
   <EntityType Name="ProductImage">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Image" Type="varchar(max)" />
+  </EntityType>
+  <EntityType Name="ProductImageSmall">
     <Key>
       <PropertyRef Name="Id" />
     </Key>
@@ -116,7 +124,19 @@
         <PropertyRef Name="Id" />
       </Principal>
       <Dependent Role="Product">
-        <PropertyRef Name="ImageId" />
+        <PropertyRef Name="ProductImageId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Product_ProductImageSmall">
+    <End Role="ProductImageSmall" Type="Self.ProductImageSmall" Multiplicity="0..1" />
+    <End Role="Product" Type="Self.Product" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ProductImageSmall">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Product">
+        <PropertyRef Name="ProductImageSmallId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -152,7 +172,7 @@
         <PropertyRef Name="Id" />
       </Principal>
       <Dependent Role="ProductLocation">
-        <PropertyRef Name="ProductSaleId" />
+        <PropertyRef Name="LocationId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -174,6 +194,7 @@
     <EntitySet Name="Location" EntityType="Self.Location" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Product" EntityType="Self.Product" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="ProductImage" EntityType="Self.ProductImage" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ProductImageSmall" EntityType="Self.ProductImageSmall" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="ProductLocation" EntityType="Self.ProductLocation" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="ProductSale" EntityType="Self.ProductSale" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Seller" EntityType="Self.Seller" Schema="dbo" store:Type="Tables" />
@@ -191,6 +212,10 @@
     </AssociationSet>
     <AssociationSet Name="FK_Product_ProductImage" Association="Self.FK_Product_ProductImage">
       <End Role="ProductImage" EntitySet="ProductImage" />
+      <End Role="Product" EntitySet="Product" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Product_ProductImageSmall" Association="Self.FK_Product_ProductImageSmall">
+      <End Role="ProductImageSmall" EntitySet="ProductImageSmall" />
       <End Role="Product" EntitySet="Product" />
     </AssociationSet>
     <AssociationSet Name="FK_Product_Seller" Association="Self.FK_Product_Seller">
