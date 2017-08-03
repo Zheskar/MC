@@ -7,6 +7,7 @@ using ManaCena.Models;
 using System.Data.Entity;
 using System.IO;
 using System.Drawing;
+using System.Web.Script.Serialization;
 
 namespace ManaCena.Controllers
 {
@@ -66,7 +67,33 @@ namespace ManaCena.Controllers
                 context.SaveChanges();
             }
             return true;
-        }       
+        }
+
+        [HttpGet]
+        public string GetQuickSearch(string term)
+        {
+
+            var model = new List<QuickSearcReponse>();
+
+            using (ManaCenaEntities context = new ManaCenaEntities())
+            {
+                model = context.Products
+                        .Where(o=>o.Name.Contains(term))
+                        .Select(o => new QuickSearcReponse { id = o.Id.ToString(), value =o.Name })
+                        .OrderBy(o=>o.value)
+                        .Take(10)
+                        .ToList();
+            }
+            
+            var json = new JavaScriptSerializer().Serialize(model);
+            return json;
+        }
+
+        private class QuickSearcReponse
+        {
+            public string id { get; set; }
+            public string value { get; set;}
+        }
 
     }
 }

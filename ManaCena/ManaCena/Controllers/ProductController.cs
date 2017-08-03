@@ -68,5 +68,21 @@ namespace ManaCena.Controllers
             return true;
         }
 
+        [HttpGet]
+        public string GetImageSmall(int id)
+        {
+            using (ManaCenaEntities context = new ManaCenaEntities())
+            {
+                var rec = context.Products.Include(o=>o.ProductImageSmall).Where(o=>o.Id == id).FirstOrDefault();
+                if (rec.ProductImageSmall != null || !string.IsNullOrEmpty(rec.ProductImageSmall.Image))
+                {
+                    return rec.ProductImageSmall.Image;
+                }
+                else
+                {
+                    return "";
+                }
+            }
+        }
     }
 }

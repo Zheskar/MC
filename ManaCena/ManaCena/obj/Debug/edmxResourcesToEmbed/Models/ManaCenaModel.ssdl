@@ -80,6 +80,16 @@
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
   </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="principal_id" Type="int" Nullable="false" />
+    <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="version" Type="int" />
+    <Property Name="definition" Type="varbinary(max)" />
+  </EntityType>
   <Association Name="FK_Cathegory_CathegoryType">
     <End Role="CathegoryType" Type="Self.CathegoryType" Multiplicity="1" />
     <End Role="Cathegory" Type="Self.Cathegory" Multiplicity="*" />
@@ -140,30 +150,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_Product_Seller">
-    <End Role="Seller" Type="Self.Seller" Multiplicity="1" />
-    <End Role="ProductSale" Type="Self.ProductSale" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Seller">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="ProductSale">
-        <PropertyRef Name="ProductId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_ProductAd_Product">
-    <End Role="Product" Type="Self.Product" Multiplicity="1" />
-    <End Role="ProductSale" Type="Self.ProductSale" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Product">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="ProductSale">
-        <PropertyRef Name="ProductId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FK_ProductLocation_Location">
     <End Role="Location" Type="Self.Location" Multiplicity="0..1" />
     <End Role="ProductLocation" Type="Self.ProductLocation" Multiplicity="*" />
@@ -176,7 +162,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_ProductLocation_Product">
+  <Association Name="FK_ProductLocation_ProductSale">
     <End Role="ProductSale" Type="Self.ProductSale" Multiplicity="0..1" />
     <End Role="ProductLocation" Type="Self.ProductLocation" Multiplicity="*" />
     <ReferentialConstraint>
@@ -185,6 +171,30 @@
       </Principal>
       <Dependent Role="ProductLocation">
         <PropertyRef Name="ProductSaleId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProductSale_Product">
+    <End Role="Product" Type="Self.Product" Multiplicity="1" />
+    <End Role="ProductSale" Type="Self.ProductSale" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Product">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ProductSale">
+        <PropertyRef Name="ProductId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProductSale_Seller">
+    <End Role="Seller" Type="Self.Seller" Multiplicity="1" />
+    <End Role="ProductSale" Type="Self.ProductSale" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Seller">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ProductSale">
+        <PropertyRef Name="SellerId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -198,6 +208,7 @@
     <EntitySet Name="ProductLocation" EntityType="Self.ProductLocation" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="ProductSale" EntityType="Self.ProductSale" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Seller" EntityType="Self.Seller" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
     <AssociationSet Name="FK_Cathegory_CathegoryType" Association="Self.FK_Cathegory_CathegoryType">
       <End Role="CathegoryType" EntitySet="CathegoryType" />
       <End Role="Cathegory" EntitySet="Cathegory" />
@@ -218,21 +229,21 @@
       <End Role="ProductImageSmall" EntitySet="ProductImageSmall" />
       <End Role="Product" EntitySet="Product" />
     </AssociationSet>
-    <AssociationSet Name="FK_Product_Seller" Association="Self.FK_Product_Seller">
-      <End Role="Seller" EntitySet="Seller" />
-      <End Role="ProductSale" EntitySet="ProductSale" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ProductAd_Product" Association="Self.FK_ProductAd_Product">
-      <End Role="Product" EntitySet="Product" />
-      <End Role="ProductSale" EntitySet="ProductSale" />
-    </AssociationSet>
     <AssociationSet Name="FK_ProductLocation_Location" Association="Self.FK_ProductLocation_Location">
       <End Role="Location" EntitySet="Location" />
       <End Role="ProductLocation" EntitySet="ProductLocation" />
     </AssociationSet>
-    <AssociationSet Name="FK_ProductLocation_Product" Association="Self.FK_ProductLocation_Product">
+    <AssociationSet Name="FK_ProductLocation_ProductSale" Association="Self.FK_ProductLocation_ProductSale">
       <End Role="ProductSale" EntitySet="ProductSale" />
       <End Role="ProductLocation" EntitySet="ProductLocation" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProductSale_Product" Association="Self.FK_ProductSale_Product">
+      <End Role="Product" EntitySet="Product" />
+      <End Role="ProductSale" EntitySet="ProductSale" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProductSale_Seller" Association="Self.FK_ProductSale_Seller">
+      <End Role="Seller" EntitySet="Seller" />
+      <End Role="ProductSale" EntitySet="ProductSale" />
     </AssociationSet>
   </EntityContainer>
 </Schema>

@@ -22,9 +22,12 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("Edit Products", "EditProduct", "Home")</li>
+                    <li>@Html.ActionLink("Edit Products", "EditProduct", "Product")</li>
                     <li>@Html.ActionLink("Edit Cathegory", "EditCathegory", "Cathegory")</li>
                     <li>@Html.ActionLink("Edit CathegoryType", "EditCathegoryType", "CathegoryType")</li>
+                    <li>@Html.ActionLink("Edit Seller", "EditSeller", "Seller")</li>
+                    <li>@Html.ActionLink("Edit Location", "EditLocation", "Location")</li>
+                    <li>@Html.ActionLink("Edit Product Sale", "EditProductSale", "ProductSale")</li>
                     <li>@Html.ActionLink("About", "About", "Home")</li>
                     <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
                 </ul>
@@ -41,6 +44,7 @@
     </div>
 
     @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jquery-ui")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
 </body>

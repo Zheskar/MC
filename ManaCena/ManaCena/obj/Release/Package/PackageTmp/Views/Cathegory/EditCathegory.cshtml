@@ -68,7 +68,6 @@
                     id: id
                 },
                 success: function (result) {
-                    alert(result)
                     // TODO: Remove DOM object, do not refresh, just remove DOM                    
                 },
                 error: function (jqXHR, exception) {
@@ -89,7 +88,6 @@
                     } else {
                         msg = 'Uncaught Error.\n' + jqXHR.responseText;
                     }
-                    alert(msg);
                 }
             });
                 });

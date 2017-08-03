@@ -10,6 +10,7 @@
     <EntitySet Name="ProductLocations" EntityType="ManaCenaModel.ProductLocation" />
     <EntitySet Name="ProductSales" EntityType="ManaCenaModel.ProductSale" />
     <EntitySet Name="Sellers" EntityType="ManaCenaModel.Seller" />
+    <EntitySet Name="sysdiagrams" EntityType="ManaCenaModel.sysdiagram" />
     <AssociationSet Name="FK_Cathegory_CathegoryType" Association="ManaCenaModel.FK_Cathegory_CathegoryType">
       <End Role="CathegoryType" EntitySet="CathegoryTypes" />
       <End Role="Cathegory" EntitySet="Cathegories" />
@@ -34,15 +35,15 @@
       <End Role="ProductImageSmall" EntitySet="ProductImageSmalls" />
       <End Role="Product" EntitySet="Products" />
     </AssociationSet>
-    <AssociationSet Name="FK_ProductAd_Product" Association="ManaCenaModel.FK_ProductAd_Product">
+    <AssociationSet Name="FK_ProductSale_Product" Association="ManaCenaModel.FK_ProductSale_Product">
       <End Role="Product" EntitySet="Products" />
       <End Role="ProductSale" EntitySet="ProductSales" />
     </AssociationSet>
-    <AssociationSet Name="FK_ProductLocation_Product" Association="ManaCenaModel.FK_ProductLocation_Product">
+    <AssociationSet Name="FK_ProductLocation_ProductSale" Association="ManaCenaModel.FK_ProductLocation_ProductSale">
       <End Role="ProductSale" EntitySet="ProductSales" />
       <End Role="ProductLocation" EntitySet="ProductLocations" />
     </AssociationSet>
-    <AssociationSet Name="FK_Product_Seller" Association="ManaCenaModel.FK_Product_Seller">
+    <AssociationSet Name="FK_ProductSale_Seller" Association="ManaCenaModel.FK_ProductSale_Seller">
       <End Role="Seller" EntitySet="Sellers" />
       <End Role="ProductSale" EntitySet="ProductSales" />
     </AssociationSet>
@@ -91,7 +92,7 @@
     <NavigationProperty Name="Cathegory" Relationship="ManaCenaModel.FK_Product_Cathegory" FromRole="Product" ToRole="Cathegory" />
     <NavigationProperty Name="ProductImage" Relationship="ManaCenaModel.FK_Product_ProductImage" FromRole="Product" ToRole="ProductImage" />
     <NavigationProperty Name="ProductImageSmall" Relationship="ManaCenaModel.FK_Product_ProductImageSmall" FromRole="Product" ToRole="ProductImageSmall" />
-    <NavigationProperty Name="ProductSales" Relationship="ManaCenaModel.FK_ProductAd_Product" FromRole="Product" ToRole="ProductSale" />
+    <NavigationProperty Name="ProductSales" Relationship="ManaCenaModel.FK_ProductSale_Product" FromRole="Product" ToRole="ProductSale" />
   </EntityType>
   <EntityType Name="ProductImage">
     <Key>
@@ -117,7 +118,7 @@
     <Property Name="ProductSaleId" Type="Int32" />
     <Property Name="LocationId" Type="Int32" />
     <NavigationProperty Name="Location" Relationship="ManaCenaModel.FK_ProductLocation_Location" FromRole="ProductLocation" ToRole="Location" />
-    <NavigationProperty Name="ProductSale" Relationship="ManaCenaModel.FK_ProductLocation_Product" FromRole="ProductLocation" ToRole="ProductSale" />
+    <NavigationProperty Name="ProductSale" Relationship="ManaCenaModel.FK_ProductLocation_ProductSale" FromRole="ProductLocation" ToRole="ProductSale" />
   </EntityType>
   <EntityType Name="ProductSale">
     <Key>
@@ -132,9 +133,9 @@
     <Property Name="DiscountPercentage" Type="Decimal" Precision="18" Scale="2" />
     <Property Name="StartDate" Type="DateTime" Precision="3" />
     <Property Name="EndDate" Type="DateTime" Precision="3" />
-    <NavigationProperty Name="Product" Relationship="ManaCenaModel.FK_ProductAd_Product" FromRole="ProductSale" ToRole="Product" />
-    <NavigationProperty Name="ProductLocations" Relationship="ManaCenaModel.FK_ProductLocation_Product" FromRole="ProductSale" ToRole="ProductLocation" />
-    <NavigationProperty Name="Seller" Relationship="ManaCenaModel.FK_Product_Seller" FromRole="ProductSale" ToRole="Seller" />
+    <NavigationProperty Name="Product" Relationship="ManaCenaModel.FK_ProductSale_Product" FromRole="ProductSale" ToRole="Product" />
+    <NavigationProperty Name="ProductLocations" Relationship="ManaCenaModel.FK_ProductLocation_ProductSale" FromRole="ProductSale" ToRole="ProductLocation" />
+    <NavigationProperty Name="Seller" Relationship="ManaCenaModel.FK_ProductSale_Seller" FromRole="ProductSale" ToRole="Seller" />
   </EntityType>
   <EntityType Name="Seller">
     <Key>
@@ -143,7 +144,17 @@
     <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="Name" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
     <NavigationProperty Name="Locations" Relationship="ManaCenaModel.FK_Location_Seller" FromRole="Seller" ToRole="Location" />
-    <NavigationProperty Name="ProductSales" Relationship="ManaCenaModel.FK_Product_Seller" FromRole="Seller" ToRole="ProductSale" />
+    <NavigationProperty Name="ProductSales" Relationship="ManaCenaModel.FK_ProductSale_Seller" FromRole="Seller" ToRole="ProductSale" />
+  </EntityType>
+  <EntityType Name="sysdiagram">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
   </EntityType>
   <Association Name="FK_Cathegory_CathegoryType">
     <End Type="ManaCenaModel.CathegoryType" Role="CathegoryType" Multiplicity="1" />
@@ -217,7 +228,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_ProductAd_Product">
+  <Association Name="FK_ProductSale_Product">
     <End Type="ManaCenaModel.Product" Role="Product" Multiplicity="1" />
     <End Type="ManaCenaModel.ProductSale" Role="ProductSale" Multiplicity="*" />
     <ReferentialConstraint>
@@ -229,7 +240,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_ProductLocation_Product">
+  <Association Name="FK_ProductLocation_ProductSale">
     <End Type="ManaCenaModel.ProductSale" Role="ProductSale" Multiplicity="0..1" />
     <End Type="ManaCenaModel.ProductLocation" Role="ProductLocation" Multiplicity="*" />
     <ReferentialConstraint>
@@ -241,7 +252,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_Product_Seller">
+  <Association Name="FK_ProductSale_Seller">
     <End Type="ManaCenaModel.Seller" Role="Seller" Multiplicity="1" />
     <End Type="ManaCenaModel.ProductSale" Role="ProductSale" Multiplicity="*" />
     <ReferentialConstraint>
@@ -249,7 +260,7 @@
         <PropertyRef Name="Id" />
       </Principal>
       <Dependent Role="ProductSale">
-        <PropertyRef Name="ProductId" />
+        <PropertyRef Name="SellerId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
