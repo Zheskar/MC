@@ -30,6 +30,7 @@ namespace ManaCena.Controllers
                         .ToList();
                 ViewBag.CathegoryEnum = context.Cathegories.ToList();
                 ViewBag.CathegoryTypeEnum = context.CathegoryTypes.ToList();
+                ViewBag.SellerEnum = context.Sellers.ToList();
             }
 
             return View(model);
@@ -38,19 +39,46 @@ namespace ManaCena.Controllers
         [HttpPost]
         public bool EditItem(Product rec)
         {
+
             using (ManaCenaEntities context = new ManaCenaEntities())
-            {                
+            {
                 context.Products.Add(rec);
                 if (rec.Id > 0)
-                {                    
+                {
                     context.Entry(rec).State = System.Data.Entity.EntityState.Modified;
+                    if (rec.ProductImage != null)
+                    { 
+                        context.Entry(rec.ProductImage).State = System.Data.Entity.EntityState.Modified;
+                    }
+                    if (rec.ProductImageSmall != null)
+                    {
+                        context.Entry(rec.ProductImageSmall).State = System.Data.Entity.EntityState.Modified;
+                    }
+                    else
+                    {
+                        rec.ProductImageSmall = new ProductImageSmall();
+                    }
+
+                    rec.ProductImageSmall.Image = Helpers.ImageHelper.ResizeImage(rec.ProductImage.Image);
+
+                    //// if same image in DB already, do not overwrite then
+                    //var image = context.ProductImages.Where(o => o.Id == rec.ProductImageId).First();
+                    //if (rec.ProductImage != null && image != null && image.Image != rec.ProductImage.Image)
+                    //{
+                    //    rec.ProductImageSmall = new ProductImageSmall { Image = Helpers.ImageHelper.ResizeImage(rec.ProductImage.Image) };
+                    //}
+
                 }
-                else {
+                else
+                {
                     context.Entry(rec).State = System.Data.Entity.EntityState.Added;
+                    context.Entry(rec.ProductImage).State = System.Data.Entity.EntityState.Added;
+                    rec.ProductImage.Id = 0;
+                    rec.ProductImageSmall = new ProductImageSmall { Image = Helpers.ImageHelper.ResizeImage(rec.ProductImage.Image) };
                 }
-                // TODO: resize Iamge and 
-                
-                rec.ProductImageSmall = new ProductImageSmall { Image = Helpers.ImageHelper.ResizeImage(rec.ProductImage.Image) };
+
+
+
                 context.SaveChanges();
             }
             return true;
@@ -73,7 +101,7 @@ namespace ManaCena.Controllers
         {
             using (ManaCenaEntities context = new ManaCenaEntities())
             {
-                var rec = context.Products.Include(o=>o.ProductImageSmall).Where(o=>o.Id == id).FirstOrDefault();
+                var rec = context.Products.Include(o => o.ProductImageSmall).Where(o => o.Id == id).FirstOrDefault();
                 if (rec.ProductImageSmall != null && !string.IsNullOrEmpty(rec.ProductImageSmall.Image))
                 {
                     return rec.ProductImageSmall.Image;

@@ -18,7 +18,7 @@ namespace ManaCena.Models
         public Seller()
         {
             this.Locations = new HashSet<Location>();
-            this.ProductSales = new HashSet<ProductSale>();
+            this.Products = new HashSet<Product>();
         }
     
         public int Id { get; set; }
@@ -27,6 +27,6 @@ namespace ManaCena.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Location> Locations { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ProductSale> ProductSales { get; set; }
+        public virtual ICollection<Product> Products { get; set; }
     }
 }

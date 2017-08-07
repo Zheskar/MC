@@ -4,7 +4,6 @@
 
 <h2>Edit Product Sales</h2>
 
-
 <table border="1" id="table-edit-product">
     <tr>
         @*<td><label>Id</label></td>*@
@@ -25,10 +24,10 @@
             <td style="display:none;"><input value="@p.ProductId" id="@rnd-@nameof(ProductSale.ProductId)" /></td>
             <td>
                 <img src="@if (p.Product.ProductImageSmall != null) { <text>@p.Product.ProductImageSmall.Image</text> }" id="@rnd-@nameof(Product.ProductImageSmall)">
-            </td>            
+            </td>
             @*<td><input value="@p.Product.Name" id="@rnd-@nameof(ProductSale.ProductId)@nameof(Product.Name)" /></td>*@
             <td>
-                <div class="ui-widget">                    
+                <div class="ui-widget" id="@rnd-autocomplete-removable">
                     <input class="birds" data-rnd="@rnd" id="@rnd-@nameof(ProductSale.ProductId)@nameof(Product.Name)" value="@p.Product.Name">
                 </div>
             </td>
@@ -36,7 +35,7 @@
                 <select id="@rnd-@nameof(ProductSale.SellerId)">
                     @foreach (var i in (List<Seller>)ViewBag.SellerEnum)
                     {
-                        <option @if (i.Id == p.SellerId) { <text> selected="selected" </text>   } value="@i.Id">@i.Name</option>
+                        <option @if (i.Id == p.SellerId) { <text> selected="selected" </text>      } value="@i.Id">@i.Name</option>
                     }
                 </select>
             </td>
@@ -62,30 +61,29 @@
         }
     </style>
     <script>
-        $(function () {
-            function selectedNewProduct(id, value, rnd) {
-                alert(rnd);
-                // set new ID
-                $('#' + rnd + '-@nameof(ProductSale.ProductId)').val(id);
 
-                // change Image as well (by using API)
-                $.ajax({
-                    type: "GET",
-                    url: "/Product/GetImageSmall?id=" + id,
-                    success: function (result) {
-                        $('#' + rnd + '-@nameof(Product.ProductImageSmall)').attr('src', result);
-                    }
+        function selectedNewProduct(id, value, rnd) {
+            // set new ID
+            $('#' + rnd + '-@nameof(ProductSale.ProductId)').val(id);
+
+            // change Image as well (by using API)
+            $.ajax({
+                type: "GET",
+                url: "/Product/GetImageSmall?id=" + id,
+                success: function (result) {
+                    $('#' + rnd + '-@nameof(Product.ProductImageSmall)').attr('src', result);
+                }
                 });
             }
 
-            $(".birds").autocomplete({
-                source: "GetQuickSearch",
-                minLength: 2,
-                select: function (event, ui) {
-                    selectedNewProduct(ui.item.id, ui.item.value, $(this).attr("data-rnd"));
-                }
-            });
+        $(".birds").autocomplete({
+            source: "GetQuickSearch",
+            minLength: 2,
+            select: function (event, ui) {
+                selectedNewProduct(ui.item.id, ui.item.value, $(this).attr("data-rnd"));
+            }            
         });
+
     </script>
 
     @* Save *@
@@ -100,7 +98,7 @@
             var discountPrice = $('#' + rnd + '-@nameof(ProductSale.DiscountPrice)').val();
             var startDate = $('#' + rnd + '-@nameof(ProductSale.StartDate)').val();
             var endDate = $('#' + rnd + '-@nameof(ProductSale.EndDate)').val();
-            
+
             $.ajax({
                 type: "POST",
                 url: "/ProductSale/EditItem",
@@ -119,7 +117,6 @@
         $(".btn-submit-del").click(function () {
             var rnd = $(this).attr("data-rnd");
             var id = $('#' + rnd + '-@nameof(Cathegory.Id)').val();
-            alert(id);
             $.ajax({
                 type: "POST",
                 url: "/ProductSale/DeleteItem",
@@ -190,13 +187,11 @@
                 $('[id^="' + cloneId + '"]').val('');
             });
 
-
-            alert('ISPRAV ETOT AUTOCOLMPLETE - nado cone bez Events i vot tut manualnuju prevazku k event');
-            var dasdas= "#" + timePrefixNow + rnd + '-' + '@nameof(ProductSale.ProductId)@nameof(Product.Name)';
-            alert(dasdas).off();
-            //$(dasdas).children().off();
-            //$(dasdas).find("*").off();
-            $(dasdas).autocomplete({
+            // MEGA HACK with autocomplete, we remove DOM phisically and add it manually later
+            var clonedAutocomplete= "#" + timePrefixNow + rnd + '-' + '@nameof(ProductSale.ProductId)@nameof(Product.Name)';
+            $('#' + timePrefixNow + rnd + "-autocomplete-removable").empty();
+            $('#' + timePrefixNow + rnd + "-autocomplete-removable").append("<input class='birds' data-rnd='" + timePrefixNow + rnd + "' id='" + timePrefixNow + rnd+ "-@nameof(ProductSale.ProductId)@nameof(Product.Name)'>");
+            $(clonedAutocomplete).autocomplete({
                 source: "GetQuickSearch",
                 minLength: 2,
                 select: function (event, ui) {

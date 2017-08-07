@@ -64,12 +64,15 @@
                 });
     </script>
 
+@* clone - create new record for *@
+@Scripts.Render("~/Scripts/CRUD/clone.js")
+
     @* clone - create new record for *@
-    <script>
+    @*<script>
         // Clone 2 steps
         $(".btn-clone").click(function () {
 
-            var tr = $("#" + $(this).attr("data-tr-id")).clone(true, true);
+            var tr = $("#" + $(this).attr("data-rnd") + "-tr").clone(true, true);
             //e.preventDefault();
             $('#table-edit-product').append(tr.clone(true, true));
 
@@ -102,6 +105,6 @@
             });
 
         });
-    </script>
+    </script>*@
 
 }

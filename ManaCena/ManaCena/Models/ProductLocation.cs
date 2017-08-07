@@ -15,10 +15,10 @@ namespace ManaCena.Models
     public partial class ProductLocation
     {
         public int Id { get; set; }
-        public Nullable<int> ProductSaleId { get; set; }
+        public Nullable<int> ProductId { get; set; }
         public Nullable<int> LocationId { get; set; }
     
         public virtual Location Location { get; set; }
-        public virtual ProductSale ProductSale { get; set; }
+        public virtual Product Product { get; set; }
     }
 }
