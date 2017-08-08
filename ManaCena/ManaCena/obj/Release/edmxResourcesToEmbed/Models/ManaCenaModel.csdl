@@ -9,6 +9,7 @@
     <EntitySet Name="ProductImageSmalls" EntityType="ManaCenaModel.ProductImageSmall" />
     <EntitySet Name="ProductLocations" EntityType="ManaCenaModel.ProductLocation" />
     <EntitySet Name="Sellers" EntityType="ManaCenaModel.Seller" />
+    <EntitySet Name="SellerImages" EntityType="ManaCenaModel.SellerImage" />
     <AssociationSet Name="FK_Cathegory_CathegoryType" Association="ManaCenaModel.FK_Cathegory_CathegoryType">
       <End Role="CathegoryType" EntitySet="CathegoryTypes" />
       <End Role="Cathegory" EntitySet="Cathegories" />
@@ -40,6 +41,10 @@
     <AssociationSet Name="FK_ProductLocation_Product" Association="ManaCenaModel.FK_ProductLocation_Product">
       <End Role="Product" EntitySet="Products" />
       <End Role="ProductLocation" EntitySet="ProductLocations" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Seller_SellerImage" Association="ManaCenaModel.FK_Seller_SellerImage">
+      <End Role="SellerImage" EntitySet="SellerImages" />
+      <End Role="Seller" EntitySet="Sellers" />
     </AssociationSet>
   </EntityContainer>
   <EntityType Name="Cathegory">
@@ -127,8 +132,18 @@
     </Key>
     <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="Name" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="SellerImageId" Type="Int32" />
     <NavigationProperty Name="Locations" Relationship="ManaCenaModel.FK_Location_Seller" FromRole="Seller" ToRole="Location" />
     <NavigationProperty Name="Products" Relationship="ManaCenaModel.FK_Product_Seller" FromRole="Seller" ToRole="Product" />
+    <NavigationProperty Name="SellerImage" Relationship="ManaCenaModel.FK_Seller_SellerImage" FromRole="Seller" ToRole="SellerImage" />
+  </EntityType>
+  <EntityType Name="SellerImage">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Image" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Sellers" Relationship="ManaCenaModel.FK_Seller_SellerImage" FromRole="SellerImage" ToRole="Seller" />
   </EntityType>
   <Association Name="FK_Cathegory_CathegoryType">
     <End Type="ManaCenaModel.CathegoryType" Role="CathegoryType" Multiplicity="1" />
@@ -223,6 +238,18 @@
       </Principal>
       <Dependent Role="ProductLocation">
         <PropertyRef Name="ProductId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Seller_SellerImage">
+    <End Type="ManaCenaModel.SellerImage" Role="SellerImage" Multiplicity="0..1" />
+    <End Type="ManaCenaModel.Seller" Role="Seller" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SellerImage">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Seller">
+        <PropertyRef Name="SellerImageId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

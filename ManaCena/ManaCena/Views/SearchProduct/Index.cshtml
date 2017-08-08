@@ -1,0 +1,64 @@
+﻿<h2>Serch Product</h2>
+
+<br />
+
+<div class="row" style="max-width:400px">
+    <div class="input-group">
+        <input type="text" class="form-control" id="input-search-main" placeholder="Jack Daniels 1l">
+        <span class="input-group-btn">
+            <button class="btn btn-default" id="btn-search-main" type="button">Go!</button>
+        </span>
+    </div>
+</div>
+
+<br />
+
+
+    
+
+<img id="img-loading-search-main" src="../images/loading_spinner_large.gif" >
+
+<div id="refTable">
+    
+</div>
+
+
+
+
+@section scripts {
+
+    @* Input Search *@
+    <script>
+        $('#btn-search-main').on('click', function (e) {
+
+            // show loading image
+            $("#img-loading-search-main").show();            
+
+            var search = $('#input-search-main').val();
+            $.ajax({
+                type: "GET",
+                url: "/SearchProduct/Search?search=" + search,
+                data: {
+                    search: search
+                }
+                //success: function (result) {
+                //    alert('refTable');
+                //}        
+            })
+                .done(function (partialViewResult) {
+                    // hide loading image
+                    $("#img-loading-search-main").hide();
+                    // show result
+                    $("#refTable").html(partialViewResult);
+                });
+        });
+
+        // initial click
+        $('#btn-search-main').click();
+    </script>
+
+
+
+}
+
+

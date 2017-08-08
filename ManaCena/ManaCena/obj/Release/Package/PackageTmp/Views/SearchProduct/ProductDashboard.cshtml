@@ -1,0 +1,53 @@
+﻿@using ManaCena.Models
+@using System.Reflection
+@model List<Product>
+
+<div class="row">
+    @foreach (var m in Model)
+    {
+        <div class="col-md-4 well" style="height:200px">
+            <div>
+                <div><img src="@m.ProductImage.Image" style="max-width: 100px; max-height: 100px;"></div>
+                <div style=" color: red;font-weight: bold; position:absolute;top:0;right:0;">-@m.DiscountPercentage<text>%</text></div>
+            </div>
+            <hr style="height:1px;border:none;color:#333;background-color:#333;" />
+            <div>
+                @m.Name
+            </div>
+            <div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <b>@m.DiscountPrice</b>
+                    </div>
+                    <div class="col-md-4">
+                        <strike>@m.DiscountPrice</strike>
+                    </div>
+                    <div class="col-md-4">
+
+                        <img src="@(m.Seller.SellerImage != null ? m.Seller.SellerImage.Image : "no image sorry")" style="max-width: 50px; max-height: 50px;">
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    }
+</div>
+
+@section scripts {
+    @* Wells - same size *@
+    @*<script>
+            var f = function () {
+                var heights = $(".well").map(function () {
+                    return $(this).height();
+                }).get(),
+
+                    maxHeight = Math.max.apply(null, heights);
+
+                $(".well").height(maxHeight);
+            };
+
+            $(document).ready(f);
+            $(window).resize(f);
+        </script>*@
+}

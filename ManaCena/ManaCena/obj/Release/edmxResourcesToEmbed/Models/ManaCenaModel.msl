@@ -76,7 +76,16 @@
     <EntitySetMapping Name="Sellers">
       <EntityTypeMapping TypeName="ManaCenaModel.Seller">
         <MappingFragment StoreEntitySet="Seller">
+          <ScalarProperty Name="SellerImageId" ColumnName="SellerImageId" />
           <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SellerImages">
+      <EntityTypeMapping TypeName="ManaCenaModel.SellerImage">
+        <MappingFragment StoreEntitySet="SellerImage">
+          <ScalarProperty Name="Image" ColumnName="Image" />
           <ScalarProperty Name="Id" ColumnName="Id" />
         </MappingFragment>
       </EntityTypeMapping>

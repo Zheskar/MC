@@ -33,5 +33,6 @@ namespace ManaCena.Models
         public virtual DbSet<ProductImageSmall> ProductImageSmalls { get; set; }
         public virtual DbSet<ProductLocation> ProductLocations { get; set; }
         public virtual DbSet<Seller> Sellers { get; set; }
+        public virtual DbSet<SellerImage> SellerImages { get; set; }
     }
 }

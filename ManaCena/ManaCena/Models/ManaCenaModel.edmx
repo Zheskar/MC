@@ -76,6 +76,14 @@
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="SellerImageId" Type="int" />
+        </EntityType>
+        <EntityType Name="SellerImage">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Image" Type="varchar(max)" />
         </EntityType>
         <Association Name="FK_Cathegory_CathegoryType">
           <End Role="CathegoryType" Type="Self.CathegoryType" Multiplicity="1" />
@@ -173,6 +181,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Seller_SellerImage">
+          <End Role="SellerImage" Type="Self.SellerImage" Multiplicity="0..1" />
+          <End Role="Seller" Type="Self.Seller" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SellerImage">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Seller">
+              <PropertyRef Name="SellerImageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="ManaCenaModelStoreContainer">
           <EntitySet Name="Cathegory" EntityType="Self.Cathegory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CathegoryType" EntityType="Self.CathegoryType" Schema="dbo" store:Type="Tables" />
@@ -182,6 +202,7 @@
           <EntitySet Name="ProductImageSmall" EntityType="Self.ProductImageSmall" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ProductLocation" EntityType="Self.ProductLocation" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Seller" EntityType="Self.Seller" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SellerImage" EntityType="Self.SellerImage" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_Cathegory_CathegoryType" Association="Self.FK_Cathegory_CathegoryType">
             <End Role="CathegoryType" EntitySet="CathegoryType" />
             <End Role="Cathegory" EntitySet="Cathegory" />
@@ -214,6 +235,10 @@
             <End Role="Product" EntitySet="Product" />
             <End Role="ProductLocation" EntitySet="ProductLocation" />
           </AssociationSet>
+          <AssociationSet Name="FK_Seller_SellerImage" Association="Self.FK_Seller_SellerImage">
+            <End Role="SellerImage" EntitySet="SellerImage" />
+            <End Role="Seller" EntitySet="Seller" />
+          </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
@@ -228,6 +253,7 @@
           <EntitySet Name="ProductImageSmalls" EntityType="ManaCenaModel.ProductImageSmall" />
           <EntitySet Name="ProductLocations" EntityType="ManaCenaModel.ProductLocation" />
           <EntitySet Name="Sellers" EntityType="ManaCenaModel.Seller" />
+          <EntitySet Name="SellerImages" EntityType="ManaCenaModel.SellerImage" />
           <AssociationSet Name="FK_Cathegory_CathegoryType" Association="ManaCenaModel.FK_Cathegory_CathegoryType">
             <End Role="CathegoryType" EntitySet="CathegoryTypes" />
             <End Role="Cathegory" EntitySet="Cathegories" />
@@ -259,6 +285,10 @@
           <AssociationSet Name="FK_ProductLocation_Product" Association="ManaCenaModel.FK_ProductLocation_Product">
             <End Role="Product" EntitySet="Products" />
             <End Role="ProductLocation" EntitySet="ProductLocations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Seller_SellerImage" Association="ManaCenaModel.FK_Seller_SellerImage">
+            <End Role="SellerImage" EntitySet="SellerImages" />
+            <End Role="Seller" EntitySet="Sellers" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="Cathegory">
@@ -346,8 +376,18 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SellerImageId" Type="Int32" />
           <NavigationProperty Name="Locations" Relationship="ManaCenaModel.FK_Location_Seller" FromRole="Seller" ToRole="Location" />
           <NavigationProperty Name="Products" Relationship="ManaCenaModel.FK_Product_Seller" FromRole="Seller" ToRole="Product" />
+          <NavigationProperty Name="SellerImage" Relationship="ManaCenaModel.FK_Seller_SellerImage" FromRole="Seller" ToRole="SellerImage" />
+        </EntityType>
+        <EntityType Name="SellerImage">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Image" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Sellers" Relationship="ManaCenaModel.FK_Seller_SellerImage" FromRole="SellerImage" ToRole="Seller" />
         </EntityType>
         <Association Name="FK_Cathegory_CathegoryType">
           <End Type="ManaCenaModel.CathegoryType" Role="CathegoryType" Multiplicity="1" />
@@ -445,6 +485,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Seller_SellerImage">
+          <End Type="ManaCenaModel.SellerImage" Role="SellerImage" Multiplicity="0..1" />
+          <End Type="ManaCenaModel.Seller" Role="Seller" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SellerImage">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Seller">
+              <PropertyRef Name="SellerImageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -526,7 +578,16 @@
           <EntitySetMapping Name="Sellers">
             <EntityTypeMapping TypeName="ManaCenaModel.Seller">
               <MappingFragment StoreEntitySet="Seller">
+                <ScalarProperty Name="SellerImageId" ColumnName="SellerImageId" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SellerImages">
+            <EntityTypeMapping TypeName="ManaCenaModel.SellerImage">
+              <MappingFragment StoreEntitySet="SellerImage">
+                <ScalarProperty Name="Image" ColumnName="Image" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

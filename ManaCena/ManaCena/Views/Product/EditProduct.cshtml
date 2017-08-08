@@ -112,7 +112,12 @@
     </script>
 
     @* Delete *@
-    <script type="text/javascript">
+    <script>        
+    var deleteUrlApi = "/Product/DeleteItem";
+    </script>
+    @Scripts.Render("~/Scripts/CRUD/delete.js")
+
+    @*<script type="text/javascript">
         $(".btn-submit-del").click(function () {
             var rnd = $(this).attr("data-rnd");
             var id = $('#' + rnd + '-@nameof(Cathegory.Id)').val();
@@ -123,11 +128,12 @@
                     id: id
                 },
                 success: function (result) {
+                    $("#" + rnd + '-tr').remove();
                     // TODO: Remove DOM object, do not refresh, just remove DOM
                 }
             });
                 });
-    </script>
+    </script>*@
 
     @* Image *@
     <script type="text/javascript">

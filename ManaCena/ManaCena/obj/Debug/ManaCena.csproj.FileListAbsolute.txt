@@ -286,3 +286,5 @@ C:\Dev\MC-master\ManaCena\ManaCena\bin\Microsoft.AI.Web.xml
 C:\Dev\MC-master\ManaCena\ManaCena\obj\Debug\ManaCena.csprojResolveAssemblyReference.cache
 C:\Dev\MC-master\ManaCena\ManaCena\obj\Debug\ManaCena.dll
 C:\Dev\MC-master\ManaCena\ManaCena\obj\Debug\ManaCena.pdb
+C:\Dev\MC\ManaCena\ManaCena\bin\images\jqueryui\ui-anim_basic_16x16.gif
+C:\Dev\MC\ManaCena\ManaCena\bin\images\loading_spinner_large.gif

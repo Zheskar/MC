@@ -14,9 +14,14 @@
         var rnd = Guid.NewGuid();
         <tr id="@rnd-tr">
             <td style="display:none;"><input value="@p.Id" id="@rnd-@nameof(Seller.Id)" /></td>
-            <td><input value="@p.Name" id="@rnd-@nameof(Seller.Name)" /></td>            
+            <td style="display:none;"><input value="@p.SellerImageId" id="@rnd-@nameof(Seller.SellerImageId)" /></td>
             <td>
-                <button class="btn-submit-save" data-rnd="@rnd">Save Changes</button>                
+                <img src="@(p.SellerImage != null ? p.SellerImage.Image : "no image sorry")" alt="" id="@rnd-@nameof(Seller.SellerImage)" style="max-width: 100px; max-height: 100px;">
+                <input type='file' class="product-image-edit" data-rnd="@rnd" />
+            </td>
+            <td><input value="@p.Name" id="@rnd-@nameof(Seller.Name)" /></td>
+            <td>
+                <button class="btn-submit-save" data-rnd="@rnd">Save Changes</button>
                 <button class="btn-clone" data-tr-id="@rnd-tr" data-rnd="@rnd">Clone</button>
                 <button class="btn-submit-del" data-tr-id="@rnd-tr" data-rnd="@rnd">Delete</button>
             </td>
@@ -32,12 +37,15 @@
             var rnd = $(this).attr("data-rnd");
             // read all variables
             var id = $('#' + rnd + '-@nameof(Seller.Id)').val();
-            var name = $('#' + rnd + '-@nameof(Seller.Name)').val();            
+            var name = $('#' + rnd + '-@nameof(Seller.Name)').val();
+            var sellerImageId = $('#' + rnd + '-@nameof(Seller.SellerImageId)').val();
+            var img = $('#' + rnd + '-@nameof(Seller.SellerImage)').attr('src');
             $.ajax({
                 type: "POST",
                 url: "/Seller/EditSeller",
                 data: {
-                    Id: id, Name: name
+                    Id: id, Name: name,
+                    SellerImage: { Id: sellerImageId, Image: img }
                 },
                 success: function (result) {
                     // Do something interesting here.
@@ -46,85 +54,36 @@
         });
     </script>
 
-    @* Delete *@
+    @* Image *@
     <script type="text/javascript">
-        $(".btn-submit-del").click(function () {
+
+        // on image change
+        $(".product-image-edit").change(function () {
             var rnd = $(this).attr("data-rnd");
-            var id = $('#' + rnd + '-@nameof(Seller.Id)').val();
-            $.ajax({
-                type: "POST",
-                url: "/Seller/DeleteSeller",
-                data: {
-                    id: id
-                },
-                success: function (result) {
-                    // TODO: Remove DOM object, do not refresh, just remove DOM                    
-                },
-                error: function (jqXHR, exception) {
-                    // TODO: add handler every where
-                    var msg = '';
-                    if (jqXHR.status === 0) {
-                        msg = 'Not connect.\n Verify Network.';
-                    } else if (jqXHR.status == 404) {
-                        msg = 'Requested page not found. [404]';
-                    } else if (jqXHR.status == 500) {
-                        msg = 'Internal Server Error [500].';
-                    } else if (exception === 'parsererror') {
-                        msg = 'Requested JSON parse failed.';
-                    } else if (exception === 'timeout') {
-                        msg = 'Time out error.';
-                    } else if (exception === 'abort') {
-                        msg = 'Ajax request aborted.';
-                    } else {
-                        msg = 'Uncaught Error.\n' + jqXHR.responseText;
-                    }
-                    alert(msg);
+            var dataImageId = rnd + '-@nameof(Seller.SellerImage)';
+            readURL(this, dataImageId);
+        });
+
+        function readURL(input, id) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#' + id).attr('src', e.target.result);
                 }
-            });
-                });
+                reader.readAsDataURL(input.files[0]);
+            }
+        };
+
     </script>
 
-@* clone - create new record for *@
-@Scripts.Render("~/Scripts/CRUD/clone.js")
+    @* Delete *@
+    <script>
+        var deleteUrlApi = "/Seller/DeleteSeller";
+    </script>
+    @Scripts.Render("~/Scripts/CRUD/delete.js")
+
 
     @* clone - create new record for *@
-    @*<script>
-        // Clone 2 steps
-        $(".btn-clone").click(function () {
-
-            var tr = $("#" + $(this).attr("data-rnd") + "-tr").clone(true, true);
-            //e.preventDefault();
-            $('#table-edit-product').append(tr.clone(true, true));
-
-            // totaly 18 elements, and we need to start renaming clone - starting from 9th element
-            var rnd = $(this).attr("data-rnd");
-            var totalIndex = $('[id^="' + rnd + '"]').length;
-            var timePrefixNow = $.now();
-            // find 18 elements
-            $('[id^="' + rnd + '"]').each(function (index) {
-                if (index >= totalIndex / 2) {
-                    // new random id
-                    $(this).attr("id", timePrefixNow + $(this).attr("id"));
-                }
-                //console.log(index + ": " + $(this).attr("id"));
-            });
-            
-            // find amd change clone's data-rnd
-            var totalIndex2 = $('[data-rnd^="' + rnd + '"]').length;
-            $('[data-rnd^="' + rnd + '"]').each(function (index) {
-                if (index >= totalIndex2 / 2) {
-                    // new random id
-                    $(this).attr("data-rnd", timePrefixNow + $(this).attr("data-rnd"));
-                }
-            });
-
-            // find and change record ID
-            var cloneId = timePrefixNow + rnd + '-' + '@nameof(Product.Id)';
-            $('[id^="' + cloneId + '"]').each(function (index) {
-                $('[id^="' + cloneId + '"]').val('');
-            });
-
-        });
-    </script>*@
+    @Scripts.Render("~/Scripts/CRUD/clone.js")
 
 }

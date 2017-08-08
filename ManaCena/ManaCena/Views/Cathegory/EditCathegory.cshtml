@@ -20,12 +20,12 @@
                 <select id="@rnd-@nameof(Cathegory.CathegoryTypeId)">
                     @foreach (var ce in (List<CathegoryType>)ViewBag.CathegoryTypeEnum)
                 {
-                        <option @if (ce.Id == p.CathegoryTypeId) { <text> selected="selected" </text>  } value="@ce.Id">@ce.Name</option>
+                        <option @if (ce.Id == p.CathegoryTypeId) { <text> selected="selected" </text>   } value="@ce.Id">@ce.Name</option>
                     }
                 </select>
             </td>
             <td>
-                <button class="btn-submit-save" data-rnd="@rnd">Save Changes</button>                
+                <button class="btn-submit-save" data-rnd="@rnd">Save Changes</button>
                 <button class="btn-clone" data-tr-id="@rnd-tr" data-rnd="@rnd">Clone</button>
                 <button class="btn-submit-del" data-tr-id="@rnd-tr" data-rnd="@rnd">Delete</button>
             </td>
@@ -57,43 +57,48 @@
     </script>
 
     @* Delete *@
-    <script type="text/javascript">
-        $(".btn-submit-del").click(function () {
-            var rnd = $(this).attr("data-rnd");
-            var id = $('#' + rnd + '-@nameof(Cathegory.Id)').val();
-            $.ajax({
-                type: "POST",
-                url: "/Cathegory/DeleteCathegory",
-                data: {
-                    id: id
-                },
-                success: function (result) {
-                    // TODO: Remove DOM object, do not refresh, just remove DOM                    
-                },
-                error: function (jqXHR, exception) {
-                    // TODO: add handler every where
-                    var msg = '';
-                    if (jqXHR.status === 0) {
-                        msg = 'Not connect.\n Verify Network.';
-                    } else if (jqXHR.status == 404) {
-                        msg = 'Requested page not found. [404]';
-                    } else if (jqXHR.status == 500) {
-                        msg = 'Internal Server Error [500].';
-                    } else if (exception === 'parsererror') {
-                        msg = 'Requested JSON parse failed.';
-                    } else if (exception === 'timeout') {
-                        msg = 'Time out error.';
-                    } else if (exception === 'abort') {
-                        msg = 'Ajax request aborted.';
-                    } else {
-                        msg = 'Uncaught Error.\n' + jqXHR.responseText;
-                    }
-                }
-            });
-                });
+    <script>
+        var deleteUrlApi = "/Cathegory/DeleteCathegory";
     </script>
+    @Scripts.Render("~/Scripts/CRUD/delete.js")
+    @* Delete *@
+    @*<script type="text/javascript">
+            $(".btn-submit-del").click(function () {
+                var rnd = $(this).attr("data-rnd");
+                var id = $('#' + rnd + '-@nameof(Cathegory.Id)').val();
+                $.ajax({
+                    type: "POST",
+                    url: "/Cathegory/DeleteCathegory",
+                    data: {
+                        id: id
+                    },
+                    success: function (result) {
+                        // TODO: Remove DOM object, do not refresh, just remove DOM
+                    },
+                    error: function (jqXHR, exception) {
+                        // TODO: add handler every where
+                        var msg = '';
+                        if (jqXHR.status === 0) {
+                            msg = 'Not connect.\n Verify Network.';
+                        } else if (jqXHR.status == 404) {
+                            msg = 'Requested page not found. [404]';
+                        } else if (jqXHR.status == 500) {
+                            msg = 'Internal Server Error [500].';
+                        } else if (exception === 'parsererror') {
+                            msg = 'Requested JSON parse failed.';
+                        } else if (exception === 'timeout') {
+                            msg = 'Time out error.';
+                        } else if (exception === 'abort') {
+                            msg = 'Ajax request aborted.';
+                        } else {
+                            msg = 'Uncaught Error.\n' + jqXHR.responseText;
+                        }
+                    }
+                });
+                    });
+        </script>*@
 
-@* clone - create new record for *@
-@Scripts.Render("~/Scripts/CRUD/clone.js")
+    @* clone - create new record for *@
+    @Scripts.Render("~/Scripts/CRUD/clone.js")
 
 }

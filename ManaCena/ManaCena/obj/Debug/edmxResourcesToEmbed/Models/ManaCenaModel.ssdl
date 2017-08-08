@@ -71,6 +71,14 @@
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="SellerImageId" Type="int" />
+  </EntityType>
+  <EntityType Name="SellerImage">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Image" Type="varchar(max)" />
   </EntityType>
   <Association Name="FK_Cathegory_CathegoryType">
     <End Role="CathegoryType" Type="Self.CathegoryType" Multiplicity="1" />
@@ -168,6 +176,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_Seller_SellerImage">
+    <End Role="SellerImage" Type="Self.SellerImage" Multiplicity="0..1" />
+    <End Role="Seller" Type="Self.Seller" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SellerImage">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Seller">
+        <PropertyRef Name="SellerImageId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <EntityContainer Name="ManaCenaModelStoreContainer">
     <EntitySet Name="Cathegory" EntityType="Self.Cathegory" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="CathegoryType" EntityType="Self.CathegoryType" Schema="dbo" store:Type="Tables" />
@@ -177,6 +197,7 @@
     <EntitySet Name="ProductImageSmall" EntityType="Self.ProductImageSmall" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="ProductLocation" EntityType="Self.ProductLocation" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Seller" EntityType="Self.Seller" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="SellerImage" EntityType="Self.SellerImage" Schema="dbo" store:Type="Tables" />
     <AssociationSet Name="FK_Cathegory_CathegoryType" Association="Self.FK_Cathegory_CathegoryType">
       <End Role="CathegoryType" EntitySet="CathegoryType" />
       <End Role="Cathegory" EntitySet="Cathegory" />
@@ -208,6 +229,10 @@
     <AssociationSet Name="FK_ProductLocation_Product" Association="Self.FK_ProductLocation_Product">
       <End Role="Product" EntitySet="Product" />
       <End Role="ProductLocation" EntitySet="ProductLocation" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Seller_SellerImage" Association="Self.FK_Seller_SellerImage">
+      <End Role="SellerImage" EntitySet="SellerImage" />
+      <End Role="Seller" EntitySet="Seller" />
     </AssociationSet>
   </EntityContainer>
 </Schema>

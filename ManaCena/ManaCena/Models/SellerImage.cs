@@ -12,23 +12,18 @@ namespace ManaCena.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Seller
+    public partial class SellerImage
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Seller()
+        public SellerImage()
         {
-            this.Locations = new HashSet<Location>();
-            this.Products = new HashSet<Product>();
+            this.Sellers = new HashSet<Seller>();
         }
     
         public int Id { get; set; }
-        public string Name { get; set; }
-        public Nullable<int> SellerImageId { get; set; }
+        public string Image { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Location> Locations { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Product> Products { get; set; }
-        public virtual SellerImage SellerImage { get; set; }
+        public virtual ICollection<Seller> Sellers { get; set; }
     }
 }
