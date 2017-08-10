@@ -386,7 +386,7 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\Product\EditProduct.cshtml" />
+    <Content Include="Views\Product\Index.cshtml" />
     <Content Include="Views\Cathegory\EditCathegory.cshtml" />
     <Content Include="Views\CathegoryType\EditCathegoryType.cshtml" />
     <Content Include="Views\Seller\EditSeller.cshtml" />
@@ -394,6 +394,7 @@
     <Content Include="Views\ProductSale\EditProductSale.cshtml" />
     <Content Include="Views\SearchProduct\Index.cshtml" />
     <Content Include="Views\SearchProduct\ProductDashboard.cshtml" />
+    <Content Include="Views\Product\EditProduct.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -18,8 +18,13 @@ namespace ManaCena.Controllers
         }
 
         [HttpGet]
-        public ActionResult EditProduct()
+        public ActionResult EditProduct(string seller = "", string name = "", string description = "")
         {
+            // TODO: if "Rimi Maxima" -> two records, get IDs and use two IDs in search to see both sellers
+            seller = seller.ToLower();
+
+            name = name.ToLower();
+            description = description.ToLower();
             List<Product> model = new List<Product>();
             using (ManaCenaEntities context = new ManaCenaEntities())
             {
@@ -27,7 +32,13 @@ namespace ManaCena.Controllers
                         .Include(o => o.Cathegory.CathegoryType)
                         .Include(o => o.ProductImage)
                         .Include(o => o.ProductImageSmall)
+                        .Where(o =>
+                            (seller == "" || o.Seller == null || o.Seller.Name.ToLower().Contains(seller))
+                            && (name == "" || o.Name.ToLower().Contains(name))
+                            && (description == "" || o.Description.ToLower().Contains(description))
+                         )
                         .ToList();
+
                 ViewBag.CathegoryEnum = context.Cathegories.ToList();
                 ViewBag.CathegoryTypeEnum = context.CathegoryTypes.ToList();
                 ViewBag.SellerEnum = context.Sellers.ToList();
@@ -47,7 +58,7 @@ namespace ManaCena.Controllers
                 {
                     context.Entry(rec).State = System.Data.Entity.EntityState.Modified;
                     if (rec.ProductImage != null)
-                    { 
+                    {
                         context.Entry(rec.ProductImage).State = System.Data.Entity.EntityState.Modified;
                     }
                     if (rec.ProductImageSmall != null)
