@@ -37,6 +37,18 @@ namespace ManaCena.Controllers
         }
 
 
+        [HttpGet]
+        public string GetLargeImage(int id)
+        {
+            using (ManaCenaEntities context = new ManaCenaEntities())
+            {
+                var img = context.ProductImages.Where(o => o.Id == id).Select(o => o.Image).First();
+                return img;
+            }
+            
+        }
+        
+
 
     }
 }

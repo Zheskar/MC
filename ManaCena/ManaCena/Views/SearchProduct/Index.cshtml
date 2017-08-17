@@ -24,14 +24,14 @@
 
 
 <div id="dialog" title="Basic dialog">
-    <p>This is the default dialog which is useful for displaying information. The dialog window can be moved, resized and closed with the 'x' icon.</p>
+    <img id="full-size-image-dialog" />
 </div>
 
 
 @section scripts {
 
+
     
-    @ZAKONCHIL JOBANNIJ FRONT END, perehodi na backend
 
     @* Zoom *@
     <script type="text/javascript">
@@ -42,13 +42,39 @@
         function enter_function() {
             $("#dialog").dialog({
                 autoOpen: true,
+                width: 'auto',
                 position: { my: "top", at: "bottom", of: $(this) }
             });
             $(".ui-dialog-titlebar").hide();
+
+            
+            snatchLargeImage($(this).attr("data-image-id"));
+        };
+        
+        function exit_function() {
+            //$("#dialog").dialog('close');
         };
 
-        function exit_function() {
+        $(document).click(function () {
             $("#dialog").dialog('close');
+        });
+
+        function snatchLargeImage(id) {
+
+            $('#full-size-image-dialog').hide();
+
+            $.ajax({
+                type: "GET",
+                url: "/SearchProduct/GetLargeImage",
+                data: {
+                    Id: id
+                }
+            })
+                .done(function (img) {
+                    $('#full-size-image-dialog').attr('src', img);
+                    $('#full-size-image-dialog').show();
+                    //afterAjaxScript();
+                });
         };
 
     </script>
