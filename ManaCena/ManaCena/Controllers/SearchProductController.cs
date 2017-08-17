@@ -24,7 +24,7 @@ namespace ManaCena.Controllers
             using (ManaCenaEntities context = new ManaCenaEntities())
             {
                 model = context.Products
-                    .Include(o => o.ProductImage)
+                    //.Include(o => o.ProductImage)
                     .Include(o => o.ProductImageSmall)
                     .Include(o => o.Seller)
                     .Include(o => o.Seller.SellerImage)

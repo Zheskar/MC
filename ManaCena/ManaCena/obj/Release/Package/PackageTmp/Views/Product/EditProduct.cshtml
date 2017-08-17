@@ -2,8 +2,6 @@
 @using System.Reflection
 @model List<Product>
 
-<h2>Edit Product</h2>
-
 <table border="1" id="table-edit-product">
     <tr>
         @*<td><label>Id</label></td>*@
@@ -16,8 +14,8 @@
         <td><label>Wheight</label></td>
         <td><label>Unit</label></td>
         <td><label>Size</label></td>
-        <td><label>Cathegory</label></td>        
-        
+        <td><label>Cathegory</label></td>
+
         <td><label>Original Price</label></td>
         <td><label>Discount Price</label></td>
         <td><label>Discount Percentag</label></td>
@@ -44,7 +42,7 @@
                 <select id="@rnd-@nameof(Product.SellerId)">
                     @foreach (var i in (List<Seller>)ViewBag.SellerEnum)
                     {
-                        <option @if (i.Id == p.CathegoryId) { <text> selected="selected" </text> } value="@i.Id">@i.Name</option>
+                        <option @if (i.Id == p.SellerId) { <text> selected="selected" </text>   } value="@i.Id">@i.Name</option>
                     }
                 </select>
             </td>
@@ -55,7 +53,7 @@
                 <select id="@rnd-@nameof(Product.CathegoryId)">
                     @foreach (var ce in (List<Cathegory>)ViewBag.CathegoryEnum)
                     {
-                        <option @if (ce.Id == p.CathegoryId) { <text> selected="selected" </text> } value="@ce.Id">@string.Format("{0} - ({1})", ce.Name, ce.CathegoryType.Name)</option>
+                        <option @if (ce.Id == p.CathegoryId) { <text> selected="selected" </text>   } value="@ce.Id">@string.Format("{0} - ({1})", ce.Name, ce.CathegoryType.Name)</option>
                     }
                 </select>
             </td>
@@ -74,6 +72,25 @@
     }
 </table>
 @section scripts {
+    
+    @* Filter *@
+    <script type="text/javascript">
+        $("#btn-filter").click(function () {
+            var seller = $('#inp-seller').val();
+            var name = $('#inp-name').val();
+            var description = $('#inp-description').val();            
+        });
+
+
+
+        //"inp-seller"
+        //"inp-name"
+        //"inp-description"
+        //"refresh-area"
+
+
+
+    </script>
 
     @* Save *@
     <script type="text/javascript">
@@ -112,28 +129,11 @@
     </script>
 
     @* Delete *@
-    <script>        
-    var deleteUrlApi = "/Product/DeleteItem";
+    <script>
+
+        var deleteUrlApi = "/Product/DeleteItem";
     </script>
     @Scripts.Render("~/Scripts/CRUD/delete.js")
-
-    @*<script type="text/javascript">
-        $(".btn-submit-del").click(function () {
-            var rnd = $(this).attr("data-rnd");
-            var id = $('#' + rnd + '-@nameof(Cathegory.Id)').val();
-            $.ajax({
-                type: "POST",
-                url: "/Product/DeleteItem",
-                data: {
-                    id: id
-                },
-                success: function (result) {
-                    $("#" + rnd + '-tr').remove();
-                    // TODO: Remove DOM object, do not refresh, just remove DOM
-                }
-            });
-                });
-    </script>*@
 
     @* Image *@
     <script type="text/javascript">
@@ -158,46 +158,7 @@
 
     </script>
 
-@* clone - create new record for *@
-@Scripts.Render("~/Scripts/CRUD/clone.js")
-   
-    @*<script>
-        // Clone 2 steps
-        $(".btn-clone").click(function () {
-
-            var tr = $("#" + $(this).attr("data-rnd") + "-tr").clone(true, true);
-            //e.preventDefault();
-            $('#table-edit-product').append(tr.clone(true, true));
-
-            // totaly 18 elements, and we need to start renaming clone - starting from 9th element
-            var rnd = $(this).attr("data-rnd");
-            var totalIndex = $('[id^="' + rnd + '"]').length;
-            var timePrefixNow = $.now();
-            // find 18 elements
-            $('[id^="' + rnd + '"]').each(function (index) {
-                if (index >= totalIndex / 2) {
-                    // new random id
-                    $(this).attr("id", timePrefixNow + $(this).attr("id"));
-                }
-                //console.log(index + ": " + $(this).attr("id"));
-            });
-
-            // find amd change clone's data-rnd
-            var totalIndex2 = $('[data-rnd^="' + rnd + '"]').length;
-            $('[data-rnd^="' + rnd + '"]').each(function (index) {
-                if (index >= totalIndex2 / 2) {
-                    // new random id
-                    $(this).attr("data-rnd", timePrefixNow + $(this).attr("data-rnd"));
-                }
-            });
-
-            // find and change record ID
-            var cloneId = timePrefixNow + rnd + '-' + '@nameof(Product.Id)';
-            $('[id^="' + cloneId + '"]').each(function (index) {
-                $('[id^="' + cloneId + '"]').val('');
-            });
-
-        });
-    </script>*@
+    @* clone - create new record for *@
+    @Scripts.Render("~/Scripts/CRUD/clone.js")
 
 }

@@ -14,15 +14,17 @@ namespace ManaCena.Controllers
         // GET: Product
         public ActionResult Index()
         {
+            using (ManaCenaEntities context = new ManaCenaEntities())
+            {
+                ViewBag.SellerEnum = context.Sellers.ToList();
+            }
             return View();
         }
 
         [HttpGet]
-        public ActionResult EditProduct(string seller = "", string name = "", string description = "")
+        public ActionResult EditProduct(string seller, string name = "", string description = "")
         {
-            // TODO: if "Rimi Maxima" -> two records, get IDs and use two IDs in search to see both sellers
-            seller = seller.ToLower();
-
+            List<int> lSeller = seller.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries).Select(Int32.Parse).ToList();            
             name = name.ToLower();
             description = description.ToLower();
             List<Product> model = new List<Product>();
@@ -33,7 +35,8 @@ namespace ManaCena.Controllers
                         .Include(o => o.ProductImage)
                         .Include(o => o.ProductImageSmall)
                         .Where(o =>
-                            (seller == "" || o.Seller == null || o.Seller.Name.ToLower().Contains(seller))
+                            (lSeller.Contains(o.Seller.Id))
+                            //seller == "" || o.Seller == null || o.Seller.Name.ToLower().Contains(seller))
                             && (name == "" || o.Name.ToLower().Contains(name))
                             && (description == "" || o.Description.ToLower().Contains(description))
                          )

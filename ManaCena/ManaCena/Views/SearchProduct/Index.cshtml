@@ -14,48 +14,81 @@
 <br />
 
 
-    
 
-<img id="img-loading-search-main" src="../images/loading_spinner_large.gif" >
+
+<img id="img-loading-search-main" src="../images/loading_spinner_large.gif">
 
 <div id="refTable">
-    
+
 </div>
 
 
+<div id="dialog" title="Basic dialog">
+    <p>This is the default dialog which is useful for displaying information. The dialog window can be moved, resized and closed with the 'x' icon.</p>
+</div>
 
 
 @section scripts {
 
+    
+    @ZAKONCHIL JOBANNIJ FRONT END, perehodi na backend
+
+    @* Zoom *@
+    <script type="text/javascript">
+        function afterAjaxScript() {
+            $('.img-fullsizable').hover(enter_function, exit_function);
+        };
+
+        function enter_function() {
+            $("#dialog").dialog({
+                autoOpen: true,
+                position: { my: "top", at: "bottom", of: $(this) }
+            });
+            $(".ui-dialog-titlebar").hide();
+        };
+
+        function exit_function() {
+            $("#dialog").dialog('close');
+        };
+
+    </script>
+
     @* Input Search *@
-    <script>
-        $('#btn-search-main').on('click', function (e) {
+    <script type="text/javascript">
+        $('#btn-search-main').on('click',
+            function (e) {
 
-            // show loading image
-            $("#img-loading-search-main").show();            
+                // show loading image
+                $("#img-loading-search-main").show();
 
-            var search = $('#input-search-main').val();
-            $.ajax({
-                type: "GET",
-                url: "/SearchProduct/Search?search=" + search,
-                data: {
-                    search: search
-                }
-                //success: function (result) {
-                //    alert('refTable');
-                //}        
-            })
-                .done(function (partialViewResult) {
-                    // hide loading image
-                    $("#img-loading-search-main").hide();
-                    // show result
-                    $("#refTable").html(partialViewResult);
-                });
-        });
+                var search = $('#input-search-main').val();
+                $.ajax({
+                    type: "GET",
+                    url: "/SearchProduct/Search?search=" + search,
+                    data: {
+                        search: search
+                    }
+                    //success: function (result) {
+                    //    alert('refTable');
+                    //}
+                })
+                    .done(function (partialViewResult) {
+                        // hide loading image
+                        $("#img-loading-search-main").hide();
+                        // show result
+                        $("#refTable").html(partialViewResult);
+
+                        afterAjaxScript();
+                    });
+            });
 
         // initial click
         $('#btn-search-main').click();
     </script>
+
+
+
+
 
 
 

@@ -14,25 +14,39 @@
 <br />
 
 
-    
 
-<img id="img-loading-search-main" src="../images/loading_spinner_large.gif" >
+
+<img id="img-loading-search-main" src="../images/loading_spinner_large.gif">
 
 <div id="refTable">
-    
+
 </div>
 
 
 
 
 @section scripts {
+    
+    
+    <script type="text/javascript">
+        alert("1");
+        $('.img-fullsizable').hover(enter_function, exit_function);
+        function enter_function() {
+            alert(1);
+        };
+
+        function exit_function() {
+            alert(2);
+        };
+
+    </script>
 
     @* Input Search *@
-    <script>
+    <script type="text/javascript">
         $('#btn-search-main').on('click', function (e) {
 
             // show loading image
-            $("#img-loading-search-main").show();            
+            $("#img-loading-search-main").show();
 
             var search = $('#input-search-main').val();
             $.ajax({
@@ -43,7 +57,7 @@
                 }
                 //success: function (result) {
                 //    alert('refTable');
-                //}        
+                //}
             })
                 .done(function (partialViewResult) {
                     // hide loading image
@@ -56,6 +70,10 @@
         // initial click
         $('#btn-search-main').click();
     </script>
+
+
+
+
 
 
 
