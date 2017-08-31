@@ -14,7 +14,9 @@
         <td><label>Wheight</label></td>
         <td><label>Unit</label></td>
         <td><label>Size</label></td>
+        <td><label>SubCathegory</label></td>
         <td><label>Cathegory</label></td>
+        <td><label>CathegoryType</label></td>
 
         <td><label>Original Price</label></td>
         <td><label>Discount Price</label></td>
@@ -48,12 +50,31 @@
             </td>
             <td><input value="@p.Wheight" id="@rnd-@nameof(Product.Wheight)" /></td>
             <td><input value="@p.Unit" id="@rnd-@nameof(Product.Unit)" /></td>
-            <td><input value="@p.Size" id="@rnd-@nameof(Product.Size)" /></td>
+            <td><input value="@p.Size" id="@rnd-@nameof(Product.Size)" /></td>            
+            <td>
+                <select id="@rnd-@nameof(Product.SubCathegoryId)">
+                    <option selected value> Empty </option>
+                    @foreach (var ce in (List<SubCathegory>)ViewBag.SubCathegoryEnum)
+                    {                        
+                        <option @if (ce.Id == p.SubCathegoryId) { <text> selected="selected" </text> } value="@ce.Id">@string.Format("{0} -> ({1} -> {2})", ce.Name, ce.Cathegory.Name, ce.Cathegory.CathegoryType.Name)</option>
+                    }
+                </select>
+            </td>
             <td>
                 <select id="@rnd-@nameof(Product.CathegoryId)">
+                    <option selected value> Empty </option>
                     @foreach (var ce in (List<Cathegory>)ViewBag.CathegoryEnum)
-                    {
-                        <option @if (ce.Id == p.CathegoryId) { <text> selected="selected" </text>   } value="@ce.Id">@string.Format("{0} - ({1})", ce.Name, ce.CathegoryType.Name)</option>
+                    {                        
+                        <option @if (ce.Id == p.CathegoryId) { <text> selected="selected" </text> } value="@ce.Id">@string.Format("{0} -> ({1})", ce.Name, ce.CathegoryType.Name)</option>
+                    }
+                </select>
+            </td>
+            <td>
+                <select id="@rnd-@nameof(Product.CathegoryTypeId)">
+                    <option selected value> Empty </option>
+                    @foreach (var ce in (List<CathegoryType>)ViewBag.CathegoryTypeEnum)
+                    {                        
+                        <option @if (ce.Id == p.CathegoryTypeId) { <text> selected="selected" </text> } value="@ce.Id">@string.Format("{0}", ce.Name)</option>
                     }
                 </select>
             </td>
@@ -104,7 +125,9 @@
             var wheight =$('#'+rnd+'-@nameof(Product.Wheight)').val();
             var unit =$('#'+rnd+'-@nameof(Product.Unit)').val();
             var size =$('#'+rnd+'-@nameof(Product.Size)').val();
+            var subCathegoryId = $('#' + rnd + '-@nameof(Product.SubCathegoryId)').val();
             var cathegoryId = $('#' + rnd + '-@nameof(Product.CathegoryId)').val();
+            var cathegoryTypeId = $('#' + rnd + '-@nameof(Product.CathegoryTypeId)').val();
             var originalPrice =$('#'+rnd+'-@nameof(Product.OriginalPrice)').val();
             var discountPrice = $('#' + rnd + '-@nameof(Product.DiscountPrice)').val();
             var discountPercentage =$('#'+rnd+'-@nameof(Product.DiscountPercentage)').val();
@@ -117,7 +140,7 @@
                 type: "POST",
                 url: "/Product/EditItem",
                 data: {
-                    Id: id, Name: name, Description: description, SellerId: sellerId, Wheight: wheight, Unit: unit, Size: size, CathegoryId: cathegoryId,
+                    Id: id, Name: name, Description: description, SellerId: sellerId, Wheight: wheight, Unit: unit, Size: size, SubCathegoryId: subCathegoryId, CathegoryId: cathegoryId, CathegoryTypeId: cathegoryTypeId,
                     OriginalPrice: originalPrice, DiscountPrice: discountPrice, DiscountPercentage: discountPercentage, StartDate: startDate, EndDate: endDate,
                     ProductImage: { Id: productImageId, Image: img }
                 },

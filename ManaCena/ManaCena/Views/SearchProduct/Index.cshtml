@@ -1,116 +1,46 @@
-﻿<h2>Serch Product</h2>
+﻿@using ManaCena.Models
+@using System.Reflection
+
+<h2>Serch Product</h2>
 
 <br />
 
-<div class="row" style="max-width:400px">
+<div class="row" style="max-width:600px">
     <div class="input-group">
-        <input type="text" class="form-control" id="input-search-main" placeholder="Jack Daniels 1l">
+        <input type="text" class="form-control" id="input-search-main" placeholder="Jack Daniels">
         <span class="input-group-btn">
             <button class="btn btn-default" id="btn-search-main" type="button">Go!</button>
         </span>
     </div>
+
+    <div id="advanced-search-panel">
+        <input type="text" class="form-control" placeholder="Weight">
+        <input type="text" class="form-control" placeholder="Unit">
+        <input type="text" class="form-control" placeholder="Size">
+        <select>
+            <option value="">@string.Format("Everything")</option>
+            @foreach (var ce in (List<Cathegory>)ViewBag.CathegoryEnum)
+            {
+                <option value="@ce.Id">@string.Format("{1} - ({0})", ce.Name, ce.CathegoryType.Name)</option>
+            }
+        </select>
+
+    </div>
+
+    <button class="btn-xs btn-default" id="show-advanced-search">advanced search</button>
+
 </div>
 
 <br />
 
 
 
+@*@Prodolzhaj vstavlat' filtri suda, prenesi tozhe chto i v editProducte*@
 
-<img id="img-loading-search-main" src="../images/loading_spinner_large.gif">
-
-<div id="refTable">
-
-</div>
-
-
-<div id="dialog" title="Basic dialog">
-    <img id="full-size-image-dialog" />
-</div>
-
-
-@section scripts {
-
-
-    
-
-    @* Zoom *@
-    <script type="text/javascript">
-        function afterAjaxScript() {
-            $('.img-fullsizable').hover(enter_function, exit_function);
-        };
-
-        function enter_function() {
-            $("#dialog").dialog({
-                autoOpen: true,
-                width: 'auto',
-                position: { my: "top", at: "bottom", of: $(this) }
-            });
-            $(".ui-dialog-titlebar").hide();
-
-            
-            snatchLargeImage($(this).attr("data-image-id"));
-        };
-        
-        function exit_function() {
-            //$("#dialog").dialog('close');
-        };
-
-        $(document).click(function () {
-            $("#dialog").dialog('close');
-        });
-
-        function snatchLargeImage(id) {
-
-            $('#full-size-image-dialog').hide();
-
-            $.ajax({
-                type: "GET",
-                url: "/SearchProduct/GetLargeImage",
-                data: {
-                    Id: id
-                }
-            })
-                .done(function (img) {
-                    $('#full-size-image-dialog').attr('src', img);
-                    $('#full-size-image-dialog').show();
-                    //afterAjaxScript();
-                });
-        };
-
-    </script>
-
-    @* Input Search *@
-    <script type="text/javascript">
-        $('#btn-search-main').on('click',
-            function (e) {
-
-                // show loading image
-                $("#img-loading-search-main").show();
-
-                var search = $('#input-search-main').val();
-                $.ajax({
-                    type: "GET",
-                    url: "/SearchProduct/Search?search=" + search,
-                    data: {
-                        search: search
-                    }
-                    //success: function (result) {
-                    //    alert('refTable');
-                    //}
-                })
-                    .done(function (partialViewResult) {
-                        // hide loading image
-                        $("#img-loading-search-main").hide();
-                        // show result
-                        $("#refTable").html(partialViewResult);
-
-                        afterAjaxScript();
-                    });
-            });
-
-        // initial click
-        $('#btn-search-main').click();
-    </script>
+@naher... peredelaj... Product teperj budet soderzhat':
+Product <-> CathegoryType
+Product <-> Cathegory
+Product <-> SubCathegory
 
 
 
@@ -118,6 +48,147 @@
 
 
 
-}
+                            <img id="img-loading-search-main" src="../images/loading_spinner_large.gif">
+
+                            <div id="refTable">
+
+                            </div>
+
+
+                            <div id="dialog" title="Basic dialog">
+                                <img id="img-loading-zoom-in" src="../images/loading_spinner_large.gif" style="display:none;">
+                                <img id="full-size-image-dialog" />
+                            </div>
+
+
+                            @section scripts {
+
+                                @* Panel Sliding down *@
+                                <script type="text/javascript">
+
+                                    $("#advanced-search-panel").hide();
+
+                                    $("#show-advanced-search").click(function () {
+                                        $("#advanced-search-panel").show("slide", { direction: "up" }, 500);
+                                    });
+                                </script>
+
+
+
+                                @* Zoom *@
+                                <script type="text/javascript">
+
+                                    // on click
+                                    function afterAjaxScript() {
+                                        $('.img-fullsizable').click(enter_function);
+
+                                    };
+
+                                    //// Hover
+                                    //function afterAjaxScript() {
+                                    //    $('.img-fullsizable').hover(enter_function, exit_function);
+                                    //};
+
+                                    function enter_function() {
+                                        $("#dialog").dialog({
+                                            autoOpen: true,
+                                            width: 'auto',
+                                            position: { my: "top", at: "bottom", of: $(this) }
+                                        });
+                                        $(".ui-dialog-titlebar").hide();
+
+                                        snatchLargeImage($(this).attr("data-image-id"));
+                                    };
+
+                                    function exit_function() {
+                                        //$("#dialog").dialog('close');
+                                    };
+
+
+
+                                    $(document).click(function (evt) {
+
+                                        // if image block event
+                                        if ($(evt.target).attr('class') == "img-fullsizable")
+                                            return;
+                                        // For descendants of menu_content being clicked, remove this check if you do not want to put constraint on descendants.
+                                        // if image block event
+                                        if ($(evt.target).closest('.img-fullsizable').length)
+                                            return;
+                                        // if document is ready
+                                        if (document.readyState !== 'complete') return;
+
+                                        // if exists
+                                        if ($("#dialog").hasClass('ui-dialog-content')) {
+                                            $("#dialog").dialog('close');
+                                        }
+                                    });
+
+                                    //// on hover version
+                                    //$(document).click(function () {
+                                    //    $("#dialog").dialog('close');
+                                    //});
+
+                                    function snatchLargeImage(id) {
+                                        $('#full-size-image-dialog').attr('src', '');
+                                        $("#img-loading-zoom-in").show();
+
+
+                                        $.ajax({
+                                            type: "GET",
+                                            url: "/SearchProduct/GetLargeImage",
+                                            data: {
+                                                Id: id
+                                            }
+                                        })
+                                            .done(function (img) {
+                                                $("#img-loading-zoom-in").hide();
+                                                $('#full-size-image-dialog').attr('src', img);
+                                                //afterAjaxScript();
+                                            });
+                                    };
+
+                                </script>
+
+                                @* Input Search *@
+                                <script type="text/javascript">
+                                    $('#btn-search-main').on('click',
+                                        function (e) {
+
+                                            // show loading image
+                                            $("#img-loading-search-main").show();
+
+                                            var search = $('#input-search-main').val();
+                                            $.ajax({
+                                                type: "GET",
+                                                url: "/SearchProduct/Search?search=" + search,
+                                                data: {
+                                                    search: search
+                                                }
+                                                //success: function (result) {
+                                                //    alert('refTable');
+                                                //}
+                                            })
+                                                .done(function (partialViewResult) {
+                                                    // hide loading image
+                                                    $("#img-loading-search-main").hide();
+                                                    // show result
+                                                    $("#refTable").html(partialViewResult);
+
+                                                    afterAjaxScript();
+                                                });
+                                        });
+
+                                    // initial click
+                                    $('#btn-search-main').click();
+                                </script>
+
+
+
+
+
+
+
+                            }
 
 

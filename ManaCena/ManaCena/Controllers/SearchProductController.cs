@@ -13,6 +13,13 @@ namespace ManaCena.Controllers
         [HttpGet]
         public ActionResult Index()
         {
+            List<Product> model = new List<Product>();
+            using (ManaCenaEntities context = new ManaCenaEntities())
+            {
+                ViewBag.CathegoryEnum = context.Cathegories.Include(o => o.CathegoryType).OrderBy(o=>o.CathegoryType.Name).ToList();
+                //ViewBag.CathegoryTypeEnum = context.CathegoryTypes.Include(o => o.Cathegories).OrderBy(o => o.Name).ToList();
+            }
+
             return View();
         }
 
@@ -31,8 +38,9 @@ namespace ManaCena.Controllers
                     .Where(o =>
                          (o.CathegoryId == cathegoryId || cathegoryId == null) &&
                         (o.Name.Contains(search) || o.Description.Contains(search))
-                    ).ToList();
+                    ).ToList();                
             }
+
             return PartialView("ProductDashboard", model);
         }
 

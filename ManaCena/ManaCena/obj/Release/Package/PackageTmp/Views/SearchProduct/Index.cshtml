@@ -23,49 +23,90 @@
 </div>
 
 
+<div id="dialog" title="Basic dialog">    
+    <img id="img-loading-zoom-in" src="../images/loading_spinner_large.gif" style="display:none;">
+    <img id="full-size-image-dialog" />
+</div>
 
 
 @section scripts {
-    
-    
+
+    @* Zoom *@
     <script type="text/javascript">
-        alert("1");
-        $('.img-fullsizable').hover(enter_function, exit_function);
-        function enter_function() {
-            alert(1);
+        function afterAjaxScript() {
+            $('.img-fullsizable').hover(enter_function, exit_function);
         };
 
+        function enter_function() {
+            $("#dialog").dialog({
+                autoOpen: true,
+                width: 'auto',
+                position: { my: "top", at: "bottom", of: $(this) }
+            });
+            $(".ui-dialog-titlebar").hide();
+
+            
+            snatchLargeImage($(this).attr("data-image-id"));
+        };
+        
         function exit_function() {
-            alert(2);
+            //$("#dialog").dialog('close');
+        };
+
+        $(document).click(function () {
+            $("#dialog").dialog('close');
+        });
+
+        function snatchLargeImage(id) {
+                        
+            $('#full-size-image-dialog').attr('src', '');
+            $("#img-loading-zoom-in").show();
+            
+
+            $.ajax({
+                type: "GET",
+                url: "/SearchProduct/GetLargeImage",
+                data: {
+                    Id: id
+                }
+            })
+                .done(function (img) {
+                    $("#img-loading-zoom-in").hide();                    
+                    $('#full-size-image-dialog').attr('src', img);                    
+                    //afterAjaxScript();
+                });
         };
 
     </script>
 
     @* Input Search *@
     <script type="text/javascript">
-        $('#btn-search-main').on('click', function (e) {
+        $('#btn-search-main').on('click',
+            function (e) {
 
-            // show loading image
-            $("#img-loading-search-main").show();
+                // show loading image
+                $("#img-loading-search-main").show();
 
-            var search = $('#input-search-main').val();
-            $.ajax({
-                type: "GET",
-                url: "/SearchProduct/Search?search=" + search,
-                data: {
-                    search: search
-                }
-                //success: function (result) {
-                //    alert('refTable');
-                //}
-            })
-                .done(function (partialViewResult) {
-                    // hide loading image
-                    $("#img-loading-search-main").hide();
-                    // show result
-                    $("#refTable").html(partialViewResult);
-                });
-        });
+                var search = $('#input-search-main').val();
+                $.ajax({
+                    type: "GET",
+                    url: "/SearchProduct/Search?search=" + search,
+                    data: {
+                        search: search
+                    }
+                    //success: function (result) {
+                    //    alert('refTable');
+                    //}
+                })
+                    .done(function (partialViewResult) {
+                        // hide loading image
+                        $("#img-loading-search-main").hide();
+                        // show result
+                        $("#refTable").html(partialViewResult);
+
+                        afterAjaxScript();
+                    });
+            });
 
         // initial click
         $('#btn-search-main').click();

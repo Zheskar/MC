@@ -12,23 +12,20 @@ namespace ManaCena.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Cathegory
+    public partial class SubCathegory
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Cathegory()
+        public SubCathegory()
         {
             this.Products = new HashSet<Product>();
-            this.SubCathegories = new HashSet<SubCathegory>();
         }
     
         public int Id { get; set; }
         public string Name { get; set; }
-        public int CathegoryTypeId { get; set; }
+        public int CathegoryId { get; set; }
     
-        public virtual CathegoryType CathegoryType { get; set; }
+        public virtual Cathegory Cathegory { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Product> Products { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<SubCathegory> SubCathegories { get; set; }
     }
 }

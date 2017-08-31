@@ -201,6 +201,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
+    <Compile Include="Controllers\SubCathegoryController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -249,6 +250,9 @@
       <DependentUpon>ManaCenaModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SellerImage.cs">
+      <DependentUpon>ManaCenaModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SubCathegory.cs">
       <DependentUpon>ManaCenaModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\TestModel.cs" />
@@ -393,6 +397,7 @@
     <Content Include="Views\SearchProduct\Index.cshtml" />
     <Content Include="Views\SearchProduct\ProductDashboard.cshtml" />
     <Content Include="Views\Product\EditProduct.cshtml" />
+    <Content Include="Views\SubCathegory\EditSubCathegory.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

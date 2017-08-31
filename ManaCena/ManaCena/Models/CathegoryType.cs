@@ -18,6 +18,7 @@ namespace ManaCena.Models
         public CathegoryType()
         {
             this.Cathegories = new HashSet<Cathegory>();
+            this.Products = new HashSet<Product>();
         }
     
         public int Id { get; set; }
@@ -25,5 +26,7 @@ namespace ManaCena.Models
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Cathegory> Cathegories { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Product> Products { get; set; }
     }
 }

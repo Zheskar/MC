@@ -32,6 +32,7 @@ namespace ManaCena.Controllers
             {
                 model = context.Products
                         .Include(o => o.Cathegory.CathegoryType)
+                        .Include(o => o.SubCathegory.Cathegory.CathegoryType)
                         .Include(o => o.ProductImage)
                         .Include(o => o.ProductImageSmall)
                         .Where(o =>
@@ -42,6 +43,7 @@ namespace ManaCena.Controllers
                          )
                         .ToList();
 
+                ViewBag.SubCathegoryEnum = context.SubCathegories.ToList();
                 ViewBag.CathegoryEnum = context.Cathegories.ToList();
                 ViewBag.CathegoryTypeEnum = context.CathegoryTypes.ToList();
                 ViewBag.SellerEnum = context.Sellers.ToList();
