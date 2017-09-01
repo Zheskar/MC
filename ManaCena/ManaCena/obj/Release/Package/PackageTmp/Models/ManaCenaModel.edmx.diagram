@@ -8,22 +8,26 @@
         <AssociationConnector Association="ManaCenaModel.FK_Product_Cathegory1" />
         <AssociationConnector Association="ManaCenaModel.FK_Product_Seller1" />
         <AssociationConnector Association="ManaCenaModel.FK_Product_Item1" />
-        <EntityTypeShape EntityType="ManaCenaModel.Cathegory" Width="1.5" PointX="9" PointY="4.625" />
-        <EntityTypeShape EntityType="ManaCenaModel.CathegoryType" Width="1.5" PointX="12.25" PointY="4.625" />
-        <EntityTypeShape EntityType="ManaCenaModel.Location" Width="1.5" PointX="0.5" PointY="4.125" />
-        <EntityTypeShape EntityType="ManaCenaModel.Product" Width="1.5" PointX="5.25" PointY="0.5" />
-        <EntityTypeShape EntityType="ManaCenaModel.ProductImage" Width="1.5" PointX="8.25" PointY="0.875" />
-        <EntityTypeShape EntityType="ManaCenaModel.ProductImageSmall" Width="1.5" PointX="8.25" PointY="3.125" />
-        <EntityTypeShape EntityType="ManaCenaModel.ProductLocation" Width="1.5" PointX="5.25" PointY="5.875" />
-        <EntityTypeShape EntityType="ManaCenaModel.Seller" Width="1.5" PointX="2.875" PointY="1" />
-        <EntityTypeShape EntityType="ManaCenaModel.SellerImage" Width="1.5" PointX="0.625" PointY="1.5" />
+        <EntityTypeShape EntityType="ManaCenaModel.Cathegory" Width="1.5" PointX="12.25" PointY="7.5" />
+        <EntityTypeShape EntityType="ManaCenaModel.CathegoryType" Width="1.5" PointX="12.25" PointY="5" />
+        <EntityTypeShape EntityType="ManaCenaModel.Location" Width="1.5" PointX="7.5" PointY="2.625" />
+        <EntityTypeShape EntityType="ManaCenaModel.Product" Width="1.5" PointX="7.5" PointY="5.75" />
+        <EntityTypeShape EntityType="ManaCenaModel.ProductImage" Width="1.5" PointX="5.25" PointY="8" />
+        <EntityTypeShape EntityType="ManaCenaModel.ProductImageSmall" Width="1.5" PointX="5.25" PointY="14.375" />
+        <EntityTypeShape EntityType="ManaCenaModel.ProductLocation" Width="1.5" PointX="2.375" PointY="8" />
+        <EntityTypeShape EntityType="ManaCenaModel.Seller" Width="1.5" PointX="5.25" PointY="1.125" />
+        <EntityTypeShape EntityType="ManaCenaModel.SellerImage" Width="1.5" PointX="3" PointY="1.375" />
+        <EntityTypeShape EntityType="ManaCenaModel.SubCathegory" Width="1.5" PointX="12.375" PointY="10.375" />
         <AssociationConnector Association="ManaCenaModel.FK_Cathegory_CathegoryType" />
         <AssociationConnector Association="ManaCenaModel.FK_Product_Cathegory" />
+        <AssociationConnector Association="ManaCenaModel.FK_SubCathegory_Cathegory" />
+        <AssociationConnector Association="ManaCenaModel.FK_Product_CathegoryType" />
         <AssociationConnector Association="ManaCenaModel.FK_Location_Seller" />
         <AssociationConnector Association="ManaCenaModel.FK_ProductLocation_Location" />
         <AssociationConnector Association="ManaCenaModel.FK_Product_ProductImage" />
         <AssociationConnector Association="ManaCenaModel.FK_Product_ProductImageSmall" />
         <AssociationConnector Association="ManaCenaModel.FK_Product_Seller" />
+        <AssociationConnector Association="ManaCenaModel.FK_Product_SubCathegory" />
         <AssociationConnector Association="ManaCenaModel.FK_ProductLocation_Product" />
         <AssociationConnector Association="ManaCenaModel.FK_Seller_SellerImage" />
         </Diagram>

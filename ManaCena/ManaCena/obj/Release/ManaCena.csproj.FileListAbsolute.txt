@@ -192,3 +192,4 @@ C:\Dev\MC\ManaCena\ManaCena\obj\Release\ManaCena.dll
 C:\Dev\MC\ManaCena\ManaCena\obj\Release\ManaCena.pdb
 C:\Dev\MC\ManaCena\ManaCena\bin\images\jqueryui\ui-anim_basic_16x16.gif
 C:\Dev\MC\ManaCena\ManaCena\bin\images\loading_spinner_large.gif
+C:\Dev\MC\ManaCena\ManaCena\obj\Release\ManaCena.csproj.CoreCompileInputs.cache

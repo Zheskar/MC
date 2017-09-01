@@ -10,12 +10,21 @@
     <EntitySet Name="ProductLocations" EntityType="ManaCenaModel.ProductLocation" />
     <EntitySet Name="Sellers" EntityType="ManaCenaModel.Seller" />
     <EntitySet Name="SellerImages" EntityType="ManaCenaModel.SellerImage" />
+    <EntitySet Name="SubCathegories" EntityType="ManaCenaModel.SubCathegory" />
     <AssociationSet Name="FK_Cathegory_CathegoryType" Association="ManaCenaModel.FK_Cathegory_CathegoryType">
       <End Role="CathegoryType" EntitySet="CathegoryTypes" />
       <End Role="Cathegory" EntitySet="Cathegories" />
     </AssociationSet>
     <AssociationSet Name="FK_Product_Cathegory" Association="ManaCenaModel.FK_Product_Cathegory">
       <End Role="Cathegory" EntitySet="Cathegories" />
+      <End Role="Product" EntitySet="Products" />
+    </AssociationSet>
+    <AssociationSet Name="FK_SubCathegory_Cathegory" Association="ManaCenaModel.FK_SubCathegory_Cathegory">
+      <End Role="Cathegory" EntitySet="Cathegories" />
+      <End Role="SubCathegory" EntitySet="SubCathegories" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Product_CathegoryType" Association="ManaCenaModel.FK_Product_CathegoryType">
+      <End Role="CathegoryType" EntitySet="CathegoryTypes" />
       <End Role="Product" EntitySet="Products" />
     </AssociationSet>
     <AssociationSet Name="FK_Location_Seller" Association="ManaCenaModel.FK_Location_Seller">
@@ -38,6 +47,10 @@
       <End Role="Seller" EntitySet="Sellers" />
       <End Role="Product" EntitySet="Products" />
     </AssociationSet>
+    <AssociationSet Name="FK_Product_SubCathegory" Association="ManaCenaModel.FK_Product_SubCathegory">
+      <End Role="SubCathegory" EntitySet="SubCathegories" />
+      <End Role="Product" EntitySet="Products" />
+    </AssociationSet>
     <AssociationSet Name="FK_ProductLocation_Product" Association="ManaCenaModel.FK_ProductLocation_Product">
       <End Role="Product" EntitySet="Products" />
       <End Role="ProductLocation" EntitySet="ProductLocations" />
@@ -56,6 +69,7 @@
     <Property Name="CathegoryTypeId" Type="Int32" Nullable="false" />
     <NavigationProperty Name="CathegoryType" Relationship="ManaCenaModel.FK_Cathegory_CathegoryType" FromRole="Cathegory" ToRole="CathegoryType" />
     <NavigationProperty Name="Products" Relationship="ManaCenaModel.FK_Product_Cathegory" FromRole="Cathegory" ToRole="Product" />
+    <NavigationProperty Name="SubCathegories" Relationship="ManaCenaModel.FK_SubCathegory_Cathegory" FromRole="Cathegory" ToRole="SubCathegory" />
   </EntityType>
   <EntityType Name="CathegoryType">
     <Key>
@@ -64,6 +78,7 @@
     <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
     <NavigationProperty Name="Cathegories" Relationship="ManaCenaModel.FK_Cathegory_CathegoryType" FromRole="CathegoryType" ToRole="Cathegory" />
+    <NavigationProperty Name="Products" Relationship="ManaCenaModel.FK_Product_CathegoryType" FromRole="CathegoryType" ToRole="Product" />
   </EntityType>
   <EntityType Name="Location">
     <Key>
@@ -80,7 +95,6 @@
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="CathegoryId" Type="Int32" />
     <Property Name="SellerId" Type="Int32" />
     <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
     <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
@@ -94,10 +108,15 @@
     <Property Name="DiscountPercentage" Type="Decimal" Precision="18" Scale="2" />
     <Property Name="StartDate" Type="DateTime" Precision="3" />
     <Property Name="EndDate" Type="DateTime" Precision="3" />
+    <Property Name="SubCathegoryId" Type="Int32" />
+    <Property Name="CathegoryId" Type="Int32" />
+    <Property Name="CathegoryTypeId" Type="Int32" />
     <NavigationProperty Name="Cathegory" Relationship="ManaCenaModel.FK_Product_Cathegory" FromRole="Product" ToRole="Cathegory" />
+    <NavigationProperty Name="CathegoryType" Relationship="ManaCenaModel.FK_Product_CathegoryType" FromRole="Product" ToRole="CathegoryType" />
     <NavigationProperty Name="ProductImage" Relationship="ManaCenaModel.FK_Product_ProductImage" FromRole="Product" ToRole="ProductImage" />
     <NavigationProperty Name="ProductImageSmall" Relationship="ManaCenaModel.FK_Product_ProductImageSmall" FromRole="Product" ToRole="ProductImageSmall" />
     <NavigationProperty Name="Seller" Relationship="ManaCenaModel.FK_Product_Seller" FromRole="Product" ToRole="Seller" />
+    <NavigationProperty Name="SubCathegory" Relationship="ManaCenaModel.FK_Product_SubCathegory" FromRole="Product" ToRole="SubCathegory" />
     <NavigationProperty Name="ProductLocations" Relationship="ManaCenaModel.FK_ProductLocation_Product" FromRole="Product" ToRole="ProductLocation" />
   </EntityType>
   <EntityType Name="ProductImage">
@@ -145,6 +164,16 @@
     <Property Name="Image" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
     <NavigationProperty Name="Sellers" Relationship="ManaCenaModel.FK_Seller_SellerImage" FromRole="SellerImage" ToRole="Seller" />
   </EntityType>
+  <EntityType Name="SubCathegory">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="CathegoryId" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Cathegory" Relationship="ManaCenaModel.FK_SubCathegory_Cathegory" FromRole="SubCathegory" ToRole="Cathegory" />
+    <NavigationProperty Name="Products" Relationship="ManaCenaModel.FK_Product_SubCathegory" FromRole="SubCathegory" ToRole="Product" />
+  </EntityType>
   <Association Name="FK_Cathegory_CathegoryType">
     <End Type="ManaCenaModel.CathegoryType" Role="CathegoryType" Multiplicity="1" />
     <End Type="ManaCenaModel.Cathegory" Role="Cathegory" Multiplicity="*" />
@@ -166,6 +195,30 @@
       </Principal>
       <Dependent Role="Product">
         <PropertyRef Name="CathegoryId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_SubCathegory_Cathegory">
+    <End Type="ManaCenaModel.Cathegory" Role="Cathegory" Multiplicity="1" />
+    <End Type="ManaCenaModel.SubCathegory" Role="SubCathegory" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Cathegory">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="SubCathegory">
+        <PropertyRef Name="CathegoryId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Product_CathegoryType">
+    <End Type="ManaCenaModel.CathegoryType" Role="CathegoryType" Multiplicity="0..1" />
+    <End Type="ManaCenaModel.Product" Role="Product" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CathegoryType">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Product">
+        <PropertyRef Name="CathegoryTypeId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -226,6 +279,18 @@
       </Principal>
       <Dependent Role="Product">
         <PropertyRef Name="SellerId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Product_SubCathegory">
+    <End Type="ManaCenaModel.SubCathegory" Role="SubCathegory" Multiplicity="0..1" />
+    <End Type="ManaCenaModel.Product" Role="Product" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SubCathegory">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Product">
+        <PropertyRef Name="SubCathegoryId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

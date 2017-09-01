@@ -1,41 +1,236 @@
-﻿<h2>Serch Product</h2>
+﻿@using ManaCena.Models
+@using System.Reflection
 
-<br />
+<h2>Serch Product</h2>
 
-<div class="row" style="max-width:400px">
-    <div class="input-group">
-        <input type="text" class="form-control" id="input-search-main" placeholder="Jack Daniels 1l">
-        <span class="input-group-btn">
-            <button class="btn btn-default" id="btn-search-main" type="button">Go!</button>
-        </span>
+<style>
+    .menu-search-accordion .ui-accordion-content {
+        padding: 0px 0px 0px 10px;
+        /*padding: 0;*/
+    }
+</style>
+
+<div class="row">
+    <div class="col-xs-12 col-md-8">
+        <div class="row" style="max-width:600px">
+            <div class="input-group">
+                <input type="text" class="form-control" id="input-search-main" placeholder="Jack Daniels">
+                <span class="input-group-btn">
+                    <button class="btn btn-default" id="btn-search-main" type="button">Go!</button>
+                </span>
+            </div>
+
+            <div id="advanced-search-panel">
+                <input type="text" class="form-control" placeholder="Weight">
+                <input type="text" class="form-control" placeholder="Unit">
+                <input type="text" class="form-control" placeholder="Size">
+                <select id="input-search-main-cathegoryTypeId">
+                    <option value="">@string.Format("Everything")</option>
+                    @foreach (var ce in (List<CathegoryType>)ViewBag.CathegoryTypeEnum)
+                    {
+                        <option value="@ce.Id">@string.Format("{0}", ce.Name)</option>
+                    }
+                </select>
+                <select id="input-search-main-cathegoryId">
+                    <option value="">@string.Format("Everything")</option>
+                    @foreach (var ce in (List<Cathegory>)ViewBag.CathegoryEnum)
+                    {
+                        <option value="@ce.Id">@string.Format("{1} - ({0})", ce.Name, ce.CathegoryType.Name)</option>
+                    }
+                </select>
+                <select id="input-search-main-subCathegoryId">
+                    <option value="">@string.Format("Everything")</option>
+                    @foreach (var ce in (List<SubCathegory>)ViewBag.SubCathegoryEnum)
+                    {
+                        <option value="@ce.Id">@string.Format("{1} - ({0})", ce.Name, ce.Cathegory.Name)</option>
+                    }
+                </select>
+            </div>
+
+            <button class="btn-xs btn-default" id="show-advanced-search">advanced search</button>
+
+        </div>
+
+        <br />
+
+
+        <img id="img-loading-search-main" src="../images/loading_spinner_large.gif">
+
+        <div id="refTable">
+
+        </div>
+
+
+        <div id="dialog" title="Basic dialog">
+            <img id="img-loading-zoom-in" src="../images/loading_spinner_large.gif" style="display:none;">
+            <img id="full-size-image-dialog" />
+        </div>
+    </div>
+
+    <div class="col-xs-6 col-md-4">
+        <div class="menu-search-accordion" style="width:300px;" id="main-search-accordion-theveryfirstone">
+            <h3 class="trigger">All Cathegory Type</h3>
+            <div>
+                <div class="menu-search-accordion">
+                    @foreach (var ct in (IList<CathegoryType>)ViewBag.CathegoryTypeEnum)
+                    {
+                        <h3 data-cathegoryTypeId="@ct.Id"><b>@ct.Name</b></h3>
+                            <div>
+                                <div class="menu-search-accordion">
+                                    @foreach (var c in (IList<Cathegory>)ct.Cathegories.ToList())
+                                    {
+                                        <h3 data-cathegoryId="@c.Id"><i>@c.Name</i></h3>
+                                        <div>
+                                            <div class="menu-search-accordion">
+                                                @foreach (var sc in (IList<SubCathegory>)c.SubCathegories.ToList())
+                                                {
+                                                    <h3 data-subCathegoryId="@sc.Id">@sc.Name</h3>
+                                                    <div>
+                                                    </div>
+                                                }
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                    }
+                </div>
+
+            </div>
+        </div>
+
     </div>
 </div>
 
-<br />
+<table border="1">
+    <tr>
+        <td>
 
+            
+        </td>
+        <td>
+            
+        </td>
+    </tr>
+</table>
 
-
-
-<img id="img-loading-search-main" src="../images/loading_spinner_large.gif">
-
-<div id="refTable">
-
-</div>
-
-
-<div id="dialog" title="Basic dialog">    
-    <img id="img-loading-zoom-in" src="../images/loading_spinner_large.gif" style="display:none;">
-    <img id="full-size-image-dialog" />
-</div>
 
 
 @section scripts {
 
+    <script type="text/javascript">
+        $(function () {
+            //$(".accordion1").accordion({
+            //    header: "h3",
+            //    collapsible: true,
+            //    autoHeight: false,
+            //    navigation: true
+            //});
+            var disableAccordionClick = false;
+            $(".menu-search-accordion").accordion({
+                collapsible: true,
+                active: false,
+                heightStyle: "content",
+                icons: null,
+                beforeActivate: function (event, ui) {
+
+                    if (disableAccordionClick) {
+                        event.preventDefault();
+                        return;
+                    }
+                    if ($(ui.newHeader).attr("data-cathegoryTypeId") != null) {
+                        //console.log($(ui.newHeader).attr("data-cathegoryTypeId"));
+                        $("#input-search-main-cathegoryTypeId").val($(ui.newHeader).attr("data-cathegoryTypeId"));
+                    }
+                    if ($(ui.newHeader).attr("data-cathegoryId") != null) {
+                        $("#input-search-main-cathegoryId").val($(ui.newHeader).attr("data-cathegoryId"));
+                        //console.log($(ui.newHeader).attr("data-cathegoryId"));
+                    }
+                    if ($(ui.newHeader).attr("data-subCathegoryId") != null) {
+                        $("#input-search-main-subCathegoryId").val($(ui.newHeader).attr("data-subCathegoryId"));
+                        //console.log($(ui.newHeader).attr("data-subCathegoryId"));
+                    }
+
+                    disableAccordionClick = true;
+                    var _this = this;
+
+                    // show loading image
+                    $("#img-loading-search-main").show();
+                    // clear content 
+                    $("#refTable").empty();                    
+
+                    var search = $('#input-search-main').val();
+                    var subCathegoryId = $('#input-search-main-subCathegoryId').val();
+                    var cathegoryId = $('#input-search-main-cathegoryId').val();
+                    var cathegoryTypeId = $('#input-search-main-cathegoryTypeId').val();
+
+                    console.log(subCathegoryId);
+                    console.log(cathegoryId);
+                    console.log(cathegoryTypeId);
+
+                    $.ajax({
+                        type: "GET",
+                        url: "/SearchProduct/Search",
+                        data: {
+                            search: search,
+                            subCathegoryId: subCathegoryId, cathegoryId: cathegoryId, cathegoryTypeId: cathegoryTypeId
+                        }
+                    })
+                        .done(function (partialViewResult) {
+                            // hide loading image
+                            $("#img-loading-search-main").hide();
+                            // show result
+                            $("#refTable").html(partialViewResult);
+
+                            afterAjaxScript();
+
+                            // Open menu
+                            $(_this).accordion("option", "active", ui.newHeader.index());
+                            // release lock on menu
+                            disableAccordionClick = false;
+
+                        })
+                        .fail(function (data) {
+                            disableAccordionClick = false;
+                        })
+                        .always(function (data) {
+                            disableAccordionClick = false;
+                        });
+                }
+            });
+
+
+
+        });
+    </script>
+
+
+
+    @* Panel Sliding down *@
+    <script type="text/javascript">
+
+        $("#advanced-search-panel").hide();
+
+        $("#show-advanced-search").click(function () {
+            $("#advanced-search-panel").show("slide", { direction: "up" }, 500);
+        });
+    </script>
+
+
+
     @* Zoom *@
     <script type="text/javascript">
+
+        // on click
         function afterAjaxScript() {
-            $('.img-fullsizable').hover(enter_function, exit_function);
+            $('.img-fullsizable').click(enter_function);
+
         };
+
+        //// Hover
+        //function afterAjaxScript() {
+        //    $('.img-fullsizable').hover(enter_function, exit_function);
+        //};
 
         function enter_function() {
             $("#dialog").dialog({
@@ -45,23 +240,42 @@
             });
             $(".ui-dialog-titlebar").hide();
 
-            
             snatchLargeImage($(this).attr("data-image-id"));
         };
-        
+
         function exit_function() {
             //$("#dialog").dialog('close');
         };
 
-        $(document).click(function () {
-            $("#dialog").dialog('close');
+
+
+        $(document).click(function (evt) {
+
+            // if image block event
+            if ($(evt.target).attr('class') == "img-fullsizable")
+                return;
+            // For descendants of menu_content being clicked, remove this check if you do not want to put constraint on descendants.
+            // if image block event
+            if ($(evt.target).closest('.img-fullsizable').length)
+                return;
+            // if document is ready
+            if (document.readyState !== 'complete') return;
+
+            // if exists
+            if ($("#dialog").hasClass('ui-dialog-content')) {
+                $("#dialog").dialog('close');
+            }
         });
 
+        //// on hover version
+        //$(document).click(function () {
+        //    $("#dialog").dialog('close');
+        //});
+
         function snatchLargeImage(id) {
-                        
             $('#full-size-image-dialog').attr('src', '');
             $("#img-loading-zoom-in").show();
-            
+
 
             $.ajax({
                 type: "GET",
@@ -71,13 +285,16 @@
                 }
             })
                 .done(function (img) {
-                    $("#img-loading-zoom-in").hide();                    
-                    $('#full-size-image-dialog').attr('src', img);                    
+                    $("#img-loading-zoom-in").hide();
+                    $('#full-size-image-dialog').attr('src', img);
                     //afterAjaxScript();
                 });
         };
 
     </script>
+
+
+    @*@Uberi etot jbannij AJAX, ostav' chtobi odna vunkcija vizivalas' iz dvuh mest.*@
 
     @* Input Search *@
     <script type="text/javascript">
@@ -88,11 +305,15 @@
                 $("#img-loading-search-main").show();
 
                 var search = $('#input-search-main').val();
+                var subCathegoryId = $('#input-search-main-subCathegoryId').text();
+                var cathegoryId = $('#input-search-main-cathegoryId').text();
+                var cathegoryTypeId = $('#input-search-main-cathegoryTypeId').text();
                 $.ajax({
                     type: "GET",
-                    url: "/SearchProduct/Search?search=" + search,
+                    url: "/SearchProduct/Search",
                     data: {
-                        search: search
+                        search: search,
+                        subCathegoryId: subCathegoryId, cathegoryId: cathegoryId, cathegoryTypeId: cathegoryTypeId
                     }
                     //success: function (result) {
                     //    alert('refTable');
@@ -109,7 +330,11 @@
             });
 
         // initial click
-        $('#btn-search-main').click();
+         //$('#btn-search-main').click();
+
+        // Open first Accordion
+        //$("#main-search-accordion-theveryfirstone").accordion("option", "active", 0);
+
     </script>
 
 

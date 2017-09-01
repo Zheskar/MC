@@ -30,6 +30,9 @@
     <EntitySetMapping Name="Products">
       <EntityTypeMapping TypeName="ManaCenaModel.Product">
         <MappingFragment StoreEntitySet="Product">
+          <ScalarProperty Name="CathegoryTypeId" ColumnName="CathegoryTypeId" />
+          <ScalarProperty Name="CathegoryId" ColumnName="CathegoryId" />
+          <ScalarProperty Name="SubCathegoryId" ColumnName="SubCathegoryId" />
           <ScalarProperty Name="EndDate" ColumnName="EndDate" />
           <ScalarProperty Name="StartDate" ColumnName="StartDate" />
           <ScalarProperty Name="DiscountPercentage" ColumnName="DiscountPercentage" />
@@ -43,7 +46,6 @@
           <ScalarProperty Name="Description" ColumnName="Description" />
           <ScalarProperty Name="Name" ColumnName="Name" />
           <ScalarProperty Name="SellerId" ColumnName="SellerId" />
-          <ScalarProperty Name="CathegoryId" ColumnName="CathegoryId" />
           <ScalarProperty Name="Id" ColumnName="Id" />
         </MappingFragment>
       </EntityTypeMapping>
@@ -86,6 +88,15 @@
       <EntityTypeMapping TypeName="ManaCenaModel.SellerImage">
         <MappingFragment StoreEntitySet="SellerImage">
           <ScalarProperty Name="Image" ColumnName="Image" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SubCathegories">
+      <EntityTypeMapping TypeName="ManaCenaModel.SubCathegory">
+        <MappingFragment StoreEntitySet="SubCathegory">
+          <ScalarProperty Name="CathegoryId" ColumnName="CathegoryId" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
           <ScalarProperty Name="Id" ColumnName="Id" />
         </MappingFragment>
       </EntityTypeMapping>
