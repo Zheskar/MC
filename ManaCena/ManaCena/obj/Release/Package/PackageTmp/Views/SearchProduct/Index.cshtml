@@ -12,7 +12,7 @@
 
 <div class="row">
     <div class="col-xs-12 col-md-8">
-        <div class="row" style="max-width:600px">
+        <div class="row" style="max-width:600px; display:none;">
             <div class="input-group">
                 <input type="text" class="form-control" id="input-search-main" placeholder="Jack Daniels">
                 <span class="input-group-btn">
@@ -47,7 +47,7 @@
                 </select>
             </div>
 
-            <button class="btn-xs btn-default" id="show-advanced-search">advanced search</button>
+            <button class="btn-xs btn-default" id="show-advanced-search">even more advanced search</button>
 
         </div>
 
@@ -75,24 +75,24 @@
                     @foreach (var ct in (IList<CathegoryType>)ViewBag.CathegoryTypeEnum)
                     {
                         <h3 data-cathegoryTypeId="@ct.Id"><b>@ct.Name</b></h3>
-                            <div>
-                                <div class="menu-search-accordion">
-                                    @foreach (var c in (IList<Cathegory>)ct.Cathegories.ToList())
-                                    {
-                                        <h3 data-cathegoryId="@c.Id"><i>@c.Name</i></h3>
-                                        <div>
-                                            <div class="menu-search-accordion">
-                                                @foreach (var sc in (IList<SubCathegory>)c.SubCathegories.ToList())
-                                                {
-                                                    <h3 data-subCathegoryId="@sc.Id">@sc.Name</h3>
-                                                    <div>
-                                                    </div>
-                                                }
+                        <div>
+                            <div class="menu-search-accordion">
+                                @foreach (var c in (IList<Cathegory>)ct.Cathegories.ToList())
+                                {
+                                    <h3 data-cathegoryId="@c.Id"><i>@c.Name</i></h3>
+                                            <div>
+                                                <div class="menu-search-accordion">
+                                                    @foreach (var sc in (IList<SubCathegory>)c.SubCathegories.ToList())
+                                                    {
+                                                        <h3 data-subCathegoryId="@sc.Id">@sc.Name</h3>
+                                                        <div>
+                                                        </div>
+                                                    }
+                                                </div>
                                             </div>
-                                        </div>
-                                    }
-                                </div>
+                                }
                             </div>
+                        </div>
                     }
                 </div>
 
@@ -102,31 +102,14 @@
     </div>
 </div>
 
-<table border="1">
-    <tr>
-        <td>
-
-            
-        </td>
-        <td>
-            
-        </td>
-    </tr>
-</table>
-
-
-
 @section scripts {
 
+    @* Right Menu *@
     <script type="text/javascript">
         $(function () {
-            //$(".accordion1").accordion({
-            //    header: "h3",
-            //    collapsible: true,
-            //    autoHeight: false,
-            //    navigation: true
-            //});
+
             var disableAccordionClick = false;
+
             $(".menu-search-accordion").accordion({
                 collapsible: true,
                 active: false,
@@ -141,9 +124,14 @@
                     if ($(ui.newHeader).attr("data-cathegoryTypeId") != null) {
                         //console.log($(ui.newHeader).attr("data-cathegoryTypeId"));
                         $("#input-search-main-cathegoryTypeId").val($(ui.newHeader).attr("data-cathegoryTypeId"));
+                        // TODO: also clean fucking blue highlight from already selected tubs underneath this leve
+                        // TODO: ...and collapse them. Probalby should use Click event on "Coffee" && "Coffee Beans", but with disabling functionality.
+                        $("#input-search-main-cathegoryId").val(null);
+                        $("#input-search-main-subCathegoryId").val(null);
                     }
                     if ($(ui.newHeader).attr("data-cathegoryId") != null) {
                         $("#input-search-main-cathegoryId").val($(ui.newHeader).attr("data-cathegoryId"));
+                        $("#input-search-main-subCathegoryId").val(null);
                         //console.log($(ui.newHeader).attr("data-cathegoryId"));
                     }
                     if ($(ui.newHeader).attr("data-subCathegoryId") != null) {
@@ -154,52 +142,101 @@
                     disableAccordionClick = true;
                     var _this = this;
 
-                    // show loading image
-                    $("#img-loading-search-main").show();
-                    // clear content 
-                    $("#refTable").empty();                    
+                    MainSearch(_this, ui);
 
-                    var search = $('#input-search-main').val();
-                    var subCathegoryId = $('#input-search-main-subCathegoryId').val();
-                    var cathegoryId = $('#input-search-main-cathegoryId').val();
-                    var cathegoryTypeId = $('#input-search-main-cathegoryTypeId').val();
+                    //// show loading image
+                    //$("#img-loading-search-main").show();
+                    //// clear content
+                    //$("#refTable").empty();
 
-                    console.log(subCathegoryId);
-                    console.log(cathegoryId);
-                    console.log(cathegoryTypeId);
+                    //var search = $('#input-search-main').val();
+                    //var subCathegoryId = $('#input-search-main-subCathegoryId').val();
+                    //var cathegoryId = $('#input-search-main-cathegoryId').val();
+                    //var cathegoryTypeId = $('#input-search-main-cathegoryTypeId').val();
 
-                    $.ajax({
-                        type: "GET",
-                        url: "/SearchProduct/Search",
-                        data: {
-                            search: search,
-                            subCathegoryId: subCathegoryId, cathegoryId: cathegoryId, cathegoryTypeId: cathegoryTypeId
-                        }
-                    })
-                        .done(function (partialViewResult) {
-                            // hide loading image
-                            $("#img-loading-search-main").hide();
-                            // show result
-                            $("#refTable").html(partialViewResult);
+                    //$.ajax({
+                    //    type: "GET",
+                    //    url: "/SearchProduct/Search",
+                    //    data: {
+                    //        search: search,
+                    //        subCathegoryId: subCathegoryId, cathegoryId: cathegoryId, cathegoryTypeId: cathegoryTypeId
+                    //    }
+                    //})
+                    //    .done(function (partialViewResult) {
+                    //        // hide loading image
+                    //        $("#img-loading-search-main").hide();
+                    //        // show result
+                    //        $("#refTable").html(partialViewResult);
 
-                            afterAjaxScript();
+                    //        afterAjaxScript();
 
-                            // Open menu
-                            $(_this).accordion("option", "active", ui.newHeader.index());
-                            // release lock on menu
-                            disableAccordionClick = false;
+                    //        // Open menu
+                    //        $(_this).accordion("option", "active", ui.newHeader.index());
+                    //        // release lock on menu
+                    //        disableAccordionClick = false;
 
-                        })
-                        .fail(function (data) {
-                            disableAccordionClick = false;
-                        })
-                        .always(function (data) {
-                            disableAccordionClick = false;
-                        });
+                    //    })
+                    //    .fail(function (data) {
+                    //        disableAccordionClick = false;
+                    //    })
+                    //    .always(function (data) {
+                    //        disableAccordionClick = false;
+                    //    });
                 }
             });
 
+            function MainSearch(_this, ui) {
+                // show loading image
+                $("#img-loading-search-main").show();
+                // clear content
+                $("#refTable").empty();
 
+                var search = $('#input-search-main').val();
+                var subCathegoryId = $('#input-search-main-subCathegoryId').val();
+                var cathegoryId = $('#input-search-main-cathegoryId').val();
+                var cathegoryTypeId = $('#input-search-main-cathegoryTypeId').val();
+
+                $.ajax({
+                    type: "GET",
+                    url: "/SearchProduct/Search",
+                    data: {
+                        search: search,
+                        subCathegoryId: subCathegoryId, cathegoryId: cathegoryId, cathegoryTypeId: cathegoryTypeId
+                    }
+                })
+                    .done(function (partialViewResult) {
+                        // hide loading image
+                        $("#img-loading-search-main").hide();
+                        // show result
+                        $("#refTable").html(partialViewResult);
+
+                        afterAjaxScript();
+
+                        if (_this != null && ui != null) {
+                            // Open menu
+                            $(_this).accordion("option", "active", ui.newHeader.index());
+                        }
+
+                        // release lock on menu
+                        disableAccordionClick = false;
+
+                    })
+                    .fail(function (data) {
+                        disableAccordionClick = false;
+                    })
+                    .always(function (data) {
+                        disableAccordionClick = false;
+                    });
+            }
+
+            // Advanced search (second option)
+            $('#btn-search-main').on('click',
+                function (e) {
+                    MainSearch(null, null);
+                });
+
+            // Initial Click for search
+            $("#main-search-accordion-theveryfirstone").accordion("option", "active", 0);
 
         });
     </script>
@@ -298,42 +335,38 @@
 
     @* Input Search *@
     <script type="text/javascript">
-        $('#btn-search-main').on('click',
-            function (e) {
+        //$('#btn-search-main').on('click',
+        //    function (e) {
 
-                // show loading image
-                $("#img-loading-search-main").show();
+        //        MainSearch(null, null);
 
-                var search = $('#input-search-main').val();
-                var subCathegoryId = $('#input-search-main-subCathegoryId').text();
-                var cathegoryId = $('#input-search-main-cathegoryId').text();
-                var cathegoryTypeId = $('#input-search-main-cathegoryTypeId').text();
-                $.ajax({
-                    type: "GET",
-                    url: "/SearchProduct/Search",
-                    data: {
-                        search: search,
-                        subCathegoryId: subCathegoryId, cathegoryId: cathegoryId, cathegoryTypeId: cathegoryTypeId
-                    }
-                    //success: function (result) {
-                    //    alert('refTable');
-                    //}
-                })
-                    .done(function (partialViewResult) {
-                        // hide loading image
-                        $("#img-loading-search-main").hide();
-                        // show result
-                        $("#refTable").html(partialViewResult);
+        //        //// show loading image
+        //        //$("#img-loading-search-main").show();
 
-                        afterAjaxScript();
-                    });
-            });
+        //        //var search = $('#input-search-main').val();
+        //        //var subCathegoryId = $('#input-search-main-subCathegoryId').text();
+        //        //var cathegoryId = $('#input-search-main-cathegoryId').text();
+        //        //var cathegoryTypeId = $('#input-search-main-cathegoryTypeId').text();
+        //        //$.ajax({
+        //        //    type: "GET",
+        //        //    url: "/SearchProduct/Search",
+        //        //    data: {
+        //        //        search: search,
+        //        //        subCathegoryId: subCathegoryId, cathegoryId: cathegoryId, cathegoryTypeId: cathegoryTypeId
+        //        //    }
+        //        //    //success: function (result) {
+        //        //    //    alert('refTable');
+        //        //    //}
+        //        //})
+        //        //    .done(function (partialViewResult) {
+        //        //        // hide loading image
+        //        //        $("#img-loading-search-main").hide();
+        //        //        // show result
+        //        //        $("#refTable").html(partialViewResult);
 
-        // initial click
-         //$('#btn-search-main').click();
-
-        // Open first Accordion
-        //$("#main-search-accordion-theveryfirstone").accordion("option", "active", 0);
+        //        //        afterAjaxScript();
+        //        //    });
+        //    });
 
     </script>
 
