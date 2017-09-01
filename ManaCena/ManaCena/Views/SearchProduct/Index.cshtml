@@ -116,12 +116,23 @@
                 heightStyle: "content",
                 icons: null,
                 beforeActivate: function (event, ui) {
+                    //console.log($(ui.newHeader).attr("aria-expanded"));
+                    var unclicked = $(ui.newHeader).hasClass("ui-accordion-header-collapsed")
+                    //console.log($(ui.newHeader).hasClass("ui-accordion-header-collapsed"));
 
+                    // allow to Unclick, without any events/concequences
+                    if (!unclicked)
+                    {
+                        return;
+                    }
+
+                    // it's disabled, do not trigger expand event
                     if (disableAccordionClick) {
                         event.preventDefault();
                         return;
                     }
-                    if ($(ui.newHeader).attr("data-cathegoryTypeId") != null) {
+                    if ($(ui.newHeader).attr("data-cathegoryTypeId") != null)
+                    {
                         //console.log($(ui.newHeader).attr("data-cathegoryTypeId"));
                         $("#input-search-main-cathegoryTypeId").val($(ui.newHeader).attr("data-cathegoryTypeId"));
                         // TODO: also clean fucking blue highlight from already selected tubs underneath this leve
