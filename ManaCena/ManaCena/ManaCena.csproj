@@ -193,6 +193,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\LanguageController.cs" />
     <Compile Include="Controllers\SearchProductController.cs" />
     <Compile Include="Controllers\SellerController.cs" />
     <Compile Include="Controllers\CathegoryController.cs" />
@@ -335,6 +336,7 @@
     <Content Include="Models\ManaCenaModel.edmx.diagram">
       <DependentUpon>ManaCenaModel.edmx</DependentUpon>
     </Content>
+    <Content Include="App_Code\MyHelper.cshtml" />
     <None Include="Properties\PublishProfiles\vismatest - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <None Include="Scripts\jquery-1.12.4.intellisense.js" />
@@ -401,6 +403,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Language\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

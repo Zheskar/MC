@@ -7,6 +7,8 @@
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Name" Type="varchar(max)" Nullable="false" />
     <Property Name="CathegoryTypeId" Type="int" Nullable="false" />
+    <Property Name="Name_Lat" Type="varchar(max)" />
+    <Property Name="Name_Rus" Type="varchar(max)" />
   </EntityType>
   <EntityType Name="CathegoryType">
     <Key>
@@ -14,6 +16,8 @@
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Name_Lat" Type="nvarchar" MaxLength="50" />
+    <Property Name="Name_Rus" Type="nvarchar" MaxLength="50" />
   </EntityType>
   <EntityType Name="Location">
     <Key>
@@ -87,8 +91,10 @@
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Name" Type="varchar(max)" />
+    <Property Name="Name" Type="varchar(max)" Nullable="false" />
     <Property Name="CathegoryId" Type="int" Nullable="false" />
+    <Property Name="Name_Lat" Type="varchar(max)" />
+    <Property Name="Name_Rus" Type="varchar(max)" />
   </EntityType>
   <Association Name="FK_Cathegory_CathegoryType">
     <End Role="CathegoryType" Type="Self.CathegoryType" Multiplicity="1" />

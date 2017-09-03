@@ -12,6 +12,8 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="varchar(max)" Nullable="false" />
           <Property Name="CathegoryTypeId" Type="int" Nullable="false" />
+          <Property Name="Name_Lat" Type="varchar(max)" />
+          <Property Name="Name_Rus" Type="varchar(max)" />
         </EntityType>
         <EntityType Name="CathegoryType">
           <Key>
@@ -19,6 +21,8 @@
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Name_Lat" Type="nvarchar" MaxLength="50" />
+          <Property Name="Name_Rus" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="Location">
           <Key>
@@ -92,8 +96,10 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Name" Type="varchar(max)" />
+          <Property Name="Name" Type="varchar(max)" Nullable="false" />
           <Property Name="CathegoryId" Type="int" Nullable="false" />
+          <Property Name="Name_Lat" Type="varchar(max)" />
+          <Property Name="Name_Rus" Type="varchar(max)" />
         </EntityType>
         <Association Name="FK_Cathegory_CathegoryType">
           <End Role="CathegoryType" Type="Self.CathegoryType" Multiplicity="1" />
@@ -370,6 +376,8 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="CathegoryTypeId" Type="Int32" Nullable="false" />
+          <Property Name="Name_Lat" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Name_Rus" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="CathegoryType" Relationship="ManaCenaModel.FK_Cathegory_CathegoryType" FromRole="Cathegory" ToRole="CathegoryType" />
           <NavigationProperty Name="Products" Relationship="ManaCenaModel.FK_Product_Cathegory" FromRole="Cathegory" ToRole="Product" />
           <NavigationProperty Name="SubCathegories" Relationship="ManaCenaModel.FK_SubCathegory_Cathegory" FromRole="Cathegory" ToRole="SubCathegory" />
@@ -380,6 +388,8 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Name_Lat" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Name_Rus" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Cathegories" Relationship="ManaCenaModel.FK_Cathegory_CathegoryType" FromRole="CathegoryType" ToRole="Cathegory" />
           <NavigationProperty Name="Products" Relationship="ManaCenaModel.FK_Product_CathegoryType" FromRole="CathegoryType" ToRole="Product" />
         </EntityType>
@@ -472,8 +482,10 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="CathegoryId" Type="Int32" Nullable="false" />
+          <Property Name="Name_Lat" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Name_Rus" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Cathegory" Relationship="ManaCenaModel.FK_SubCathegory_Cathegory" FromRole="SubCathegory" ToRole="Cathegory" />
           <NavigationProperty Name="Products" Relationship="ManaCenaModel.FK_Product_SubCathegory" FromRole="SubCathegory" ToRole="Product" />
         </EntityType>
@@ -630,6 +642,8 @@
           <EntitySetMapping Name="Cathegories">
             <EntityTypeMapping TypeName="ManaCenaModel.Cathegory">
               <MappingFragment StoreEntitySet="Cathegory">
+                <ScalarProperty Name="Name_Rus" ColumnName="Name_Rus" />
+                <ScalarProperty Name="Name_Lat" ColumnName="Name_Lat" />
                 <ScalarProperty Name="CathegoryTypeId" ColumnName="CathegoryTypeId" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
@@ -639,6 +653,8 @@
           <EntitySetMapping Name="CathegoryTypes">
             <EntityTypeMapping TypeName="ManaCenaModel.CathegoryType">
               <MappingFragment StoreEntitySet="CathegoryType">
+                <ScalarProperty Name="Name_Rus" ColumnName="Name_Rus" />
+                <ScalarProperty Name="Name_Lat" ColumnName="Name_Lat" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
@@ -721,6 +737,8 @@
           <EntitySetMapping Name="SubCathegories">
             <EntityTypeMapping TypeName="ManaCenaModel.SubCathegory">
               <MappingFragment StoreEntitySet="SubCathegory">
+                <ScalarProperty Name="Name_Rus" ColumnName="Name_Rus" />
+                <ScalarProperty Name="Name_Lat" ColumnName="Name_Lat" />
                 <ScalarProperty Name="CathegoryId" ColumnName="CathegoryId" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Id" ColumnName="Id" />

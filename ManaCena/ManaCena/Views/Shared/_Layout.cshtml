@@ -28,6 +28,11 @@
                     <li>@Html.ActionLink("Edit Cat. Type", "EditCathegoryType", "CathegoryType")</li>
                     <li>@Html.ActionLink("Edit Seller", "EditSeller", "Seller")</li>
                     <li>@Html.ActionLink("Edit Location", "EditLocation", "Location")</li>
+
+                    <li>@Html.ActionLink("Eng", "SwitchLanguage", "Language", new { language = "Eng" }, null)</li>
+                    <li>@Html.ActionLink("Lat", "SwitchLanguage", "Language", new { language = "Lat" }, null)</li>
+                    <li>@Html.ActionLink("Rus", "SwitchLanguage", "Language", new { language = "Rus" }, null)</li>                    
+                    
                     @*<li>@Html.ActionLink("Edit Product Sale", "EditProductSale", "ProductSale")</li>*@
                     @*<li>@Html.ActionLink("About", "About", "Home")</li>
                     <li>@Html.ActionLink("Contact", "Contact", "Home")</li>*@

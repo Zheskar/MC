@@ -67,6 +67,8 @@
     <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="Name" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
     <Property Name="CathegoryTypeId" Type="Int32" Nullable="false" />
+    <Property Name="Name_Lat" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="Name_Rus" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
     <NavigationProperty Name="CathegoryType" Relationship="ManaCenaModel.FK_Cathegory_CathegoryType" FromRole="Cathegory" ToRole="CathegoryType" />
     <NavigationProperty Name="Products" Relationship="ManaCenaModel.FK_Product_Cathegory" FromRole="Cathegory" ToRole="Product" />
     <NavigationProperty Name="SubCathegories" Relationship="ManaCenaModel.FK_SubCathegory_Cathegory" FromRole="Cathegory" ToRole="SubCathegory" />
@@ -77,6 +79,8 @@
     </Key>
     <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Name_Lat" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Name_Rus" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <NavigationProperty Name="Cathegories" Relationship="ManaCenaModel.FK_Cathegory_CathegoryType" FromRole="CathegoryType" ToRole="Cathegory" />
     <NavigationProperty Name="Products" Relationship="ManaCenaModel.FK_Product_CathegoryType" FromRole="CathegoryType" ToRole="Product" />
   </EntityType>
@@ -169,8 +173,10 @@
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
     <Property Name="CathegoryId" Type="Int32" Nullable="false" />
+    <Property Name="Name_Lat" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="Name_Rus" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
     <NavigationProperty Name="Cathegory" Relationship="ManaCenaModel.FK_SubCathegory_Cathegory" FromRole="SubCathegory" ToRole="Cathegory" />
     <NavigationProperty Name="Products" Relationship="ManaCenaModel.FK_Product_SubCathegory" FromRole="SubCathegory" ToRole="Product" />
   </EntityType>

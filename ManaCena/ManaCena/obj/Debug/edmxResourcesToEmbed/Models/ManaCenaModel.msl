@@ -4,6 +4,8 @@
     <EntitySetMapping Name="Cathegories">
       <EntityTypeMapping TypeName="ManaCenaModel.Cathegory">
         <MappingFragment StoreEntitySet="Cathegory">
+          <ScalarProperty Name="Name_Rus" ColumnName="Name_Rus" />
+          <ScalarProperty Name="Name_Lat" ColumnName="Name_Lat" />
           <ScalarProperty Name="CathegoryTypeId" ColumnName="CathegoryTypeId" />
           <ScalarProperty Name="Name" ColumnName="Name" />
           <ScalarProperty Name="Id" ColumnName="Id" />
@@ -13,6 +15,8 @@
     <EntitySetMapping Name="CathegoryTypes">
       <EntityTypeMapping TypeName="ManaCenaModel.CathegoryType">
         <MappingFragment StoreEntitySet="CathegoryType">
+          <ScalarProperty Name="Name_Rus" ColumnName="Name_Rus" />
+          <ScalarProperty Name="Name_Lat" ColumnName="Name_Lat" />
           <ScalarProperty Name="Name" ColumnName="Name" />
           <ScalarProperty Name="Id" ColumnName="Id" />
         </MappingFragment>
@@ -95,6 +99,8 @@
     <EntitySetMapping Name="SubCathegories">
       <EntityTypeMapping TypeName="ManaCenaModel.SubCathegory">
         <MappingFragment StoreEntitySet="SubCathegory">
+          <ScalarProperty Name="Name_Rus" ColumnName="Name_Rus" />
+          <ScalarProperty Name="Name_Lat" ColumnName="Name_Lat" />
           <ScalarProperty Name="CathegoryId" ColumnName="CathegoryId" />
           <ScalarProperty Name="Name" ColumnName="Name" />
           <ScalarProperty Name="Id" ColumnName="Id" />
