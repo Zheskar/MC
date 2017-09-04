@@ -101,7 +101,11 @@
     <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="SellerId" Type="Int32" />
     <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Name_Lat" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Name_Rus" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
     <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Description_Rus" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Description_Lat" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
     <Property Name="Wheight" Type="Decimal" Precision="18" Scale="4" />
     <Property Name="Unit" Type="Int32" />
     <Property Name="Size" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />

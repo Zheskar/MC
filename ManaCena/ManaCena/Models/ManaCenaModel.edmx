@@ -39,7 +39,11 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="SellerId" Type="int" />
           <Property Name="Name" Type="nvarchar(max)" />
+          <Property Name="Name_Lat" Type="nvarchar(max)" />
+          <Property Name="Name_Rus" Type="nvarchar(max)" />
           <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="Description_Rus" Type="nvarchar(max)" />
+          <Property Name="Description_Lat" Type="nvarchar(max)" />
           <Property Name="Wheight" Type="decimal" Precision="18" Scale="4" />
           <Property Name="Unit" Type="int" />
           <Property Name="Size" Type="nvarchar(max)" />
@@ -410,7 +414,11 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="SellerId" Type="Int32" />
           <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Name_Lat" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Name_Rus" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Description_Rus" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Description_Lat" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Wheight" Type="Decimal" Precision="18" Scale="4" />
           <Property Name="Unit" Type="Int32" />
           <Property Name="Size" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
@@ -685,7 +693,11 @@
                 <ScalarProperty Name="Size" ColumnName="Size" />
                 <ScalarProperty Name="Unit" ColumnName="Unit" />
                 <ScalarProperty Name="Wheight" ColumnName="Wheight" />
+                <ScalarProperty Name="Description_Lat" ColumnName="Description_Lat" />
+                <ScalarProperty Name="Description_Rus" ColumnName="Description_Rus" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name_Rus" ColumnName="Name_Rus" />
+                <ScalarProperty Name="Name_Lat" ColumnName="Name_Lat" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="SellerId" ColumnName="SellerId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />

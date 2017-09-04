@@ -23,7 +23,11 @@ namespace ManaCena.Models
         public int Id { get; set; }
         public Nullable<int> SellerId { get; set; }
         public string Name { get; set; }
+        public string Name_Lat { get; set; }
+        public string Name_Rus { get; set; }
         public string Description { get; set; }
+        public string Description_Rus { get; set; }
+        public string Description_Lat { get; set; }
         public Nullable<decimal> Wheight { get; set; }
         public Nullable<int> Unit { get; set; }
         public string Size { get; set; }

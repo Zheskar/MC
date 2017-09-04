@@ -8,7 +8,11 @@
         <td><label>Image</label></td>
         <td><label>Image Small</label></td>
         <td><label>Name</label></td>
+        <td><label>Name_Lat</label></td>
+        <td><label>Name_Rus</label></td>
         <td><label>Description</label></td>
+        <td><label>Description_Lat</label></td>
+        <td><label>Description_Rus</label></td>
         <td><label>Seller Name</label></td>
 
         <td><label>Wheight</label></td>
@@ -39,7 +43,11 @@
                 <img src="@if (p.ProductImageSmall != null) { <text>@p.ProductImageSmall.Image</text> }">
             </td>
             <td><input value="@p.Name" id="@rnd-@nameof(Product.Name)" /></td>
+            <td><input value="@p.Name_Lat" id="@rnd-@nameof(Product.Name_Lat)" /></td>
+            <td><input value="@p.Name_Rus" id="@rnd-@nameof(Product.Name_Rus)" /></td>
             <td><input value="@p.Description" id="@rnd-@nameof(Product.Description)" /></td>
+            <td><input value="@p.Description_Lat" id="@rnd-@nameof(Product.Description_Lat)" /></td>
+            <td><input value="@p.Description_Rus" id="@rnd-@nameof(Product.Description_Rus)" /></td>
             <td>
                 <select id="@rnd-@nameof(Product.SellerId)">
                     @foreach (var i in (List<Seller>)ViewBag.SellerEnum)
@@ -56,7 +64,7 @@
                     <option selected value> Empty </option>
                     @foreach (var ce in (List<SubCathegory>)ViewBag.SubCathegoryEnum)
                     {                        
-                        <option @if (ce.Id == p.SubCathegoryId) { <text> selected="selected" </text> } value="@ce.Id">@string.Format("{0} -> ({1} -> {2})", ce.Name, ce.Cathegory.Name, ce.Cathegory.CathegoryType.Name)</option>
+                        <option @if (ce.Id == p.SubCathegoryId) { <text> selected="selected" </text> } value="@ce.Id">@string.Format("{0} -> ({1} -> {2})", MyHelper.UseLanguage(ce, "Name"), MyHelper.UseLanguage(ce.Cathegory, "Name"), MyHelper.UseLanguage(ce.Cathegory.CathegoryType, "Name"))</option>
                     }
                 </select>
             </td>
@@ -65,7 +73,7 @@
                     <option selected value> Empty </option>
                     @foreach (var ce in (List<Cathegory>)ViewBag.CathegoryEnum)
                     {                        
-                        <option @if (ce.Id == p.CathegoryId) { <text> selected="selected" </text> } value="@ce.Id">@string.Format("{0} -> ({1})", ce.Name, ce.CathegoryType.Name)</option>
+                        <option @if (ce.Id == p.CathegoryId) { <text> selected="selected" </text> } value="@ce.Id">@string.Format("{0} -> ({1})", MyHelper.UseLanguage(ce, "Name"), MyHelper.UseLanguage(ce.CathegoryType, "Name"))</option>
                     }
                 </select>
             </td>
@@ -74,7 +82,7 @@
                     <option selected value> Empty </option>
                     @foreach (var ce in (List<CathegoryType>)ViewBag.CathegoryTypeEnum)
                     {                        
-                        <option @if (ce.Id == p.CathegoryTypeId) { <text> selected="selected" </text> } value="@ce.Id">@string.Format("{0}", ce.Name)</option>
+                        <option @if (ce.Id == p.CathegoryTypeId) { <text> selected="selected" </text> } value="@ce.Id">@string.Format("{0}", MyHelper.UseLanguage(ce, "Name"))</option>
                     }
                 </select>
             </td>
@@ -120,7 +128,11 @@
             // read all variables
             var id = $('#' + rnd + '-@nameof(Product.Id)').val();
             var name = $('#' + rnd + '-@nameof(Product.Name)').val();
+            var name_Lat = $('#' + rnd + '-@nameof(Product.Name_Lat)').val();
+            var name_Rus = $('#' + rnd + '-@nameof(Product.Name_Rus)').val();
             var description = $('#' + rnd + '-@nameof(Product.Description)').val();
+            var description_Lat = $('#' + rnd + '-@nameof(Product.Description_Lat)').val();
+            var description_Rus = $('#' + rnd + '-@nameof(Product.Description_Rus)').val();
             var sellerId =$('#'+rnd+'-@nameof(Product.SellerId)').val();
             var wheight =$('#'+rnd+'-@nameof(Product.Wheight)').val();
             var unit =$('#'+rnd+'-@nameof(Product.Unit)').val();
@@ -140,7 +152,8 @@
                 type: "POST",
                 url: "/Product/EditItem",
                 data: {
-                    Id: id, Name: name, Description: description, SellerId: sellerId, Wheight: wheight, Unit: unit, Size: size, SubCathegoryId: subCathegoryId, CathegoryId: cathegoryId, CathegoryTypeId: cathegoryTypeId,
+                    Id: id, Name: name, Name_Lat: name_Lat, Name_Rus: name_Rus, Description: description, Description_Lat: description_Lat, Description_Rus: description_Rus,
+                    SellerId: sellerId, Wheight: wheight, Unit: unit, Size: size, SubCathegoryId: subCathegoryId, CathegoryId: cathegoryId, CathegoryTypeId: cathegoryTypeId,
                     OriginalPrice: originalPrice, DiscountPrice: discountPrice, DiscountPercentage: discountPercentage, StartDate: startDate, EndDate: endDate,
                     ProductImage: { Id: productImageId, Image: img }
                 },

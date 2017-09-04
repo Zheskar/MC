@@ -47,7 +47,11 @@
           <ScalarProperty Name="Size" ColumnName="Size" />
           <ScalarProperty Name="Unit" ColumnName="Unit" />
           <ScalarProperty Name="Wheight" ColumnName="Wheight" />
+          <ScalarProperty Name="Description_Lat" ColumnName="Description_Lat" />
+          <ScalarProperty Name="Description_Rus" ColumnName="Description_Rus" />
           <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Name_Rus" ColumnName="Name_Rus" />
+          <ScalarProperty Name="Name_Lat" ColumnName="Name_Lat" />
           <ScalarProperty Name="Name" ColumnName="Name" />
           <ScalarProperty Name="SellerId" ColumnName="SellerId" />
           <ScalarProperty Name="Id" ColumnName="Id" />

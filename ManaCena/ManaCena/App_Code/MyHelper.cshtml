@@ -1,12 +1,17 @@
 ﻿@helper UseLanguage(object obj, string propertyName)
-{
+{    
 
 if ((string)HttpContext.Current.Session["language"] != "Eng" &&  !string.IsNullOrEmpty((string)HttpContext.Current.Session["language"]))
 {
     propertyName = propertyName + "_" + (string)HttpContext.Current.Session["language"];
 }
 
+@obj.GetType().GetProperty(propertyName).GetValue(obj, null)
 
-<div>@obj.GetType().GetProperty(propertyName).GetValue(obj, null)</div>
+// Etot ebuchij Helper ogranichen, nelza ispolzovat' Html.Raw, po etomu nevijobivajemsa i ne ispolzujem & simvol
+@*var a = Html.Raw("dasdasd");
+
+@a*@
+
 
 }

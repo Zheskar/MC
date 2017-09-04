@@ -34,7 +34,11 @@
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="SellerId" Type="int" />
     <Property Name="Name" Type="nvarchar(max)" />
+    <Property Name="Name_Lat" Type="nvarchar(max)" />
+    <Property Name="Name_Rus" Type="nvarchar(max)" />
     <Property Name="Description" Type="nvarchar(max)" />
+    <Property Name="Description_Rus" Type="nvarchar(max)" />
+    <Property Name="Description_Lat" Type="nvarchar(max)" />
     <Property Name="Wheight" Type="decimal" Precision="18" Scale="4" />
     <Property Name="Unit" Type="int" />
     <Property Name="Size" Type="nvarchar(max)" />

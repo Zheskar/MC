@@ -33,27 +33,5 @@ namespace ManaCena.Controllers
 
             return View();
         }
-
-        //// TODO: perenseti etu hujnju v ProductController
-        //public ActionResult EditProduct()
-        //{
-        //    List<Product> model = new List<Product>();
-        //    using (ManaCenaEntities context = new ManaCenaEntities())
-        //    {
-        //        model = context.Products.Include(o => o.Cathegory.CathegoryType).Include(o => o.ProductImage).ToList();
-        //        ViewBag.CathegoryEnum = context.Cathegories.ToList();
-        //        ViewBag.CathegoryTypeEnum = context.CathegoryTypes.ToList();
-
-
-        //        //model = context.Products.Include(o => o.Cathegory).ToList();
-        //        var a = model[0].Cathegory.Name;
-        //    }
-
-        //    //foreach (System.Reflection.PropertyInfo prop in typeof(MyType).GetProperties())
-        //    //{
-        //    //    Console.WriteLine(prop.Name);
-        //    //}
-        //    return View(model);
-        //}
     }
 }
