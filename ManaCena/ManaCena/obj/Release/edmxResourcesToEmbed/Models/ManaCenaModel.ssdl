@@ -7,6 +7,8 @@
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Name" Type="varchar(max)" Nullable="false" />
     <Property Name="CathegoryTypeId" Type="int" Nullable="false" />
+    <Property Name="Name_Lat" Type="varchar(max)" />
+    <Property Name="Name_Rus" Type="varchar(max)" />
   </EntityType>
   <EntityType Name="CathegoryType">
     <Key>
@@ -14,6 +16,8 @@
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Name_Lat" Type="nvarchar" MaxLength="50" />
+    <Property Name="Name_Rus" Type="nvarchar" MaxLength="50" />
   </EntityType>
   <EntityType Name="Location">
     <Key>
@@ -30,7 +34,11 @@
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="SellerId" Type="int" />
     <Property Name="Name" Type="nvarchar(max)" />
+    <Property Name="Name_Lat" Type="nvarchar(max)" />
+    <Property Name="Name_Rus" Type="nvarchar(max)" />
     <Property Name="Description" Type="nvarchar(max)" />
+    <Property Name="Description_Rus" Type="nvarchar(max)" />
+    <Property Name="Description_Lat" Type="nvarchar(max)" />
     <Property Name="Wheight" Type="decimal" Precision="18" Scale="4" />
     <Property Name="Unit" Type="int" />
     <Property Name="Size" Type="nvarchar(max)" />
@@ -87,8 +95,10 @@
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Name" Type="varchar(max)" />
+    <Property Name="Name" Type="varchar(max)" Nullable="false" />
     <Property Name="CathegoryId" Type="int" Nullable="false" />
+    <Property Name="Name_Lat" Type="varchar(max)" />
+    <Property Name="Name_Rus" Type="varchar(max)" />
   </EntityType>
   <Association Name="FK_Cathegory_CathegoryType">
     <End Role="CathegoryType" Type="Self.CathegoryType" Multiplicity="1" />

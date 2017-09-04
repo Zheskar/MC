@@ -28,21 +28,21 @@
                     <option value="">@string.Format("Everything")</option>
                     @foreach (var ce in (List<CathegoryType>)ViewBag.CathegoryTypeEnum)
                     {
-                        <option value="@ce.Id">@string.Format("{0}", ce.Name)</option>
+                        <option value="@ce.Id">@string.Format("{0}", MyHelper.UseLanguage(ce, "Name"))</option>
                     }
                 </select>
                 <select id="input-search-main-cathegoryId">
                     <option value="">@string.Format("Everything")</option>
                     @foreach (var ce in (List<Cathegory>)ViewBag.CathegoryEnum)
                     {
-                        <option value="@ce.Id">@string.Format("{1} - ({0})", ce.Name, ce.CathegoryType.Name)</option>
+                        <option value="@ce.Id">@string.Format("{1} - ({0})", MyHelper.UseLanguage(ce, "Name"), MyHelper.UseLanguage(ce.CathegoryType, "Name"))</option>
                     }
                 </select>
                 <select id="input-search-main-subCathegoryId">
                     <option value="">@string.Format("Everything")</option>
                     @foreach (var ce in (List<SubCathegory>)ViewBag.SubCathegoryEnum)
                     {
-                        <option value="@ce.Id">@string.Format("{1} - ({0})", ce.Name, ce.Cathegory.Name)</option>
+                        <option value="@ce.Id">@string.Format("{1} - ({0})", MyHelper.UseLanguage(ce, "Name"), MyHelper.UseLanguage(ce.Cathegory, "Name"))</option>
                     }
                 </select>
             </div>
@@ -74,17 +74,17 @@
                 <div class="menu-search-accordion">
                     @foreach (var ct in (IList<CathegoryType>)ViewBag.CathegoryTypeEnum)
                     {
-                        <h3 data-cathegoryTypeId="@ct.Id"><b>@ct.Name</b></h3>
+                        <h3 data-cathegoryTypeId="@ct.Id"><b>@MyHelper.UseLanguage(ct, "Name")</b></h3>
                         <div>
                             <div class="menu-search-accordion">
                                 @foreach (var c in (IList<Cathegory>)ct.Cathegories.ToList())
                                 {
-                                    <h3 data-cathegoryId="@c.Id"><i>@c.Name</i></h3>
+                                    <h3 data-cathegoryId="@c.Id"><i>@MyHelper.UseLanguage(c, "Name")</i></h3>
                                             <div>
                                                 <div class="menu-search-accordion">
                                                     @foreach (var sc in (IList<SubCathegory>)c.SubCathegories.ToList())
                                                     {
-                                                        <h3 data-subCathegoryId="@sc.Id">@sc.Name</h3>
+                                                        <h3 data-subCathegoryId="@sc.Id">@MyHelper.UseLanguage(sc, "Name")</h3>
                                                         <div>
                                                         </div>
                                                     }
@@ -116,12 +116,23 @@
                 heightStyle: "content",
                 icons: null,
                 beforeActivate: function (event, ui) {
+                    //console.log($(ui.newHeader).attr("aria-expanded"));
+                    var unclicked = $(ui.newHeader).hasClass("ui-accordion-header-collapsed")
+                    //console.log($(ui.newHeader).hasClass("ui-accordion-header-collapsed"));
 
+                    // allow to Unclick, without any events/concequences
+                    if (!unclicked)
+                    {
+                        return;
+                    }
+
+                    // it's disabled, do not trigger expand event
                     if (disableAccordionClick) {
                         event.preventDefault();
                         return;
                     }
-                    if ($(ui.newHeader).attr("data-cathegoryTypeId") != null) {
+                    if ($(ui.newHeader).attr("data-cathegoryTypeId") != null)
+                    {
                         //console.log($(ui.newHeader).attr("data-cathegoryTypeId"));
                         $("#input-search-main-cathegoryTypeId").val($(ui.newHeader).attr("data-cathegoryTypeId"));
                         // TODO: also clean fucking blue highlight from already selected tubs underneath this leve

@@ -7,6 +7,8 @@
 <table border="1" id="table-edit-product">
     <tr>
         <td><label>Name</label></td>
+        <td><label>Name Lat</label></td>
+        <td><label>Name Rus</label></td>
     </tr>
     @foreach (var p in Model)
     {
@@ -14,6 +16,8 @@
         <tr id="@rnd-tr">
             <td style="display:none;"><input value="@p.Id" id="@rnd-@nameof(Product.Id)" /></td>
             <td><input value="@p.Name" id="@rnd-@nameof(Product.Name)" /></td>
+            <td><input value="@p.Name_Lat" id="@rnd-@nameof(Product.Name_Lat)" /></td>
+            <td><input value="@p.Name_Rus" id="@rnd-@nameof(Product.Name_Rus)" /></td>
             <td>
                 <button class="btn-submit-save" data-rnd="@rnd">Save Changes</button>
                 <button class="btn-clone" data-tr-id="@rnd-tr" data-rnd="@rnd">Clone</button>
@@ -32,12 +36,14 @@
             // read all variables
             var id = $('#' + rnd + '-@nameof(Product.Id)').val();
             var name = $('#' + rnd + '-@nameof(Product.Name)').val();
+            var name_Lat = $('#' + rnd + '-@nameof(Product.Name_Lat)').val();
+            var name_Rus = $('#' + rnd + '-@nameof(Product.Name_Rus)').val();
 
             $.ajax({
                 type: "POST",
                 url: "/CathegoryType/EditCathegoryType",
                 data: {
-                    Id: id, Name: name
+                    Id: id, Name: name, Name_Lat: name_Lat, Name_Rus: name_Rus
                 },
                 success: function (result) {
                     // Do something interesting here.
