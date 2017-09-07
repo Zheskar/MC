@@ -24,7 +24,7 @@ namespace ManaCena.Controllers
         [HttpGet]
         public ActionResult EditProduct(string seller, string name = "", string description = "")
         {
-            List<int> lSeller = seller.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries).Select(Int32.Parse).ToList();            
+            List<int> lSeller = seller.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries).Select(Int32.Parse).ToList();
             name = name.ToLower();
             description = description.ToLower();
             List<Product> model = new List<Product>();
@@ -35,6 +35,7 @@ namespace ManaCena.Controllers
                         .Include(o => o.SubCathegory.Cathegory.CathegoryType)
                         .Include(o => o.ProductImage)
                         .Include(o => o.ProductImageSmall)
+                        .Include(o => o.ProductLocations)
                         .Where(o =>
                             (lSeller.Contains(o.Seller.Id))
                             //seller == "" || o.Seller == null || o.Seller.Name.ToLower().Contains(seller))
@@ -46,7 +47,7 @@ namespace ManaCena.Controllers
                 ViewBag.SubCathegoryEnum = context.SubCathegories.ToList();
                 ViewBag.CathegoryEnum = context.Cathegories.ToList();
                 ViewBag.CathegoryTypeEnum = context.CathegoryTypes.ToList();
-                ViewBag.SellerEnum = context.Sellers.ToList();
+                ViewBag.SellerEnum = context.Sellers.Include(o => o.Locations).ToList();
             }
 
             return View(model);
@@ -56,8 +57,23 @@ namespace ManaCena.Controllers
         public bool EditItem(Product rec)
         {
 
+            //ProductLocation peredajotsa, sledujushije shagi:
+            //1) Proverj ne perezapisivajutsa li oni
+            //2) Proverj, chtobi stiralis vse predidushije esli v nachale bili XX/X/XXX a potm pusto
+            //2.1.) Sohranenije novoj zapisi
+            //3) Otobrazhenije
+            // 4) otobrazhenije v Detailes
+
             using (ManaCenaEntities context = new ManaCenaEntities())
             {
+                //dell all Locations (if any)
+                context.ProductLocations.RemoveRange(context.ProductLocations.Where(o => o.ProductId == rec.Id));
+
+                if (rec.ProductLocations.Count == context.Locations.Count(o => o.SellerId == rec.SellerId))
+                {
+                    rec.ProductLocations = null;
+                }
+
                 context.Products.Add(rec);
                 if (rec.Id > 0)
                 {

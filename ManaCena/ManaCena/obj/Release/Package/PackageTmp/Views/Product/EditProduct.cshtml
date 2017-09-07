@@ -1,5 +1,6 @@
 ﻿@using ManaCena.Models
 @using System.Reflection
+
 @model List<Product>
 
 <table border="1" id="table-edit-product">
@@ -49,22 +50,44 @@
             <td><input value="@p.Description_Lat" id="@rnd-@nameof(Product.Description_Lat)" /></td>
             <td><input value="@p.Description_Rus" id="@rnd-@nameof(Product.Description_Rus)" /></td>
             <td>
-                <select id="@rnd-@nameof(Product.SellerId)">
+                <select id="@rnd-@nameof(Product.SellerId)" class="product-seller">
                     @foreach (var i in (List<Seller>)ViewBag.SellerEnum)
                     {
-                        <option @if (i.Id == p.SellerId) { <text> selected="selected" </text>   } value="@i.Id">@i.Name</option>
+                        <option @if (i.Id == p.SellerId) { <text> selected="selected" </text>     } value="@i.Id"
+                                data-rnd="@rnd" data-seller-address="@nameof(Product.ProductLocations)-@i.Id">
+                            @i.Name
+                        </option>
                     }
                 </select>
+                                
+                @foreach (var i in (List<Seller>)ViewBag.SellerEnum)
+                {
+                    <div class="div-of-address-checkboxes" id="@rnd-@nameof(Product.ProductLocations)-@i.Id" data-rnd="@rnd">                        
+                        @foreach (var k in i.Locations)
+                        {
+                            var strChecked = "";
+                            if (i.Id == p.SellerId && p.ProductLocations.Any(o=>o.LocationId== k.Id))
+                            {
+                                strChecked = "checked";
+                            }
+
+                            <div class="checkbox">
+                                <label><input type="checkbox" value="@k.Id" @strChecked data-rnd="@rnd">@k.Name</label>
+                            </div>
+                        }
+                    </div>
+                }
+                
             </td>
             <td><input value="@p.Wheight" id="@rnd-@nameof(Product.Wheight)" /></td>
             <td><input value="@p.Unit" id="@rnd-@nameof(Product.Unit)" /></td>
-            <td><input value="@p.Size" id="@rnd-@nameof(Product.Size)" /></td>            
+            <td><input value="@p.Size" id="@rnd-@nameof(Product.Size)" /></td>
             <td>
                 <select id="@rnd-@nameof(Product.SubCathegoryId)">
                     <option selected value> Empty </option>
                     @foreach (var ce in (List<SubCathegory>)ViewBag.SubCathegoryEnum)
-                    {                        
-                        <option @if (ce.Id == p.SubCathegoryId) { <text> selected="selected" </text> } value="@ce.Id">@string.Format("{0} -> ({1} -> {2})", MyHelper.UseLanguage(ce, "Name"), MyHelper.UseLanguage(ce.Cathegory, "Name"), MyHelper.UseLanguage(ce.Cathegory.CathegoryType, "Name"))</option>
+                    {
+                        <option @if (ce.Id == p.SubCathegoryId) { <text> selected="selected" </text>   } value="@ce.Id">@string.Format("{0} -> ({1} -> {2})", MyHelper.UseLanguage(ce, "Name"), MyHelper.UseLanguage(ce.Cathegory, "Name"), MyHelper.UseLanguage(ce.Cathegory.CathegoryType, "Name"))</option>
                     }
                 </select>
             </td>
@@ -72,8 +95,8 @@
                 <select id="@rnd-@nameof(Product.CathegoryId)">
                     <option selected value> Empty </option>
                     @foreach (var ce in (List<Cathegory>)ViewBag.CathegoryEnum)
-                    {                        
-                        <option @if (ce.Id == p.CathegoryId) { <text> selected="selected" </text> } value="@ce.Id">@string.Format("{0} -> ({1})", MyHelper.UseLanguage(ce, "Name"), MyHelper.UseLanguage(ce.CathegoryType, "Name"))</option>
+                    {
+                        <option @if (ce.Id == p.CathegoryId) { <text> selected="selected" </text>   } value="@ce.Id">@string.Format("{0} -> ({1})", MyHelper.UseLanguage(ce, "Name"), MyHelper.UseLanguage(ce.CathegoryType, "Name"))</option>
                     }
                 </select>
             </td>
@@ -81,8 +104,8 @@
                 <select id="@rnd-@nameof(Product.CathegoryTypeId)">
                     <option selected value> Empty </option>
                     @foreach (var ce in (List<CathegoryType>)ViewBag.CathegoryTypeEnum)
-                    {                        
-                        <option @if (ce.Id == p.CathegoryTypeId) { <text> selected="selected" </text> } value="@ce.Id">@string.Format("{0}", MyHelper.UseLanguage(ce, "Name"))</option>
+                    {
+                        <option @if (ce.Id == p.CathegoryTypeId) { <text> selected="selected" </text>   } value="@ce.Id">@string.Format("{0}", MyHelper.UseLanguage(ce, "Name"))</option>
                     }
                 </select>
             </td>
@@ -101,13 +124,37 @@
     }
 </table>
 @section scripts {
-    
+
+    @* Product->Seller->Address *@
+    <script type="text/javascript">
+
+        // initia hide
+        $(".div-of-address-checkboxes").hide();
+
+        // initial show of 1 div
+        $('.product-seller').each(function (i, obj) {
+            productAddressDomId = $(this).find(':selected').attr("data-rnd") + '-' + $(this).find(':selected').attr("data-seller-address");
+            $("#" + productAddressDomId).show();
+        });
+
+        $(".product-seller").change(function (e) {
+            productAddressDomId = $(this).find(':selected').attr("data-rnd") + '-' + $(this).find(':selected').attr("data-seller-address");
+            console.log(productAddressDomId);
+            // hide the rest
+            $(".div-of-address-checkboxes").hide();
+            // show only one
+            $("#" + productAddressDomId).show();
+        });
+
+
+    </script>
+
     @* Filter *@
     <script type="text/javascript">
         $("#btn-filter").click(function () {
             var seller = $('#inp-seller').val();
             var name = $('#inp-name').val();
-            var description = $('#inp-description').val();            
+            var description = $('#inp-description').val();
         });
 
 
@@ -125,6 +172,7 @@
     <script type="text/javascript">
         $(".btn-submit-save").click(function () {
             var rnd = $(this).attr("data-rnd");
+
             // read all variables
             var id = $('#' + rnd + '-@nameof(Product.Id)').val();
             var name = $('#' + rnd + '-@nameof(Product.Name)').val();
@@ -133,7 +181,20 @@
             var description = $('#' + rnd + '-@nameof(Product.Description)').val();
             var description_Lat = $('#' + rnd + '-@nameof(Product.Description_Lat)').val();
             var description_Rus = $('#' + rnd + '-@nameof(Product.Description_Rus)').val();
-            var sellerId =$('#'+rnd+'-@nameof(Product.SellerId)').val();
+            var sellerId = $('#' + rnd + '-@nameof(Product.SellerId)').val();
+
+            // -- Extract Seller->Locations
+            var divId = $('#' + rnd + '-@nameof(Product.SellerId)').find(':selected').attr("data-seller-address");
+            var selectedLocations = [];
+            $('#' + rnd + '-' + divId + ' input:checked').each(function () {
+                selectedLocations.push($(this).val());
+            });
+            var ProductLocations = [];
+            selectedLocations.forEach(function (element) {
+                ProductLocations.push({ ProductId: id, LocationId: element });
+            });            
+            // -- Extract Seller->Locations
+            
             var wheight =$('#'+rnd+'-@nameof(Product.Wheight)').val();
             var unit =$('#'+rnd+'-@nameof(Product.Unit)').val();
             var size =$('#'+rnd+'-@nameof(Product.Size)').val();
@@ -153,7 +214,8 @@
                 url: "/Product/EditItem",
                 data: {
                     Id: id, Name: name, Name_Lat: name_Lat, Name_Rus: name_Rus, Description: description, Description_Lat: description_Lat, Description_Rus: description_Rus,
-                    SellerId: sellerId, Wheight: wheight, Unit: unit, Size: size, SubCathegoryId: subCathegoryId, CathegoryId: cathegoryId, CathegoryTypeId: cathegoryTypeId,
+                    SellerId: sellerId, ProductLocations,
+                    Wheight: wheight, Unit: unit, Size: size, SubCathegoryId: subCathegoryId, CathegoryId: cathegoryId, CathegoryTypeId: cathegoryTypeId,
                     OriginalPrice: originalPrice, DiscountPrice: discountPrice, DiscountPercentage: discountPercentage, StartDate: startDate, EndDate: endDate,
                     ProductImage: { Id: productImageId, Image: img }
                 },
