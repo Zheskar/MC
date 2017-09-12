@@ -21,7 +21,7 @@ namespace ManaCena.Models
         }
     
         public int Id { get; set; }
-        public Nullable<int> SellerId { get; set; }
+        public int SellerId { get; set; }
         public string Name { get; set; }
         public string Name_Lat { get; set; }
         public string Name_Rus { get; set; }

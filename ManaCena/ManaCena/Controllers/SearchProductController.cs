@@ -43,6 +43,8 @@ namespace ManaCena.Controllers
                 ViewBag.CathegoryEnum = context.Cathegories.ToList();
                 ViewBag.SubCathegoryEnum = context.SubCathegories.ToList();
 
+                ViewBag.SellerEnum = context.Sellers.ToList();
+
                 //ViewBag.CathegoryEnum = context.Cathegories.Include(o => o.CathegoryType).OrderBy(o => o.CathegoryType.Name).ToList();
             }
 
@@ -50,22 +52,17 @@ namespace ManaCena.Controllers
         }
 
 
-        [HttpGet]
-        public ActionResult Search(string search = "", Nullable<int> subCathegoryId = null, Nullable<int> cathegoryId = null, Nullable<int> cathegoryTypeId = null)
+        //[HttpGet]
+        [HttpPost]
+        public ActionResult Search(List<int> sellersList, string search = "", Nullable<int> subCathegoryId = null, Nullable<int> cathegoryId = null, Nullable<int> cathegoryTypeId = null)
         {
             List<Product> model = new List<Product>();
-            //using (ManaCenaEntities context = new ManaCenaEntities())
-            //{
-            //    model = context.Products
-            //        //.Include(o => o.ProductImage)
-            //        .Include(o => o.ProductImageSmall)
-            //        .Include(o => o.Seller)
-            //        .Include(o => o.Seller.SellerImage)
-            //        .Where(o =>
-            //             (o.CathegoryId == cathegoryId || cathegoryId == null) &&
-            //            (o.Name.Contains(search) || o.Description.Contains(search))
-            //        ).ToList();
-            //}
+         
+            if (sellersList == null)
+            {
+                sellersList = new List<int>();
+            }
+
             using (ManaCenaEntities context = new ManaCenaEntities())
             {
                 model = context.Products
@@ -76,7 +73,8 @@ namespace ManaCena.Controllers
                     .Where(o =>
                          (o.SubCathegoryId == subCathegoryId || subCathegoryId == null) &&
                         (o.CathegoryId == cathegoryId || cathegoryId == null) &&
-                        (o.CathegoryTypeId == cathegoryTypeId || cathegoryTypeId == null)
+                        (o.CathegoryTypeId == cathegoryTypeId || cathegoryTypeId == null) &&
+                        (sellersList.Count == 0 || sellersList.Contains(o.SellerId))
                     ).ToList();
             }
 

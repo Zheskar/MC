@@ -10,6 +10,26 @@
     }
 </style>
 
+@* Checkbox *@
+<style>
+
+    /*padding-top
+padding-right
+padding-bottom
+padding-left*/
+    .checkbox {
+        padding-left: 0px !important;
+    }
+    input[type=checkbox].sellers-checkbox {
+        height: 20px;
+        width: 20px;
+        margin: 0px 0 0;
+        /*margin: 0px 10px 10px 10px*/
+    }
+
+  
+</style>
+
 <div class="row">
     <div class="col-xs-12 col-md-8">
         <div class="row" style="max-width:600px; display:none;">
@@ -68,6 +88,22 @@
     </div>
 
     <div class="col-xs-6 col-md-4">
+
+        <div id="menu-search-accordion-sellers" class="menu-search-accordion-sellers" style="width:300px;">
+            <h3><b>Sellers</b></h3>
+            <div>
+                @foreach (var i in (List<Seller>)ViewBag.SellerEnum)
+                {
+                    <div class="checkbox">
+                    @*<div class="">*@
+                        <label class="sellers-checkbox-label"><input type="checkbox" class="sellers-checkbox" value="@i.Id"><b>@i.Name</b></label>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <br />
+
         <div class="menu-search-accordion" style="width:300px;" id="main-search-accordion-theveryfirstone">
             <h3 class="trigger">All Cathegory Type</h3>
             <div>
@@ -80,16 +116,16 @@
                                 @foreach (var c in (IList<Cathegory>)ct.Cathegories.ToList())
                                 {
                                     <h3 data-cathegoryId="@c.Id"><i>@MyHelper.UseLanguage(c, "Name")</i></h3>
-                                            <div>
-                                                <div class="menu-search-accordion">
-                                                    @foreach (var sc in (IList<SubCathegory>)c.SubCathegories.ToList())
-                                                    {
-                                                        <h3 data-subCathegoryId="@sc.Id">@MyHelper.UseLanguage(sc, "Name")</h3>
-                                                        <div>
-                                                        </div>
-                                                    }
+                                    <div>
+                                        <div class="menu-search-accordion">
+                                            @foreach (var sc in (IList<SubCathegory>)c.SubCathegories.ToList())
+                                            {
+                                                <h3 data-subCathegoryId="@sc.Id">@MyHelper.UseLanguage(sc, "Name")</h3>
+                                                <div>
                                                 </div>
-                                            </div>
+                                            }
+                                        </div>
+                                    </div>
                                 }
                             </div>
                         </div>
@@ -110,6 +146,16 @@
 
             var disableAccordionClick = false;
 
+            // Sellers checked
+            $(".sellers-checkbox").change(function () {
+                MainSearch(null, null);
+            });
+
+            $(".menu-search-accordion-sellers").accordion({
+                heightStyle: "content",
+                icons: null
+            });
+
             $(".menu-search-accordion").accordion({
                 collapsible: true,
                 active: false,
@@ -121,8 +167,7 @@
                     //console.log($(ui.newHeader).hasClass("ui-accordion-header-collapsed"));
 
                     // allow to Unclick, without any events/concequences
-                    if (!unclicked)
-                    {
+                    if (!unclicked) {
                         return;
                     }
 
@@ -131,8 +176,7 @@
                         event.preventDefault();
                         return;
                     }
-                    if ($(ui.newHeader).attr("data-cathegoryTypeId") != null)
-                    {
+                    if ($(ui.newHeader).attr("data-cathegoryTypeId") != null) {
                         //console.log($(ui.newHeader).attr("data-cathegoryTypeId"));
                         $("#input-search-main-cathegoryTypeId").val($(ui.newHeader).attr("data-cathegoryTypeId"));
                         // TODO: also clean fucking blue highlight from already selected tubs underneath this leve
@@ -154,45 +198,6 @@
                     var _this = this;
 
                     MainSearch(_this, ui);
-
-                    //// show loading image
-                    //$("#img-loading-search-main").show();
-                    //// clear content
-                    //$("#refTable").empty();
-
-                    //var search = $('#input-search-main').val();
-                    //var subCathegoryId = $('#input-search-main-subCathegoryId').val();
-                    //var cathegoryId = $('#input-search-main-cathegoryId').val();
-                    //var cathegoryTypeId = $('#input-search-main-cathegoryTypeId').val();
-
-                    //$.ajax({
-                    //    type: "GET",
-                    //    url: "/SearchProduct/Search",
-                    //    data: {
-                    //        search: search,
-                    //        subCathegoryId: subCathegoryId, cathegoryId: cathegoryId, cathegoryTypeId: cathegoryTypeId
-                    //    }
-                    //})
-                    //    .done(function (partialViewResult) {
-                    //        // hide loading image
-                    //        $("#img-loading-search-main").hide();
-                    //        // show result
-                    //        $("#refTable").html(partialViewResult);
-
-                    //        afterAjaxScript();
-
-                    //        // Open menu
-                    //        $(_this).accordion("option", "active", ui.newHeader.index());
-                    //        // release lock on menu
-                    //        disableAccordionClick = false;
-
-                    //    })
-                    //    .fail(function (data) {
-                    //        disableAccordionClick = false;
-                    //    })
-                    //    .always(function (data) {
-                    //        disableAccordionClick = false;
-                    //    });
                 }
             });
 
@@ -207,11 +212,20 @@
                 var cathegoryId = $('#input-search-main-cathegoryId').val();
                 var cathegoryTypeId = $('#input-search-main-cathegoryTypeId').val();
 
+                // get all sellers
+                var sellersList = [];
+                $('.menu-search-accordion-sellers div input:checked').each(function () {
+                    sellersList.push($(this).val());
+                });
+                //console.log(sellersList);
+
                 $.ajax({
-                    type: "GET",
+                    type: "POST",
                     url: "/SearchProduct/Search",
+                    //data: JSON.stringify({
                     data: {
                         search: search,
+                        sellersList: sellersList,
                         subCathegoryId: subCathegoryId, cathegoryId: cathegoryId, cathegoryTypeId: cathegoryTypeId
                     }
                 })
