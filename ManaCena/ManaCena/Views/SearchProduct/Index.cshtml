@@ -30,6 +30,13 @@ padding-left*/
   
 </style>
 
+<style>
+    .disable-click {
+        pointer-events: none;
+    }
+</style>
+
+
 <div class="row">
     <div class="col-xs-12 col-md-8">
         <div class="row" style="max-width:600px; display:none;">
@@ -144,8 +151,6 @@ padding-left*/
     <script type="text/javascript">
         $(function () {
 
-            var disableAccordionClick = false;
-
             // Sellers checked
             $(".sellers-checkbox").change(function () {
                 MainSearch(null, null);
@@ -158,7 +163,7 @@ padding-left*/
 
             $(".menu-search-accordion").accordion({
                 collapsible: true,
-                active: false,
+                active: false,                
                 heightStyle: "content",
                 icons: null,
                 beforeActivate: function (event, ui) {
@@ -168,14 +173,10 @@ padding-left*/
 
                     // allow to Unclick, without any events/concequences
                     if (!unclicked) {
-                        return;
-                    }
-
-                    // it's disabled, do not trigger expand event
-                    if (disableAccordionClick) {
                         event.preventDefault();
-                        return;
+                        //return;
                     }
+                  
                     if ($(ui.newHeader).attr("data-cathegoryTypeId") != null) {
                         //console.log($(ui.newHeader).attr("data-cathegoryTypeId"));
                         $("#input-search-main-cathegoryTypeId").val($(ui.newHeader).attr("data-cathegoryTypeId"));
@@ -193,8 +194,7 @@ padding-left*/
                         $("#input-search-main-subCathegoryId").val($(ui.newHeader).attr("data-subCathegoryId"));
                         //console.log($(ui.newHeader).attr("data-subCathegoryId"));
                     }
-
-                    disableAccordionClick = true;
+                                        
                     var _this = this;
 
                     MainSearch(_this, ui);
@@ -206,6 +206,7 @@ padding-left*/
                 $("#img-loading-search-main").show();
                 // clear content
                 $("#refTable").empty();
+                $("#main-search-accordion-theveryfirstone").addClass("disable-click");
 
                 var search = $('#input-search-main').val();
                 var subCathegoryId = $('#input-search-main-subCathegoryId').val();
@@ -237,20 +238,18 @@ padding-left*/
 
                         afterAjaxScript();
 
-                        if (_this != null && ui != null) {
-                            // Open menu
-                            $(_this).accordion("option", "active", ui.newHeader.index());
-                        }
 
                         // release lock on menu
-                        disableAccordionClick = false;
+                        $("#main-search-accordion-theveryfirstone").removeClass("disable-click");
 
                     })
                     .fail(function (data) {
-                        disableAccordionClick = false;
+                        // release lock on menu
+                        $("#main-search-accordion-theveryfirstone").removeClass("disable-click");
                     })
                     .always(function (data) {
-                        disableAccordionClick = false;
+                        // release lock on menu
+                        $("#main-search-accordion-theveryfirstone").removeClass("disable-click");
                     });
             }
 
