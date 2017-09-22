@@ -144,5 +144,25 @@ namespace ManaCena.Controllers
                 }
             }
         }
+
+        [HttpGet]
+        public ActionResult ProductView(int id)
+        {
+            Product model = null;
+            using (ManaCenaEntities context = new ManaCenaEntities())
+            {
+                model = context.Products
+                        .Include(o => o.Cathegory.CathegoryType)
+                        .Include(o => o.SubCathegory.Cathegory.CathegoryType)
+                        .Include(o => o.ProductImage)
+                        .Include(o => o.ProductImageSmall)
+                        .Include(o => o.ProductLocations)
+                        .Where(o =>o.Id ==id)
+                        .First();
+            }
+
+            return View(model);
+        }        
+
     }
 }

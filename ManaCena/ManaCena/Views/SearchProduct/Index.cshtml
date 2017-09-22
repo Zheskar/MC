@@ -12,22 +12,20 @@
 
 @* Checkbox *@
 <style>
+        /*padding-top
+    padding-right
+    padding-bottom
+    padding-left*/
+        .checkbox {
+            padding-left: 0px !important;
+        }
 
-    /*padding-top
-padding-right
-padding-bottom
-padding-left*/
-    .checkbox {
-        padding-left: 0px !important;
-    }
-    input[type=checkbox].sellers-checkbox {
-        height: 20px;
-        width: 20px;
-        margin: 0px 0 0;
-        /*margin: 0px 10px 10px 10px*/
-    }
-
-  
+        input[type=checkbox].sellers-checkbox {
+            height: 20px;
+            width: 20px;
+            margin: 0px 0 0;
+            /*margin: 0px 10px 10px 10px*/
+        }
 </style>
 
 <style>
@@ -102,7 +100,7 @@ padding-left*/
                 @foreach (var i in (List<Seller>)ViewBag.SellerEnum)
                 {
                     <div class="checkbox">
-                    @*<div class="">*@
+                        @*<div class="">*@
                         <label class="sellers-checkbox-label"><input type="checkbox" class="sellers-checkbox" value="@i.Id"><b>@i.Name</b></label>
                     </div>
                 }
@@ -163,7 +161,7 @@ padding-left*/
 
             $(".menu-search-accordion").accordion({
                 collapsible: true,
-                active: false,                
+                active: false,
                 heightStyle: "content",
                 icons: null,
                 beforeActivate: function (event, ui) {
@@ -176,7 +174,7 @@ padding-left*/
                         event.preventDefault();
                         //return;
                     }
-                  
+
                     if ($(ui.newHeader).attr("data-cathegoryTypeId") != null) {
                         //console.log($(ui.newHeader).attr("data-cathegoryTypeId"));
                         $("#input-search-main-cathegoryTypeId").val($(ui.newHeader).attr("data-cathegoryTypeId"));
@@ -194,7 +192,7 @@ padding-left*/
                         $("#input-search-main-subCathegoryId").val($(ui.newHeader).attr("data-subCathegoryId"));
                         //console.log($(ui.newHeader).attr("data-subCathegoryId"));
                     }
-                                        
+
                     var _this = this;
 
                     MainSearch(_this, ui);
@@ -278,15 +276,23 @@ padding-left*/
     </script>
 
 
-
+    @* TODO: ZOOM k sozhaleniju predot'sa ubrat' ( *@
     @* Zoom *@
     <script type="text/javascript">
 
         // on click
         function afterAjaxScript() {
+
+            // remove this with ZOOM
             $('.img-fullsizable').click(enter_function);
 
+            //// Open Product View
+            //$('.product-on-dushboard').click(function enter_function() {
+            //    alert();
+            //});
         };
+
+
 
         //// Hover
         //function afterAjaxScript() {
@@ -353,51 +359,6 @@ padding-left*/
         };
 
     </script>
-
-
-    @*@Uberi etot jbannij AJAX, ostav' chtobi odna vunkcija vizivalas' iz dvuh mest.*@
-
-    @* Input Search *@
-    <script type="text/javascript">
-        //$('#btn-search-main').on('click',
-        //    function (e) {
-
-        //        MainSearch(null, null);
-
-        //        //// show loading image
-        //        //$("#img-loading-search-main").show();
-
-        //        //var search = $('#input-search-main').val();
-        //        //var subCathegoryId = $('#input-search-main-subCathegoryId').text();
-        //        //var cathegoryId = $('#input-search-main-cathegoryId').text();
-        //        //var cathegoryTypeId = $('#input-search-main-cathegoryTypeId').text();
-        //        //$.ajax({
-        //        //    type: "GET",
-        //        //    url: "/SearchProduct/Search",
-        //        //    data: {
-        //        //        search: search,
-        //        //        subCathegoryId: subCathegoryId, cathegoryId: cathegoryId, cathegoryTypeId: cathegoryTypeId
-        //        //    }
-        //        //    //success: function (result) {
-        //        //    //    alert('refTable');
-        //        //    //}
-        //        //})
-        //        //    .done(function (partialViewResult) {
-        //        //        // hide loading image
-        //        //        $("#img-loading-search-main").hide();
-        //        //        // show result
-        //        //        $("#refTable").html(partialViewResult);
-
-        //        //        afterAjaxScript();
-        //        //    });
-        //    });
-
-    </script>
-
-
-
-
-
 
 
 }

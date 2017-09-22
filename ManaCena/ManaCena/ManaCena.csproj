@@ -400,6 +400,7 @@
     <Content Include="Views\SearchProduct\ProductDashboard.cshtml" />
     <Content Include="Views\Product\EditProduct.cshtml" />
     <Content Include="Views\SubCathegory\EditSubCathegory.cshtml" />
+    <Content Include="Views\Product\ProductView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
