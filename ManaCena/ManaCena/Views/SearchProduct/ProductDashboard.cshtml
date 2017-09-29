@@ -7,7 +7,7 @@
     {
         var rnd = Guid.NewGuid();
         @*<a href="../Product/ProductView/@m.Id">*@
-            <div class="col-md-4 well product-on-dushboard" style="height:200px" data-product-id="@m.Id">
+            <div class="col-xs-4 col-sm-4 col-md-4 well product-on-dushboard" style="height:200px" data-product-id="@m.Id">
                 <div>
                     <div><img src="@if (m.ProductImageSmall != null) { <text>@m.ProductImageSmall.Image</text> }" class="img-fullsizable" data-image-id="@m.ProductImageId" id="@rnd-@nameof(Product.ProductImageSmall)" style="cursor: pointer; max-width: 100px; max-height: 100px;"></div>
                     <div style=" color: red;font-weight: bold; position:absolute;top:0;right:0;">-@m.DiscountPercentage<text>%</text></div>
@@ -21,14 +21,13 @@
                 </div>
                 <div>
                     <div class="row">
-                        <div class="col-md-4">
+                        <div class="col-xs-4 col-sm-4 col-md-4">
                             <strike>@m.OriginalPrice</strike>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-xs-4 col-sm-4 col-md-4">
                             <b>@m.DiscountPrice</b>
                         </div>
-                        <div class="col-md-4">
-
+                        <div class="col-xs-4 col-sm-4 col-md-4">
                             <img src="@(m.Seller.SellerImage != null ? m.Seller.SellerImage.Image : "no image sorry")" style="max-width: 50px; max-height: 50px;">
                         </div>
                     </div>

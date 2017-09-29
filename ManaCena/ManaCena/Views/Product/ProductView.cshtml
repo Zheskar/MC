@@ -4,10 +4,10 @@
 @model Product
 
 <div class="row well">
-    <div class="col-md-4" style="min-height:200px; max-height:400px;">
+    <div class="col-md-4" style="max-height:400px;">
         <div><img src="@if (Model.ProductImage != null) { <text>@Model.ProductImage.Image</text> }" class="img-fullsizable" style="cursor: pointer; max-width: 200px; max-height: 200px;"></div>
     </div>
-    <div class="col-md-8" style="min-height:200px; max-height:400px;">
+    <div class="col-md-8" style="max-height:400px;">
             <div>
                 <div style="border-radius: 5px;background: red; color: white; display: inline-block; font-weight: bold;">-@Model.DiscountPercentage<text>%</text></div>
                 <img src="@(Model.Seller.SellerImage != null ? Model.Seller.SellerImage.Image : "no image sorry")" style="max-width: 50px; max-height: 50px;">

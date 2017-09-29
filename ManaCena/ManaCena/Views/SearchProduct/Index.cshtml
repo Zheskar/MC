@@ -34,9 +34,30 @@
     }
 </style>
 
+<div class="row" style="background-color:aquamarine">
+    <h1>ROW</h1>
+    <div class="col-xs-8 col-sm-8 col-md-8" style="background-color:aliceblue">
+        <h2>Col1</h2>
+        <div class="row" style="background-color:cadetblue">
+            Grid 1
+            <div class="col-xs-4 col-sm-4 col-md-4" style="background-color:beige">
+                sub col 1
+            </div>
+            <div class="col-xs-4 col-sm-4 col-md-4" style="background-color:bisque">
+                sub col 2
+            </div>
+            <div class="col-xs-4 col-sm-4 col-md-4" style="background-color:burlywood">
+                sub col 3
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-4 col-sm-4 col-md-4" style="background-color:chartreuse">
+        <h2>Col2</h2>
+    </div>
+</div>
 
 <div class="row">
-    <div class="col-xs-12 col-md-8">        
+    <div class="col-xs-8 col-sm-8 col-md-8">
 
         <div class="row" style="max-width:600px; display:none;">
             <div class="input-group">
@@ -79,11 +100,11 @@
 
         <br />
 
-        
+
         <img id="img-loading-search-single-item" src="../images/loading_spinner_large.gif" style="display:none;">
         <div id="refItem">
         </div>
-        
+
 
         <img id="img-loading-search-main" src="../images/loading_spinner_large.gif">
         <div id="refTable">
@@ -96,9 +117,9 @@
         </div>
     </div>
 
-    <div class="col-xs-6 col-md-4">
+    <div class="col-xs-4 col-sm-4 col-md-4">
 
-        <div id="menu-search-accordion-sellers" class="menu-search-accordion-sellers" style="width:300px;">
+        <div id="menu-search-accordion-sellers" class="menu-search-accordion-sellers" @*style="width:300px;*@">
             <h3><b>Sellers</b></h3>
             <div>
                 @foreach (var i in (List<Seller>)ViewBag.SellerEnum)
@@ -113,7 +134,7 @@
 
         <br />
 
-        <div class="menu-search-accordion" style="width:300px;" id="main-search-accordion-theveryfirstone">
+        <div class="menu-search-accordion" @*style="width:300px;"*@ id="main-search-accordion-theveryfirstone">
             <h3 class="trigger">All Cathegory Type</h3>
             <div>
                 <div class="menu-search-accordion">
@@ -125,16 +146,16 @@
                                 @foreach (var c in (IList<Cathegory>)ct.Cathegories.ToList())
                                 {
                                     <h3 data-cathegoryId="@c.Id"><i>@MyHelper.UseLanguage(c, "Name")</i></h3>
-                                        <div>
-                                            <div class="menu-search-accordion">
-                                                @foreach (var sc in (IList<SubCathegory>)c.SubCathegories.ToList())
-                                                {
-                                                    <h3 data-subCathegoryId="@sc.Id">@MyHelper.UseLanguage(sc, "Name")</h3>
-                                                    <div>
-                                                    </div>
-                                                }
-                                            </div>
+                                    <div>
+                                        <div class="menu-search-accordion">
+                                            @foreach (var sc in (IList<SubCathegory>)c.SubCathegories.ToList())
+                                            {
+                                                <h3 data-subCathegoryId="@sc.Id">@MyHelper.UseLanguage(sc, "Name")</h3>
+                                                            <div>
+                                                            </div>
+                                            }
                                         </div>
+                                    </div>
                                 }
                             </div>
                         </div>
