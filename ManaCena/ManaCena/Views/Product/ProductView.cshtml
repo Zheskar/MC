@@ -3,10 +3,35 @@
 
 @model Product
 
-<h1>NU tipo nado dalshe delat'</h1>
+<div class="row well">
+    <div class="col-md-4" style="min-height:200px; max-height:400px;">
+        <div><img src="@if (Model.ProductImage != null) { <text>@Model.ProductImage.Image</text> }" class="img-fullsizable" style="cursor: pointer; max-width: 200px; max-height: 200px;"></div>
+    </div>
+    <div class="col-md-8" style="min-height:200px; max-height:400px;">
+            <div>
+                <div style="border-radius: 5px;background: red; color: white; display: inline-block; font-weight: bold;">-@Model.DiscountPercentage<text>%</text></div>
+                <img src="@(Model.Seller.SellerImage != null ? Model.Seller.SellerImage.Image : "no image sorry")" style="max-width: 50px; max-height: 50px;">
+                @if (Model.StartDate.HasValue) { <text>no: </text> @Model.StartDate.Value.ToString("dd.MM.yyyy"); }
+                @if (Model.EndDate.HasValue) { <text>- lidz: </text> @Model.EndDate.Value.ToString("dd.MM.yyyy"); }
+            </div>
 
-<h1>@Model.Name</h1>
+        <div>
+            <h1>@MyHelper.UseLanguage(Model, "Name")</h1>            
+            <h3>@MyHelper.UseLanguage(Model, "Description")</h3>
+        </div>
+        <hr style="border-top: 1px solid #ccc;" />
+        <div style="font-size: 200%;">
+           <strike>@Model.DiscountPrice €</strike> <b>@Model.OriginalPrice €</b>
+        </div>
 
+        @*TODO: add SPEC*@
+        @*<div>
+            Specifikacija: <br />
+            @Model.Wheight<br />
+            @Model.Unit<br />
+            @Model.Size
+        </div>*@
 
-
+    </div>
+</div>
 

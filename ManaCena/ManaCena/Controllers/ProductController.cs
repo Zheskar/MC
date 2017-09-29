@@ -155,13 +155,16 @@ namespace ManaCena.Controllers
                         .Include(o => o.Cathegory.CathegoryType)
                         .Include(o => o.SubCathegory.Cathegory.CathegoryType)
                         .Include(o => o.ProductImage)
-                        .Include(o => o.ProductImageSmall)
+                        //.Include(o => o.ProductImageSmall)
                         .Include(o => o.ProductLocations)
+                        .Include(o => o.Seller)
+                        .Include(o => o.Seller.SellerImage)
                         .Where(o =>o.Id ==id)
                         .First();
             }
 
-            return View(model);
+            return PartialView(model);
+            //return View(model);
         }        
 
     }
