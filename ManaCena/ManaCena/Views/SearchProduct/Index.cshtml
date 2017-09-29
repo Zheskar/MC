@@ -174,23 +174,35 @@
             </div>
         </div>
 
+        <div id="main-menu-0" class="non-closable-menu">All Cathegories</div>
+        @foreach (var ct in (IList<CathegoryType>)ViewBag.CathegoryTypeEnum)
+        {
+            <div data-cathegoryTypeId="@ct.Id" id="main-menu-@ct.Id-@ct.Name.Replace(" ","")" data-parent="main-menu-0" class="non-closable-menu">@MyHelper.UseLanguage(ct, "Name")</div>
+                                foreach (var c in (IList<Cathegory>)ct.Cathegories.ToList())
+                                {
+                                    <div data-cathegoryId="@c.Id" id="main-menu-@c.Id-@c.Name.Replace(" ","")" data-parent="main-menu-@ct.Id-@ct.Name.Replace(" ","")" class="closable-menu">@MyHelper.UseLanguage(c, "Name")</div>
+                                            foreach (var sc in (IList<SubCathegory>)c.SubCathegories.ToList())
+                                            {
+                                                <div data-subCathegoryId="@sc.Id" id="main-menu-@sc.Id-@sc.Name.Replace(" ","")" data-parent="main-menu-@c.Id-@c.Name.Replace(" ","")" class="closable-menu">@MyHelper.UseLanguage(sc, "Name")</div>
+                                            }
+                                }
+        }
+
+        
+        @*<div id="main-menu-1-1" data-parent="main-menu-1" class="closable-menu">Menu 11</div>
+        <div id="main-menu-1-2" data-parent="main-menu-1" class="closable-menu">Menu 12</div>
+        <div id="main-menu-1-3" data-parent="main-menu-1" class="closable-menu">Menu 13</div>
+        <div id="main-menu-1-3-1" data-parent="main-menu-1-3" class="closable-menu">Menu 131</div>
+        <div id="main-menu-1-3-2" data-parent="main-menu-1-3" class="closable-menu">Menu 132</div>
+        <div id="main-menu-1-3-3" data-parent="main-menu-1-3" class="closable-menu">Menu 133</div>
+        <div id="main-menu-2" data-parent="main-menu-0" class="non-closable-menu">Menu 2</div>
+        <div id="main-menu-2-1" data-parent="main-menu-2" class="closable-menu">Menu 21</div>
+        <div id="main-menu-2-2" data-parent="main-menu-2" class="closable-menu">Menu 22</div>
+        <div id="main-menu-2-3" data-parent="main-menu-2" class="closable-menu">Menu 23</div>*@
+
     </div>
 </div>
 
-<br /><br /><br /><br /><br />
-
-    <div id="main-menu-0" class="non-closable-menu"></div>
-    <div id="main-menu-1" data-parent="main-menu-0" class="non-closable-menu">Menu 1</div>
-    <div id="main-menu-1-1" data-parent="main-menu-1" class="closable-menu">Menu 11</div>
-    <div id="main-menu-1-2" data-parent="main-menu-1" class="closable-menu">Menu 12</div>
-    <div id="main-menu-1-3" data-parent="main-menu-1" class="closable-menu">Menu 13</div>
-    <div id="main-menu-1-3-1" data-parent="main-menu-1-3" class="closable-menu">Menu 131</div>
-    <div id="main-menu-1-3-2" data-parent="main-menu-1-3" class="closable-menu">Menu 132</div>
-    <div id="main-menu-1-3-3" data-parent="main-menu-1-3" class="closable-menu">Menu 133</div>
-    <div id="main-menu-2" data-parent="main-menu-0" class="non-closable-menu">Menu 2</div>
-    <div id="main-menu-2-1" data-parent="main-menu-2" class="closable-menu">Menu 21</div>
-    <div id="main-menu-2-2" data-parent="main-menu-2" class="closable-menu">Menu 22</div>
-    <div id="main-menu-2-3" data-parent="main-menu-2" class="closable-menu">Menu 23</div>
 
 
 @section scripts {
