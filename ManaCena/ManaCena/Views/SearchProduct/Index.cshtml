@@ -10,6 +10,38 @@
     }
 </style>
 
+<style>
+    .menu-item-selected {
+        font-weight: bold;
+        background-color: #007FFF !important;
+        color: white;
+        padding-left: 10px;
+        font-size: 130%;
+    }
+    .first-level-menu {
+        font-weight: bold;
+        background-color: #d7e7ff;
+        border-top: 1px solid #b4c2d6;
+        padding-left: 10px;
+        font-size: 110%;
+    }
+    .second-level-menu {
+        font-weight: bold;
+        background-color: #dfecff;
+        border-top: 1px solid #b6c8e3;
+        padding-left: 20px;
+        font-size: 105%;
+    }
+    .third-level-menu {
+        font-weight: bold;
+        background-color: #f3f8ff;
+        /*border-top: 1px solid black;*/
+        padding-left: 30px;
+        font-size: 100%;
+    }
+</style>
+
+
 @* Checkbox *@
 <style>
     /*padding-top
@@ -34,14 +66,6 @@
     }
 </style>
 
-
-
-@* New Main Menu *@
-<style>
-    .menu-item-selected {
-        background-color: yellow;
-    }
-</style>
 
 <div class="row" style="background-color:aquamarine">
     <h1>ROW</h1>
@@ -143,62 +167,21 @@
 
         <br />
 
-        <div class="menu-search-accordion" @*style="width:300px;"*@ id="main-search-accordion-theveryfirstone">
-            <h3 class="trigger">All Cathegory Type</h3>
-            <div>
-                <div class="menu-search-accordion">
-                    @foreach (var ct in (IList<CathegoryType>)ViewBag.CathegoryTypeEnum)
+        <div id="item-search-menu-item-container">
+            <div id="item-search-menu-0" class="non-closable-menu">All Cathegories</div>
+            @foreach (var ct in (IList<CathegoryType>)ViewBag.CathegoryTypeEnum)
+            {
+                <div data-cathegoryTypeId="@ct.Id" id="item-search-menu-@ct.Id-@ct.Name.Replace(" ","")" data-parent="item-search-menu-0" class="non-closable-menu first-level-menu">@MyHelper.UseLanguage(ct, "Name")</div>
+                foreach (var c in (IList<Cathegory>)ct.Cathegories.ToList())
+                {
+                    <div data-cathegoryId="@c.Id" id="item-search-menu-@c.Id-@c.Name.Replace(" ","")" data-parent="item-search-menu-@ct.Id-@ct.Name.Replace(" ","")" class="closable-menu second-level-menu">@MyHelper.UseLanguage(c, "Name")</div>
+                    foreach (var sc in (IList<SubCathegory>)c.SubCathegories.ToList())
                     {
-                        <h3 data-cathegoryTypeId="@ct.Id"><b>@MyHelper.UseLanguage(ct, "Name")</b></h3>
-                        <div>
-                            <div class="menu-search-accordion">
-                                @foreach (var c in (IList<Cathegory>)ct.Cathegories.ToList())
-                                {
-                                    <h3 data-cathegoryId="@c.Id"><i>@MyHelper.UseLanguage(c, "Name")</i></h3>
-                                    <div>
-                                        <div class="menu-search-accordion">
-                                            @foreach (var sc in (IList<SubCathegory>)c.SubCathegories.ToList())
-                                            {
-                                                <h3 data-subCathegoryId="@sc.Id">@MyHelper.UseLanguage(sc, "Name")</h3>
-                                                <div>
-                                                </div>
-                                            }
-                                        </div>
-                                    </div>
-                                }
-                            </div>
-                        </div>
+                        <div data-subCathegoryId="@sc.Id" id="item-search-menu-@sc.Id-@sc.Name.Replace(" ","")" data-parent="item-search-menu-@c.Id-@c.Name.Replace(" ","")" class="closable-menu third-level-menu">@MyHelper.UseLanguage(sc, "Name")</div>
                     }
-                </div>
-
-            </div>
+                }
+            }
         </div>
-
-        <div id="main-menu-0" class="non-closable-menu">All Cathegories</div>
-        @foreach (var ct in (IList<CathegoryType>)ViewBag.CathegoryTypeEnum)
-        {
-            <div data-cathegoryTypeId="@ct.Id" id="main-menu-@ct.Id-@ct.Name.Replace(" ","")" data-parent="main-menu-0" class="non-closable-menu">@MyHelper.UseLanguage(ct, "Name")</div>
-                                foreach (var c in (IList<Cathegory>)ct.Cathegories.ToList())
-                                {
-                                    <div data-cathegoryId="@c.Id" id="main-menu-@c.Id-@c.Name.Replace(" ","")" data-parent="main-menu-@ct.Id-@ct.Name.Replace(" ","")" class="closable-menu">@MyHelper.UseLanguage(c, "Name")</div>
-                                            foreach (var sc in (IList<SubCathegory>)c.SubCathegories.ToList())
-                                            {
-                                                <div data-subCathegoryId="@sc.Id" id="main-menu-@sc.Id-@sc.Name.Replace(" ","")" data-parent="main-menu-@c.Id-@c.Name.Replace(" ","")" class="closable-menu">@MyHelper.UseLanguage(sc, "Name")</div>
-                                            }
-                                }
-        }
-
-        
-        @*<div id="main-menu-1-1" data-parent="main-menu-1" class="closable-menu">Menu 11</div>
-        <div id="main-menu-1-2" data-parent="main-menu-1" class="closable-menu">Menu 12</div>
-        <div id="main-menu-1-3" data-parent="main-menu-1" class="closable-menu">Menu 13</div>
-        <div id="main-menu-1-3-1" data-parent="main-menu-1-3" class="closable-menu">Menu 131</div>
-        <div id="main-menu-1-3-2" data-parent="main-menu-1-3" class="closable-menu">Menu 132</div>
-        <div id="main-menu-1-3-3" data-parent="main-menu-1-3" class="closable-menu">Menu 133</div>
-        <div id="main-menu-2" data-parent="main-menu-0" class="non-closable-menu">Menu 2</div>
-        <div id="main-menu-2-1" data-parent="main-menu-2" class="closable-menu">Menu 21</div>
-        <div id="main-menu-2-2" data-parent="main-menu-2" class="closable-menu">Menu 22</div>
-        <div id="main-menu-2-3" data-parent="main-menu-2" class="closable-menu">Menu 23</div>*@
 
     </div>
 </div>
@@ -225,6 +208,33 @@
 
             // show parent
             ShowParents($(this).attr("id"));
+                        
+
+            if ($(this).attr("data-cathegoryTypeId") != null) {                
+                $("#input-search-main-cathegoryTypeId").val($(this).attr("data-cathegoryTypeId"));
+                $("#input-search-main-cathegoryId").val(null);
+                $("#input-search-main-subCathegoryId").val(null);
+            }
+            else if ($(this).attr("data-cathegoryId") != null) {
+                $("#input-search-main-cathegoryId").val($(this).attr("data-cathegoryId"));
+                $("#input-search-main-subCathegoryId").val(null);                
+            }
+            else if ($(this).attr("data-subCathegoryId") != null) {
+                $("#input-search-main-subCathegoryId").val($(this).attr("data-subCathegoryId"));
+            }
+            else
+            {
+                $("#input-search-main-cathegoryTypeId").val(null);
+                $("#input-search-main-cathegoryId").val(null);
+                $("#input-search-main-subCathegoryId").val(null);
+            }
+
+            console.log($("#input-search-main-cathegoryTypeId").val());
+            console.log($("#input-search-main-cathegoryId").val());
+            console.log($("#input-search-main-subCathegoryId").val());
+
+            MainSearch();
+
 
         });
 
@@ -242,10 +252,59 @@
             }
         }
 
-    </script>
+        function MainSearch() {
+            // show loading image
+            $("#img-loading-search-main").show();
+            // clear content
+            $("#refTable").empty();
+            //$("#main-search-accordion-theveryfirstone").addClass("disable-click");
+            $("#item-search-menu-item-container").addClass("disable-click");
 
-    @* Right Menu *@
-    <script type="text/javascript">
+            var search = $('#input-search-main').val();
+            var subCathegoryId = $('#input-search-main-subCathegoryId').val();
+            var cathegoryId = $('#input-search-main-cathegoryId').val();
+            var cathegoryTypeId = $('#input-search-main-cathegoryTypeId').val();
+
+            // get all sellers
+            var sellersList = [];
+            $('.menu-search-accordion-sellers div input:checked').each(function () {
+                sellersList.push($(this).val());
+            });
+            //console.log(sellersList);
+
+            $.ajax({
+                type: "POST",
+                url: "/SearchProduct/Search",
+                //data: JSON.stringify({
+                data: {
+                    search: search,
+                    sellersList: sellersList,
+                    subCathegoryId: subCathegoryId, cathegoryId: cathegoryId, cathegoryTypeId: cathegoryTypeId
+                }
+            })
+                .done(function (partialViewResult) {
+                    // hide loading image
+                    $("#img-loading-search-main").hide();
+                    // show result
+                    $("#refTable").html(partialViewResult);
+
+                    afterAjaxScript();
+
+
+                    // release lock on menu
+                    $("#item-search-menu-item-container").removeClass("disable-click");
+
+                })
+                .fail(function (data) {
+                    // release lock on menu
+                    $("#item-search-menu-item-container").removeClass("disable-click");
+                })
+                .always(function (data) {
+                    // release lock on menu
+                    $("#item-search-menu-item-container").removeClass("disable-click");
+                });
+        }
+        
         $(function () {
 
             // Sellers checked
@@ -258,97 +317,8 @@
                 icons: null
             });
 
-            $(".menu-search-accordion").accordion({
-                collapsible: true,
-                active: false,
-                heightStyle: "content",
-                icons: null,
-                beforeActivate: function (event, ui) {
-                    //console.log($(ui.newHeader).attr("aria-expanded"));
-                    var unclicked = $(ui.newHeader).hasClass("ui-accordion-header-collapsed")
-                    //console.log($(ui.newHeader).hasClass("ui-accordion-header-collapsed"));
 
-                    // allow to Unclick, without any events/concequences
-                    if (!unclicked) {
-                        event.preventDefault();
-                        //return;
-                    }
-
-                    if ($(ui.newHeader).attr("data-cathegoryTypeId") != null) {
-                        //console.log($(ui.newHeader).attr("data-cathegoryTypeId"));
-                        $("#input-search-main-cathegoryTypeId").val($(ui.newHeader).attr("data-cathegoryTypeId"));
-                        // TODO: also clean fucking blue highlight from already selected tubs underneath this leve
-                        // TODO: ...and collapse them. Probalby should use Click event on "Coffee" && "Coffee Beans", but with disabling functionality.
-                        $("#input-search-main-cathegoryId").val(null);
-                        $("#input-search-main-subCathegoryId").val(null);
-                    }
-                    if ($(ui.newHeader).attr("data-cathegoryId") != null) {
-                        $("#input-search-main-cathegoryId").val($(ui.newHeader).attr("data-cathegoryId"));
-                        $("#input-search-main-subCathegoryId").val(null);
-                        //console.log($(ui.newHeader).attr("data-cathegoryId"));
-                    }
-                    if ($(ui.newHeader).attr("data-subCathegoryId") != null) {
-                        $("#input-search-main-subCathegoryId").val($(ui.newHeader).attr("data-subCathegoryId"));
-                        //console.log($(ui.newHeader).attr("data-subCathegoryId"));
-                    }
-
-                    var _this = this;
-
-                    MainSearch(_this, ui);
-                }
-            });
-
-            function MainSearch(_this, ui) {
-                // show loading image
-                $("#img-loading-search-main").show();
-                // clear content
-                $("#refTable").empty();
-                $("#main-search-accordion-theveryfirstone").addClass("disable-click");
-
-                var search = $('#input-search-main').val();
-                var subCathegoryId = $('#input-search-main-subCathegoryId').val();
-                var cathegoryId = $('#input-search-main-cathegoryId').val();
-                var cathegoryTypeId = $('#input-search-main-cathegoryTypeId').val();
-
-                // get all sellers
-                var sellersList = [];
-                $('.menu-search-accordion-sellers div input:checked').each(function () {
-                    sellersList.push($(this).val());
-                });
-                //console.log(sellersList);
-
-                $.ajax({
-                    type: "POST",
-                    url: "/SearchProduct/Search",
-                    //data: JSON.stringify({
-                    data: {
-                        search: search,
-                        sellersList: sellersList,
-                        subCathegoryId: subCathegoryId, cathegoryId: cathegoryId, cathegoryTypeId: cathegoryTypeId
-                    }
-                })
-                    .done(function (partialViewResult) {
-                        // hide loading image
-                        $("#img-loading-search-main").hide();
-                        // show result
-                        $("#refTable").html(partialViewResult);
-
-                        afterAjaxScript();
-
-
-                        // release lock on menu
-                        $("#main-search-accordion-theveryfirstone").removeClass("disable-click");
-
-                    })
-                    .fail(function (data) {
-                        // release lock on menu
-                        $("#main-search-accordion-theveryfirstone").removeClass("disable-click");
-                    })
-                    .always(function (data) {
-                        // release lock on menu
-                        $("#main-search-accordion-theveryfirstone").removeClass("disable-click");
-                    });
-            }
+            
 
             // Advanced search (second option)
             $('#btn-search-main').on('click',
@@ -357,7 +327,7 @@
                 });
 
             // Initial Click for search
-            $("#main-search-accordion-theveryfirstone").accordion("option", "active", 0);
+            $("#item-search-menu-0").click();
 
         });
     </script>
